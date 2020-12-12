@@ -169,7 +169,7 @@ class InfoBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Take The Self Checkup!",
+                    "Info Grafik",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -178,10 +178,154 @@ class InfoBanner extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    "Contains several checklist question to check your phisical condition",
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.8), fontSize: 12),
+                  Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: '3000',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    WidgetSpan(
+                                      child: Transform.translate(
+                                        offset: const Offset(4, -8),
+                                        child: Text(
+                                          '+',
+                                          //superscript is usually smaller in size
+                                          textScaleFactor: 0.7,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                                Text(
+                                  'Alumni',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 10),
+                                )
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: '800',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    WidgetSpan(
+                                      child: Transform.translate(
+                                        offset: const Offset(4, -8),
+                                        child: Text(
+                                          '+',
+                                          //superscript is usually smaller in size
+                                          textScaleFactor: 0.7,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                                Text(
+                                  'Mahasiswa',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 10),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: '25',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    WidgetSpan(
+                                      child: Transform.translate(
+                                        offset: const Offset(4, -8),
+                                        child: Text(
+                                          'thn+',
+                                          //superscript is usually smaller in size
+                                          textScaleFactor: 0.7,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                                Text(
+                                  'Pengalaman Pendidikan',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 10),
+                                )
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: '35',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    WidgetSpan(
+                                      child: Transform.translate(
+                                        offset: const Offset(4, -8),
+                                        child: Text(
+                                          '+',
+                                          //superscript is usually smaller in size
+                                          textScaleFactor: 0.7,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                                Text(
+                                  'Dosen',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 10),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -213,10 +357,10 @@ class _MenuHomeState extends State<MenuHome> {
                 color: textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             child: Column(
               children: [
                 Row(
@@ -233,17 +377,24 @@ class _MenuHomeState extends State<MenuHome> {
                       icon: LineIcons.graduation_cap,
                       label: "Nilai",
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CardMenu(
+                      icon: LineIcons.money,
+                      label: "Keuangan",
+                    ),
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CardMenu(
-                      icon: LineIcons.money,
-                      label: "Keuangan",
+                      icon: LineIcons.newspaper_o,
+                      label: "Berita",
                     ),
                     SizedBox(
                       width: 10,
@@ -251,6 +402,13 @@ class _MenuHomeState extends State<MenuHome> {
                     CardMenu(
                       icon: LineIcons.user,
                       label: "Profile",
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CardMenu(
+                      icon: LineIcons.dot_circle_o,
+                      label: "More..",
                     ),
                   ],
                 )
@@ -272,8 +430,8 @@ class CardMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 120,
+      width: 90,
+      height: 100,
       decoration: BoxDecoration(
           color: textWhite,
           borderRadius: BorderRadius.circular(15),
@@ -289,7 +447,8 @@ class CardMenu extends StatelessWidget {
             Icon(icon),
             Text(
               label,
-              style: TextStyle(color: textPrimary.withOpacity(0.5)),
+              style:
+                  TextStyle(color: textPrimary.withOpacity(0.5), fontSize: 12),
             )
           ],
         ),
