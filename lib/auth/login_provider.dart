@@ -64,6 +64,7 @@ class LoginProvider extends ChangeNotifier {
         setDataMhs = LoginModel.fromJson(tmp);
 
         await store.saveToken(val: _loginModel.token);
+        await store.saveNama(val: _loginModel.nama);
         setMessage = 'Selamat Datang ${_loginModel.nama}';
         setLoginStatus = true;
       } else if (response.statusCode == 401) {
@@ -76,6 +77,12 @@ class LoginProvider extends ChangeNotifier {
     } else {
       print('Response tidak ditemukan');
     }
+  }
+
+  doLogout() async {
+    await store.destroyToken();
+    await store.destroyNama();
+    setMessage = 'Logout Berhasil, silahkan login ulang!';
   }
 
   ///Fetch Data from server

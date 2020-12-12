@@ -3,13 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/auth/splash_screen.dart';
+import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/home/home_screen.dart';
 import 'package:sisfo_mobile/providers/initial_provider.dart';
 
 void main() => runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => InitialProvider()),
-        ChangeNotifierProvider(create: (_) => LoginProvider())
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
       ],
       child: MyApp(),
     ));
