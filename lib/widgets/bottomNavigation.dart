@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:sisfo_mobile/home/home_screen.dart';
+import 'package:sisfo_mobile/profile/profile_screen.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 
 class BottomBar extends StatelessWidget {
@@ -38,7 +40,32 @@ class BottomBar extends StatelessWidget {
                           size: 25,
                           color:
                               tabIndex == index ? primaryYellow : Colors.white),
-                      onPressed: () {})),
+                      onPressed: () {
+                        if (index == tabIndex) {
+                          print('this screen');
+                        } else if (index == 0) {
+                          return Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => HomeScreen()));
+                        }
+                        // else if (index == 1) {
+                        //   return Navigator.pushReplacement(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (_) => ProfileScreen()));
+                        // }
+                        // else if (index == 2) {
+                        //   return Navigator.pushReplacement(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (_) => ProfileScreen()));
+                        // }
+                        else if (index == 3) {
+                          return Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ProfileScreen()));
+                        }
+                      })),
             ),
           ),
         ),

@@ -15,7 +15,7 @@ final header = {
   'Content-Type': 'application/json',
 };
 
-final headerJwt = {
-  'Content-Type': 'application/json',
-  //TODO tambah header jwt token
-};
+// final headerJwt = {
+//   'Content-Type': 'application/json',
+//   HttpHeaders.authorizationHeader: 'Barer $token'
+// };

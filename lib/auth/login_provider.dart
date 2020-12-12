@@ -90,9 +90,8 @@ class LoginProvider extends ChangeNotifier {
     var data = json.encode({'login': login, 'password': password});
 
     try {
-      response = await http
-          .post('$api/auth/login', headers: header, body: data)
-          .timeout(Duration(seconds: 3));
+      response =
+          await http.post('$api/auth/login', headers: header, body: data);
       setLoading = false;
       return response;
     } catch (e) {
