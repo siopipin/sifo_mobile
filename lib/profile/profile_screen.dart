@@ -14,6 +14,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController _alamat = TextEditingController();
+  TextEditingController _hp = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _hportu = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ProfileProvider prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
         bottomNavigationBar: BottomBar(tabIndex: 3),
         appBar: AppBar(
@@ -38,20 +44,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     fit: BoxFit.fill)),
           ),
           actions: [
-            GestureDetector(
-              child: Row(
-                children: [
-                  Text('Edit'),
-                  SizedBox(
-                    width: 5,
+            prov.isEdit
+                ? GestureDetector(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: [
+                          Icon(
+                            LineIcons.close,
+                            color: textWhite,
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: textWhite),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      if (prov.isEdit == false) {
+                        prov.setEdit = true;
+                      } else {
+                        prov.setEdit = false;
+                      }
+                    },
+                  )
+                : Container(),
+            prov.isEdit
+                ? GestureDetector(
+                    child: Row(
+                      children: [
+                        Text(
+                          'Save',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: primaryYellow),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(LineIcons.save, color: primaryYellow)
+                      ],
+                    ),
+                    onTap: () {
+                      ///TODO tambah fungsi edit profile
+                    },
+                  )
+                : GestureDetector(
+                    child: Row(
+                      children: [
+                        Text('Edit'),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(LineIcons.edit)
+                      ],
+                    ),
+                    onTap: () {
+                      if (prov.isEdit == false) {
+                        prov.setEdit = true;
+                      } else {
+                        prov.setEdit = false;
+                      }
+                    },
                   ),
-                  Icon(LineIcons.edit)
-                ],
-              ),
-              onTap: () {
-                ///TODO tambah fungsi edit profile
-              },
-            )
           ],
           title: Text(
             'Profile',
@@ -70,6 +131,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget infoBuilder(BuildContext context) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
+    _alamat.text = prov.dataMahasiswa?.data?.alamat ?? '-';
+    _email.text = prov.dataMahasiswa?.data?.email ?? '-';
+    _hp.text = prov.dataMahasiswa?.data?.handphone ?? '-';
+    _hportu.text = prov.dataMahasiswa?.data?.handphoneOrtu ?? '-';
+
     final size = MediaQuery.of(context).size;
     return Stack(
       children: <Widget>[
@@ -239,42 +305,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 detailBuider(
                     context: context,
+                    iconEdit: true,
                     no: '1',
+                    ket: 'Alamat',
+                    data: prov.dataMahasiswa?.data?.alamat ?? '-',
+                    textCtrl: _alamat),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    iconEdit: true,
+                    no: '2',
+                    ket: 'Email',
+                    textCtrl: _email,
+                    data: prov.dataMahasiswa?.data?.email ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    iconEdit: true,
+                    no: '3',
+                    ket: 'Handphone',
+                    textCtrl: _hp,
+                    data: prov.dataMahasiswa?.data?.handphone ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    iconEdit: true,
+                    no: '4',
+                    ket: 'Handphone Orang Tua',
+                    textCtrl: _hportu,
+                    data: prov.dataMahasiswa?.data?.handphoneOrtu ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    iconEdit: false,
+                    no: '5',
                     ket: 'KTP',
                     data: prov.dataMahasiswa?.data?.kTP ?? '-'),
                 Divider(),
                 detailBuider(
                     context: context,
-                    no: '2',
-                    ket: 'Alamat',
-                    data: prov.dataMahasiswa?.data?.alamat ?? '-'),
-                Divider(),
-                detailBuider(
-                    context: context,
-                    no: '3',
+                    iconEdit: false,
+                    no: '6',
                     ket: 'Agama',
                     data: prov.dataMahasiswa?.data?.agama ?? '-'),
                 Divider(),
                 detailBuider(
                     context: context,
-                    no: '4',
-                    ket: 'Email',
-                    data: prov.dataMahasiswa?.data?.email ?? '-'),
-                Divider(),
-                detailBuider(
-                    context: context,
-                    no: '5',
-                    ket: 'Handphone',
-                    data: prov.dataMahasiswa?.data?.handphone ?? '-'),
-                Divider(),
-                detailBuider(
-                    context: context,
-                    no: '6',
-                    ket: 'Handphone Orang Tua',
-                    data: prov.dataMahasiswa?.data?.handphoneOrtu ?? '-'),
-                Divider(),
-                detailBuider(
-                    context: context,
+                    iconEdit: false,
                     no: '7',
                     ket: 'Nama Ibu',
                     data: prov.dataMahasiswa?.data?.namaIbu ?? '-'),
@@ -291,12 +368,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 detailBuider(
                     context: context,
+                    iconEdit: false,
                     no: '1',
                     ket: 'Nama Kelas',
                     data: prov.dataMahasiswa?.data?.namaKelas ?? '-'),
                 Divider(),
                 detailBuider(
                     context: context,
+                    iconEdit: false,
                     no: '2',
                     ket: 'Mentor - PA',
                     data: prov.dataMahasiswa?.data?.pA ?? '-'),
@@ -309,11 +388,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget detailBuider(
-      {BuildContext context,
-      @required String no,
-      @required String ket,
-      @required String data}) {
+  Widget detailBuider({
+    BuildContext context,
+    @required String no,
+    @required String ket,
+    @required String data,
+    TextEditingController textCtrl,
+    @required bool iconEdit,
+  }) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
 
     return Column(
@@ -334,7 +416,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: 30,
                   ),
                   Container(
-                    width: 200,
+                    width: MediaQuery.of(context).size.width / 2 + 23,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -349,24 +431,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 5,
                         ),
                         prov.isData
-                            ? Text(
-                                data,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              )
+                            ? prov.isEdit && iconEdit
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        color: grey,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    padding:
+                                        EdgeInsets.only(top: 7.5, left: 10),
+                                    child: TextField(
+                                      controller: textCtrl,
+                                      cursorColor: Colors.black,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Tidak boleh kosong !',
+                                        hintStyle: TextStyle(
+                                          color: Colors.black.withOpacity(0.4),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    data,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  )
                             : loadingH3
                       ],
                     ),
                   ),
-                  Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.4),
-                        shape: BoxShape.circle),
-                    child: Center(child: Icon(LineIcons.edit)),
-                  )
+                  iconEdit
+                      ? prov.isEdit == false
+                          ? GestureDetector(
+                              child: Container(
+                                width: 45,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                    color: Colors.green.withOpacity(0.4),
+                                    shape: BoxShape.circle),
+                                child: Center(child: Icon(LineIcons.edit)),
+                              ),
+                              onTap: () {
+                                if (prov.isEdit == false) {
+                                  prov.setEdit = true;
+                                } else {
+                                  prov.setEdit = false;
+                                }
+                              },
+                            )
+                          : Container()
+                      : Container()
                 ],
               ))
             ],

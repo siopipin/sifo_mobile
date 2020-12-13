@@ -10,7 +10,7 @@ import 'package:sisfo_mobile/providers/storage.dart';
 class ProfileProvider extends ChangeNotifier {
   http.Response response;
 
-  bool loading = false, error = false, data = false;
+  bool loading = false, error = false, data = false, edit = false;
   String msg = '', status = '', statusAwal = '', program = '';
   ProfileModel _profileModel;
 
@@ -86,6 +86,8 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
+  bool get isEdit => edit;
+
   set setError(val) {
     error = val;
     notifyListeners();
@@ -111,6 +113,11 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set setEdit(val) {
+    edit = val;
+    notifyListeners();
+  }
+
   doGetProfile() async {
     setLoading = true;
     response = await getProfileMhs();
@@ -131,7 +138,6 @@ class ProfileProvider extends ChangeNotifier {
 
   getProfileMhs() async {
     var token = await store.token();
-    print(token);
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'

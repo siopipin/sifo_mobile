@@ -46,14 +46,13 @@ class _MyAppState extends State<MyApp> {
     final InitialProvider prov = Provider.of<InitialProvider>(context);
     final init = prov.getInitialPage;
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sisfo Mobile',
-      theme: ThemeData(fontFamily: 'Roboto', primarySwatch: Colors.blue),
-      home: init == 'SPLASH'
-          ? SplashScreen()
-          : init == 'LOGIN'
-              ? LoginScreen()
-              : HomeScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Sisfo Mobile',
+        theme: ThemeData(fontFamily: 'Roboto', primarySwatch: Colors.blue),
+        home: init == 'SPLASH'
+            ? SplashScreen()
+            : init == 'LOGIN'
+                ? LoginScreen()
+                : HomeScreen());
   }
 }

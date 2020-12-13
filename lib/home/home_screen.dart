@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [Icon(LineIcons.bell)],
         title: Text(
-          'STIKP Gunung Sari',
+          'STIKES Gunung Sari',
           style: TextStyle(color: Colors.white),
         ),
       ),

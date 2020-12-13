@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
-import 'package:sisfo_mobile/home/home_screen.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -36,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Column(
               children: <Widget>[
                 Text(
-                  "STIK Gunung Sari",
+                  "STIKES Gunung Sari",
                   style: appTitle,
                   textAlign: TextAlign.center,
                 ),
@@ -44,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 20,
                 ),
                 Text(
-                  "Sistem Informasi Sekolah Tinggi Ilmu Keperawatan Gunung Sari \n V.1.0",
+                  "Sekolah Tinggi Ilmu Kesehatan Gunung Sari \n V.1.0",
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.8),
                     fontSize: 13,

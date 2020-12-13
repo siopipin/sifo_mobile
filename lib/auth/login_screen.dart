@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.topLeft,
                   child: Container(
                     child: Text(
-                      "NIM",
+                      "NPM",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Nomor Induk Mahasiswa',
+                        hintText: 'Nomor POKOK Mahasiswa',
                         hintStyle: TextStyle(
                           color: Colors.black.withOpacity(0.4),
                         ),
