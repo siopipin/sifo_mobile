@@ -20,6 +20,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController _email = TextEditingController();
   TextEditingController _hportu = TextEditingController();
 
+  PageController controller = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -170,7 +172,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 image: DecorationImage(
                     colorFilter: new ColorFilter.mode(
                         Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                    image: AssetImage('assets/images/bg-nurse.jpg'),
+                    image: AssetImage('assets/images/bg-stikes.jpg'),
+
                     fit: BoxFit.cover)),
           ),
         ),
@@ -212,32 +215,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(
                           width: 15,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            prov.isData
-                                ? Text(
-                                    "${prov.dataMahasiswa?.data?.nama ?? '-'}",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        color: textPrimary),
-                                  )
-                                : loadingH2,
-                            SizedBox(
-                              height: 3,
-                            ),
-                            prov.isData
-                                ? Text(
-                                    "${prov.dataMahasiswa?.data?.mhswID ?? '-'}",
-                                    style: TextStyle(
-                                      color: textPrimary,
-                                      fontSize: 14,
-                                    ),
-                                  )
-                                : loadingH2
-                          ],
-                        )
+                        Container(
+                          width: 180,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              prov.isData
+                                  ? Text(
+                                      "${prov.dataMahasiswa?.data?.nama ?? '-'}",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          color: textPrimary),
+                                    )
+                                  : loadingH2,
+                              SizedBox(
+                                height: 3,
+                              ),
+                              prov.isData
+                                  ? Text(
+                                      "${prov.dataMahasiswa?.data?.mhswID ?? '-'}",
+                                      style: TextStyle(
+                                        color: textPrimary,
+                                        fontSize: 14,
+                                      ),
+                                    )
+                                  : loadingH2
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     Divider(),
@@ -403,6 +409,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ket: 'Mentor - PA',
                     data: prov.dataMahasiswa?.data?.pA ?? '-'),
                 Divider(),
+                Column(
+                  children: [
+                    prov.isGantiPassword ? gantiPasswordSection() : Container(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        prov.isGantiPassword
+                            ? cancelSection()
+                            : Text(
+                                "Settings",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                        gantiPassword(),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
@@ -513,6 +540,236 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget gantiPassword() {
+    final ProfileProvider prov = Provider.of<ProfileProvider>(context);
+
+    return Container(
+        height: 40,
+        child: FlatButton(
+            onPressed: () async {
+              if (prov.isGantiPassword) {
+                //TODO atur status isgantipassword jika berhasil ganti password
+                if (prov.oldPass.text.isEmpty ||
+                    prov.newPass.text.isEmpty ||
+                    prov.renewPass.text.isEmpty) {
+                  Toast.show('Kata sandi tidak boleh kosong!', context,
+                      duration: 3, gravity: Toast.TOP);
+                } else if (prov.newPass.text.length < 6 ||
+                    prov.renewPass.text.length < 6) {
+                  Toast.show('Kata sandi baru minimal 6 karakter!', context,
+                      duration: 3, gravity: Toast.TOP);
+                } else if (prov.newPass.text != prov.renewPass.text) {
+                  Toast.show('Kata sandi baru tidak sama!', context,
+                      duration: 3, gravity: Toast.TOP);
+                } else {
+                  await prov.doCekPassword(
+                      password: prov.oldPass.text,
+                      newPassword: prov.newPass.text);
+                  Toast.show(prov.msg, context,
+                      duration: 3, gravity: Toast.TOP);
+                }
+              } else {
+                prov.setGantiPassword = true;
+              }
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            color: primaryRed,
+            child: prov.isLoading
+                ? Text(
+                    'Loading ...',
+                    style: TextStyle(color: Colors.white),
+                  )
+                : Text(
+                    'Ganti Kata Sandi',
+                    style: TextStyle(color: Colors.white),
+                  )));
+  }
+
+  Widget cancelSection() {
+    final ProfileProvider prov = Provider.of<ProfileProvider>(context);
+
+    return Container(
+      height: 40,
+      child: FlatButton(
+          onPressed: () {
+            if (prov.isGantiPassword) {
+              prov.setGantiPassword = false;
+            } else {
+              prov.setGantiPassword = true;
+            }
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.grey,
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Colors.white),
+          )),
+    );
+  }
+
+  Widget gantiPasswordSection() {
+    final ProfileProvider prov = Provider.of<ProfileProvider>(context);
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Ganti Password",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              child: Text(
+                "Old Password",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            height: 60,
+            decoration: BoxDecoration(
+                color: grey, borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.only(top: 5),
+            child: TextField(
+              controller: prov.oldPass,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Kata sandi sebelumnya',
+                  hintStyle: TextStyle(
+                    color: Colors.black.withOpacity(0.4),
+                  ),
+                  prefixIcon: Icon(
+                    LineIcons.odnoklassniki,
+                    color: Colors.black.withOpacity(0.8),
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              child: Text(
+                "New Password",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            height: 60,
+            decoration: BoxDecoration(
+                color: grey, borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.only(top: 5),
+            child: Row(
+              children: [
+                Flexible(
+                    child: TextField(
+                  obscureText: prov.isObscureText,
+                  controller: prov.newPass,
+                  cursorColor: Colors.black,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Kata Sandi',
+                      hintStyle: TextStyle(
+                        color: Colors.black.withOpacity(0.4),
+                      ),
+                      prefixIcon: Icon(
+                        LineIcons.key,
+                        color: Colors.black.withOpacity(0.8),
+                      )),
+                )),
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: GestureDetector(
+                    child: Icon(LineIcons.eye),
+                    onTap: () {
+                      if (prov.isObscureText == true) {
+                        print('click me');
+                        prov.setObsecure = false;
+                      } else {
+                        print('click me');
+                        prov.setObsecure = true;
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              child: Text(
+                "Repeat new Password",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            height: 60,
+            decoration: BoxDecoration(
+                color: grey, borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.only(top: 5),
+            child: Row(
+              children: [
+                Flexible(
+                    child: TextField(
+                  obscureText: prov.isObscureText,
+                  controller: prov.renewPass,
+                  cursorColor: Colors.black,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Ulangi kata sandi baru',
+                      hintStyle: TextStyle(
+                        color: Colors.black.withOpacity(0.4),
+                      ),
+                      prefixIcon: Icon(
+                        LineIcons.key,
+                        color: Colors.black.withOpacity(0.8),
+                      )),
+                )),
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: GestureDetector(
+                    child: Icon(LineIcons.eye),
+                    onTap: () {
+                      if (prov.isObscureText == true) {
+                        print('click me');
+                        prov.setObsecure = false;
+                      } else {
+                        print('click me');
+                        prov.setObsecure = true;
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
     );
   }
 }

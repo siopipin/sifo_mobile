@@ -10,12 +10,31 @@ import 'package:sisfo_mobile/providers/storage.dart';
 class ProfileProvider extends ChangeNotifier {
   http.Response response;
 
-  bool loading = false, error = false, data = false, edit = false;
+  bool loading = false,
+      error = false,
+      data = false,
+      edit = false,
+      obsecure = true,
+      gantiPassword = false;
+
   String msg = '', status = '', statusAwal = '', program = '';
   ProfileModel _profileModel;
 
+  ///TextController untuk update password
+  TextEditingController _oldPass = TextEditingController();
+  TextEditingController _newPass = TextEditingController();
+  TextEditingController _renewPass = TextEditingController();
+
+  TextEditingController get oldPass => _oldPass;
+  TextEditingController get newPass => _newPass;
+  TextEditingController get renewPass => _renewPass;
+
   ProfileModel get dataMahasiswa => _profileModel;
   bool get isData => data;
+  bool get isObscureText => obsecure;
+  bool get isGantiPassword => gantiPassword;
+  bool get isEdit => edit;
+  bool get isLoading => loading;
 
   String get statusMahasiswa {
     if (data) {
@@ -86,8 +105,20 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  bool get isEdit => edit;
-  bool get isLoading => loading;
+  set setOldPass(val) {
+    _oldPass.text = val;
+    notifyListeners();
+  }
+
+  set setNewPass(val) {
+    _newPass.text = val;
+    notifyListeners();
+  }
+
+  set setReNewPass(val) {
+    _renewPass.text = val;
+    notifyListeners();
+  }
 
   set setError(val) {
     error = val;
@@ -116,6 +147,16 @@ class ProfileProvider extends ChangeNotifier {
 
   set setEdit(val) {
     edit = val;
+    notifyListeners();
+  }
+
+  set setObsecure(val) {
+    obsecure = val;
+    notifyListeners();
+  }
+
+  set setGantiPassword(val) {
+    gantiPassword = val;
     notifyListeners();
   }
 
@@ -194,6 +235,89 @@ class ProfileProvider extends ChangeNotifier {
     };
     try {
       response = await http.put('$api/mahasiswa/profile-update',
+          headers: headerJwt, body: data);
+      setLoading = false;
+      return response;
+    } catch (e) {
+      print(e.toString());
+      setLoading = false;
+      setError = true;
+      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+    }
+  }
+
+  /// Cek-password
+  doCekPassword(
+      {@required String password, @required String newPassword}) async {
+    setLoading = true;
+    response = await postCekPassword(password: password);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        await doUpdatePassword(password: newPassword);
+      } else if (response.statusCode == 401) {
+        setMessage = 'Kata sandi salah! Coba lagi';
+        setGantiPassword = true;
+        setLoading = false;
+      } else {
+        setMessage = 'Coba Lagi';
+        setGantiPassword = true;
+        setLoading = false;
+      }
+    } else {
+      print('Response tidak ditemukan');
+    }
+  }
+
+  postCekPassword({@required String password}) async {
+    var data = json.encode({"password": password});
+    var token = await store.token();
+    final headerJwt = {
+      'Content-Type': 'application/json',
+      HttpHeaders.authorizationHeader: 'Barer $token'
+    };
+    try {
+      response = await http.post('$api/auth/cek-password',
+          headers: headerJwt, body: data);
+      return response;
+    } catch (e) {
+      print(e.toString());
+      setLoading = false;
+      setGantiPassword = false;
+      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+    }
+  }
+
+  ///Fungsi Update Password
+  doUpdatePassword({@required String password}) async {
+    response = await putUpdatePassword(password: password);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        setMessage = 'Kata sandi berhasil diubah';
+        setGantiPassword = false;
+        setNewPass = '';
+        setOldPass = '';
+        setReNewPass = '';
+      } else if (response.statusCode == 401) {
+        setMessage = 'Kata sandi salah! Coba lagi';
+        setGantiPassword = true;
+      } else {
+        setMessage = 'Coba Lagi';
+        setGantiPassword = true;
+      }
+    } else {
+      print('Response tidak ditemukan');
+    }
+  }
+
+  putUpdatePassword({@required String password}) async {
+    var data = json.encode({"pass": password});
+    var token = await store.token();
+    final headerJwt = {
+      'Content-Type': 'application/json',
+      HttpHeaders.authorizationHeader: 'Barer $token'
+    };
+    try {
+      response = await http.put('$api/auth/password-update',
           headers: headerJwt, body: data);
       setLoading = false;
       return response;
