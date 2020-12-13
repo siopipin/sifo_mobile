@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
+import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:toast/toast.dart';
@@ -373,9 +374,13 @@ class _MenuHomeState extends State<MenuHome> {
                     SizedBox(
                       width: 10,
                     ),
-                    CardMenu(
-                      icon: LineIcons.graduation_cap,
-                      label: "Nilai",
+                    GestureDetector(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => NilaiScreen())),
+                      child: CardMenu(
+                        icon: LineIcons.graduation_cap,
+                        label: "Nilai",
+                      ),
                     ),
                     SizedBox(
                       width: 10,

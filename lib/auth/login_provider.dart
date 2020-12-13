@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Client, Response;
 import 'package:sisfo_mobile/auth/login_model.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 import 'package:sisfo_mobile/providers/storage.dart';
 
 class LoginProvider extends ChangeNotifier {
-  http.Response response;
+  Response response;
+  Client client = new Client();
 
   bool loading = false,
       loginStatus = false,
@@ -90,7 +91,7 @@ class LoginProvider extends ChangeNotifier {
 
     try {
       response =
-          await http.post('$api/auth/login', headers: header, body: data);
+          await client.post('$api/auth/login', headers: header, body: data);
       setLoading = false;
       return response;
     } catch (e) {

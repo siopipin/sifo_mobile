@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Client, Response;
 import 'package:sisfo_mobile/profile/profile_model.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 import 'package:sisfo_mobile/providers/storage.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  http.Response response;
+  Response response;
+  Client client = Client();
 
   bool loading = false,
       error = false,
@@ -186,7 +187,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await http.get('$api/mahasiswa/profile', headers: headerJwt);
+      response = await client.get('$api/mahasiswa/profile', headers: headerJwt);
       setLoading = false;
       return response;
     } catch (e) {
@@ -234,7 +235,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await http.put('$api/mahasiswa/profile-update',
+      response = await client.put('$api/mahasiswa/profile-update',
           headers: headerJwt, body: data);
       setLoading = false;
       return response;
@@ -276,7 +277,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await http.post('$api/auth/cek-password',
+      response = await client.post('$api/auth/cek-password',
           headers: headerJwt, body: data);
       return response;
     } catch (e) {
@@ -317,7 +318,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await http.put('$api/auth/password-update',
+      response = await client.put('$api/auth/password-update',
           headers: headerJwt, body: data);
       setLoading = false;
       return response;

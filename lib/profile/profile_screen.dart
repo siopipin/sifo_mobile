@@ -173,7 +173,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     colorFilter: new ColorFilter.mode(
                         Colors.black.withOpacity(0.2), BlendMode.dstATop),
                     image: AssetImage('assets/images/bg-stikes.jpg'),
-
                     fit: BoxFit.cover)),
           ),
         ),
@@ -551,7 +550,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: FlatButton(
             onPressed: () async {
               if (prov.isGantiPassword) {
-                //TODO atur status isgantipassword jika berhasil ganti password
                 if (prov.oldPass.text.isEmpty ||
                     prov.newPass.text.isEmpty ||
                     prov.renewPass.text.isEmpty) {
