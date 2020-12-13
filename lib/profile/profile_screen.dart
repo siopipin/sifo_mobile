@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          bottom: 260,
+          bottom: 460,
           child: Container(
             height: size.height * 0.45,
             decoration: BoxDecoration(
@@ -97,81 +97,121 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: primaryRed,
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: prov.isData
-                                ? Text(
-                                    "${prov.dataMahasiswa.data.nama}",
-                                  )
-                                : loadingH1)),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'Title',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    ),
+                    prov.isData
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: primaryRed,
+                            ),
+                            child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  "${prov.statusMahasiswa}",
+                                  style: TextStyle(color: Colors.white),
+                                )))
+                        : loadingH1,
                     SizedBox(
                       height: 15,
                     ),
                     Row(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Icon(LineIcons.adjust),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text("18k"),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(Icons.star),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text("4.8"),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "\$50",
-                          style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.bold),
+                      children: [
+                        Icon(
+                          LineIcons.user,
+                          color: Colors.black.withOpacity(0.4),
+                          size: 40,
                         ),
                         SizedBox(
                           width: 15,
                         ),
-                        Text(
-                          "\$70",
-                          style: TextStyle(
-                              fontSize: 18,
-                              decoration: TextDecoration.lineThrough),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            prov.isData
+                                ? Text(
+                                    "${prov.dataMahasiswa?.data?.nama ?? '-'}",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: textPrimary),
+                                  )
+                                : loadingH2,
+                            SizedBox(
+                              height: 3,
+                            ),
+                            prov.isData
+                                ? Text(
+                                    "${prov.dataMahasiswa?.data?.mhswID ?? '-'}",
+                                    style: TextStyle(
+                                      color: textPrimary,
+                                      fontSize: 14,
+                                    ),
+                                  )
+                                : loadingH2
+                          ],
                         )
                       ],
-                    )
+                    ),
+                    Divider(),
+                    Row(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(LineIcons.archive),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              child: prov.data
+                                  ? Text(
+                                      "Program : ${prov.dataMahasiswa?.data?.programID ?? '-'} - ${prov.programId}",
+                                      style: TextStyle(
+                                        color: textPrimary,
+                                        fontSize: 14,
+                                      ),
+                                    )
+                                  : loadingProgramStudi,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(LineIcons.graduation_cap),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              child: prov.data
+                                  ? Text(
+                                      "Program Studi",
+                                      style: TextStyle(
+                                        color: textPrimary,
+                                        fontSize: 14,
+                                      ),
+                                    )
+                                  : loadingProgramStudi,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: prov.isData
+                            ? Text(
+                                "${prov.dataMahasiswa?.data?.prodiID ?? '-'}",
+                                style: TextStyle(
+                                    color: textPrimary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900),
+                              )
+                            : loadingH1)
                   ],
                 ),
               )
@@ -179,119 +219,159 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: size.height * 0.40),
-          height: size.height * 0.6,
+          margin: EdgeInsets.only(top: size.height * 0.32),
           width: size.width,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(60), topRight: Radius.circular(60))),
+                  topLeft: Radius.circular(40), topRight: Radius.circular(40))),
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
+            padding: const EdgeInsets.only(left: 30, right: 20, top: 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Course Content",
+                  "Detail Profile",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 40),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.black.withOpacity(0.3)),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Duration",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Source',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 45,
-                            height: 45,
-                            decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.4),
-                                shape: BoxShape.circle),
-                            child: Center(child: Icon(Icons.play_arrow)),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 40),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            '1',
-                            style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.black.withOpacity(0.3)),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Duration",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Source',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 45,
-                            height: 45,
-                            decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.4),
-                                shape: BoxShape.circle),
-                            child: Center(child: Icon(Icons.play_arrow)),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
+                detailBuider(
+                    context: context,
+                    no: '1',
+                    ket: 'KTP',
+                    data: prov.dataMahasiswa?.data?.kTP ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '2',
+                    ket: 'Alamat',
+                    data: prov.dataMahasiswa?.data?.alamat ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '3',
+                    ket: 'Agama',
+                    data: prov.dataMahasiswa?.data?.agama ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '4',
+                    ket: 'Email',
+                    data: prov.dataMahasiswa?.data?.email ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '5',
+                    ket: 'Handphone',
+                    data: prov.dataMahasiswa?.data?.handphone ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '6',
+                    ket: 'Handphone Orang Tua',
+                    data: prov.dataMahasiswa?.data?.handphoneOrtu ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '7',
+                    ket: 'Nama Ibu',
+                    data: prov.dataMahasiswa?.data?.namaIbu ?? '-'),
+                Divider(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Kelas",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                detailBuider(
+                    context: context,
+                    no: '1',
+                    ket: 'Nama Kelas',
+                    data: prov.dataMahasiswa?.data?.namaKelas ?? '-'),
+                Divider(),
+                detailBuider(
+                    context: context,
+                    no: '2',
+                    ket: 'Mentor - PA',
+                    data: prov.dataMahasiswa?.data?.pA ?? '-'),
+                Divider(),
               ],
             ),
           ),
         )
+      ],
+    );
+  }
+
+  Widget detailBuider(
+      {BuildContext context,
+      @required String no,
+      @required String ket,
+      @required String data}) {
+    final ProfileProvider prov = Provider.of<ProfileProvider>(context);
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Row(
+                children: <Widget>[
+                  Text(
+                    no,
+                    style: TextStyle(
+                        fontSize: 30, color: Colors.black.withOpacity(0.3)),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          ket,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        prov.isData
+                            ? Text(
+                                data,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              )
+                            : loadingH3
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.green.withOpacity(0.4),
+                        shape: BoxShape.circle),
+                    child: Center(child: Icon(LineIcons.edit)),
+                  )
+                ],
+              ))
+            ],
+          ),
+        ),
       ],
     );
   }

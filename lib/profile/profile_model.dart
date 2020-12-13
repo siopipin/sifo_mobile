@@ -25,8 +25,8 @@ class Data {
   String statusMhswID;
   String programID;
   String prodiID;
-  Null namaKelas;
-  Null pA;
+  var namaKelas;
+  var pA;
   String agama;
   String alamat;
   String kTP;
