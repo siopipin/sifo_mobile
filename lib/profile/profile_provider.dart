@@ -87,6 +87,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   bool get isEdit => edit;
+  bool get isLoading => loading;
 
   set setError(val) {
     error = val;
@@ -118,6 +119,7 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///fungsi get profile
   doGetProfile() async {
     setLoading = true;
     response = await getProfileMhs();
@@ -144,6 +146,55 @@ class ProfileProvider extends ChangeNotifier {
     };
     try {
       response = await http.get('$api/mahasiswa/profile', headers: headerJwt);
+      setLoading = false;
+      return response;
+    } catch (e) {
+      print(e.toString());
+      setLoading = false;
+      setError = true;
+      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+    }
+  }
+
+  ///Fungsi edit profile
+  doEditProfile(
+      {@required String hp,
+      @required String alamat,
+      @required String email,
+      @required String hportu}) async {
+    setLoading = true;
+    response = await putProfileMhs(
+        hp: hp, alamat: alamat, email: email, hportu: hportu);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        setMessage = 'Data berhasil diubah';
+        setEdit = false;
+      } else if (response.statusCode == 401) {
+        setMessage = 'Tidak dapat akses, silahkan login ulang, ';
+        setEdit = false;
+      } else {
+        setMessage = 'Gagal menyimpan, Silahkan coba lagi!';
+      }
+    } else {
+      print('Response tidak ditemukan');
+    }
+  }
+
+  putProfileMhs(
+      {@required String hp,
+      @required String alamat,
+      @required String email,
+      @required String hportu}) async {
+    var data = json
+        .encode({"hp": hp, "alamat": alamat, "email": email, "hportu": hportu});
+    var token = await store.token();
+    final headerJwt = {
+      'Content-Type': 'application/json',
+      HttpHeaders.authorizationHeader: 'Barer $token'
+    };
+    try {
+      response = await http.put('$api/mahasiswa/profile-update',
+          headers: headerJwt, body: data);
       setLoading = false;
       return response;
     } catch (e) {

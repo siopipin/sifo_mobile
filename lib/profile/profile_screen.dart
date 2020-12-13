@@ -5,6 +5,7 @@ import 'package:sisfo_mobile/profile/profile_provider.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
+import 'package:toast/toast.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
@@ -79,20 +80,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? GestureDetector(
                     child: Row(
                       children: [
-                        Text(
-                          'Save',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: primaryYellow),
-                        ),
+                        prov.isLoading
+                            ? Text(
+                                'Loading',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey),
+                              )
+                            : Text(
+                                'Save',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryYellow),
+                              ),
                         SizedBox(
                           width: 5,
                         ),
                         Icon(LineIcons.save, color: primaryYellow)
                       ],
                     ),
-                    onTap: () {
-                      ///TODO tambah fungsi edit profile
+                    onTap: () async {
+                      if (_alamat.text.isEmpty ||
+                          _hp.text.isEmpty ||
+                          _hportu.text.isEmpty ||
+                          _email.text.isEmpty) {
+                        Toast.show('Data tidak boleh kosong!', context,
+                            duration: 3, gravity: Toast.TOP);
+                      } else {
+                        await prov.doEditProfile(
+                            hp: _hp.text,
+                            alamat: _alamat.text,
+                            email: _email.text,
+                            hportu: _hportu.text);
+                        await prov.doGetProfile();
+                        Toast.show(prov.msg, context,
+                            duration: 4, gravity: Toast.TOP);
+                      }
                     },
                   )
                 : GestureDetector(
