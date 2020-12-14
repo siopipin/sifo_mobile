@@ -6,6 +6,7 @@ import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/auth/splash_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/home/home_screen.dart';
+import 'package:sisfo_mobile/keuangan/keuangan_provider.dart';
 import 'package:sisfo_mobile/nilai/nilai_provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
 import 'package:sisfo_mobile/providers/initial_provider.dart';
@@ -21,6 +22,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => NilaiProvider()),
+        ChangeNotifierProvider(create: (_) => KeuanganProvider()),
       ],
       child: MyApp(),
     ));

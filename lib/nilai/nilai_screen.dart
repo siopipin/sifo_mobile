@@ -297,7 +297,6 @@ class _NilaiScreenState extends State<NilaiScreen> {
                 ));
           }).toList(),
           onChanged: (val) async {
-            //TODO Ambil data nilai ketika onChanged
             await prov.doGetNilai(tahun: val);
             prov.tahun = val;
             Toast.show(prov.isMsg, context, gravity: Toast.TOP, duration: 3);
@@ -311,7 +310,6 @@ class _NilaiScreenState extends State<NilaiScreen> {
         ),
       );
     } else if (prov.isError) {
-      ///TODO tampilkan pesan error pada body dan tombol untuk refresh
       return Padding(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 25),
         child: loadingH1,

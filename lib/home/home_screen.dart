@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
+import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
+import 'package:sisfo_mobile/profile/profile_page_screen.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:toast/toast.dart';
@@ -386,10 +388,14 @@ class _MenuHomeState extends State<MenuHome> {
                     SizedBox(
                       width: 10,
                     ),
-                    CardMenu(
-                      icon: LineIcons.money,
-                      label: "Keuangan",
-                    ),
+                    GestureDetector(
+                      child: CardMenu(
+                        icon: LineIcons.money,
+                        label: "Keuangan",
+                      ),
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => KeuanganScreen())),
+                    )
                   ],
                 ),
                 SizedBox(
@@ -405,9 +411,15 @@ class _MenuHomeState extends State<MenuHome> {
                     SizedBox(
                       width: 10,
                     ),
-                    CardMenu(
-                      icon: LineIcons.user,
-                      label: "Profile",
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ProfilePageScreen())),
+                      child: CardMenu(
+                        icon: LineIcons.user,
+                        label: "Profile",
+                      ),
                     ),
                     SizedBox(
                       width: 10,
