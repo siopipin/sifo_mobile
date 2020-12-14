@@ -30,9 +30,10 @@ class Data {
   int tugas3;
   int vPresensi;
   int nPresensi;
-  int uTS;
-  int uAS;
-  int nilaiAkhir;
+  var uTS;
+  var uAS;
+  var nilaiAkhir;
+  bool isExpanded;
 
   Data(
       {this.mKKode,
@@ -45,7 +46,8 @@ class Data {
       this.nPresensi,
       this.uTS,
       this.uAS,
-      this.nilaiAkhir});
+      this.nilaiAkhir,
+      this.isExpanded});
 
   Data.fromJson(Map<String, dynamic> json) {
     mKKode = json['MKKode'];
@@ -59,6 +61,7 @@ class Data {
     uTS = json['UTS'];
     uAS = json['UAS'];
     nilaiAkhir = json['NilaiAkhir'];
+    isExpanded = json['isExpanded'];
   }
 
   Map<String, dynamic> toJson() {
@@ -74,6 +77,7 @@ class Data {
     data['UTS'] = this.uTS;
     data['UAS'] = this.uAS;
     data['NilaiAkhir'] = this.nilaiAkhir;
+    data['isExpanded'] = this.isExpanded;
     return data;
   }
 }

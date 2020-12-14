@@ -52,3 +52,17 @@ final loadingProgramStudi = Shimmer.fromColors(
       width: 150,
       height: 20,
     ));
+
+final loadingList = Shimmer.fromColors(
+    baseColor: Colors.grey[300],
+    highlightColor: Colors.grey[100],
+    enabled: true,
+    child: Container(
+      margin: EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
+      width: 350,
+      height: 100,
+    ));

@@ -14,6 +14,7 @@ class NilaiProvider extends ChangeNotifier {
 
   bool loading = false, error = false, adaData = false, adaDataNilai = false;
   String message = '';
+  String tahun = '';
   TahunKHS tahunKHS = new TahunKHS();
   NilaiModel nilaiModel = new NilaiModel();
 
@@ -43,6 +44,7 @@ class NilaiProvider extends ChangeNotifier {
 
   set setTahunKHS(val) {
     tahunKHS = val;
+    setTahun = tahunKHS.data[0].tahunid;
     notifyListeners();
   }
 
@@ -51,13 +53,27 @@ class NilaiProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set setNilai(val) {
-    tahunKHS = val;
+  set setNilai(NilaiModel val) {
+    val.data.forEach((element) {
+      element.isExpanded = false;
+    });
+    nilaiModel = val;
     notifyListeners();
   }
 
   set setDataNilai(val) {
-    adaData = val;
+    adaDataNilai = val;
+    notifyListeners();
+  }
+
+  setExpanded(int index, bool status) {
+    dataNilai.data[index].isExpanded = status;
+    notifyListeners();
+  }
+
+  String get isTahun => tahun;
+  set setTahun(val) {
+    tahun = val;
     notifyListeners();
   }
 
@@ -107,13 +123,13 @@ class NilaiProvider extends ChangeNotifier {
   doGetNilai({@required String tahun}) async {
     setLoading = true;
     response = await getNilai(tahun: tahun);
-    //TODO masalah 400 saat get nilai
     print('doGetNilai / statusCode : ${response.statusCode}');
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        setTahunKHS = NilaiModel.fromJson(tmp);
-        setData = true;
+        setNilai = NilaiModel.fromJson(tmp);
+        setDataNilai = true;
+        setMessage = 'Data Nilai Berhasil direquest';
       } else if (response.statusCode == 401) {
         setMessage = 'Otentikasi tidak berhasil!';
         setError = true;

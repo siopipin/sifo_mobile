@@ -163,7 +163,7 @@ class InfoBanner extends StatelessWidget {
           ),
           Positioned.fill(
             left: 110,
-            top: 10,
+            top: 5,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -177,7 +177,7 @@ class InfoBanner extends StatelessWidget {
                         fontSize: 18),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 20),
@@ -254,6 +254,7 @@ class InfoBanner extends StatelessWidget {
                             )
                           ],
                         ),
+                        Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
