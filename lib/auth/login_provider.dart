@@ -65,6 +65,8 @@ class LoginProvider extends ChangeNotifier {
 
         await store.saveToken(val: _loginModel.token);
         await store.saveNama(val: _loginModel.nama);
+        await store.saveNPM(val: _loginModel.idmhs);
+
         setMessage = 'Selamat Datang ${_loginModel.nama}';
         setLoginStatus = true;
       } else if (response.statusCode == 401) {
@@ -82,6 +84,8 @@ class LoginProvider extends ChangeNotifier {
   doLogout() async {
     await store.destroyToken();
     await store.destroyNama();
+    await store.destroyNpm();
+
     setMessage = 'Logout Berhasil, silahkan login ulang!';
   }
 

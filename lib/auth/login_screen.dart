@@ -20,8 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _nimText.text = '18161001';
-    _passText.text = '12345';
+    _nimText.text = '18192001';
+    _passText.text = '123456';
   }
 
   @override

@@ -3,7 +3,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
-import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
@@ -495,7 +494,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
                                 : Text(
                                     data,
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 13,
                                     ),
                                   )
                             : loadingH3

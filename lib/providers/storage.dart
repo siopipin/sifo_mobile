@@ -12,6 +12,10 @@ class Storage {
     await storage.write(key: 'nama', value: val);
   }
 
+  saveNPM({@required String val}) async {
+    await storage.write(key: 'npm', value: val);
+  }
+
   saveSplashAction({@required String val}) async {
     /// value splash : true // false
     await storage.write(key: 'splash', value: val);
@@ -32,6 +36,10 @@ class Storage {
     return await storage.read(key: 'nama');
   }
 
+  npm() async {
+    return await storage.read(key: 'npm');
+  }
+
   //Destroy
   destroyToken() async {
     await storage.delete(key: 'token');
@@ -39,6 +47,10 @@ class Storage {
 
   destroyNama() async {
     await storage.delete(key: 'nama');
+  }
+
+  destroyNpm() async {
+    await storage.delete(key: 'npm');
   }
 }
 

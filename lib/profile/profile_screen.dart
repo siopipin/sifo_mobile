@@ -505,7 +505,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 : Text(
                                     data,
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 13,
                                     ),
                                   )
                             : loadingH3

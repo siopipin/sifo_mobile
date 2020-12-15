@@ -5,6 +5,7 @@ import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
+import 'package:sisfo_mobile/krs/krs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';
 import 'package:sisfo_mobile/providers/global_config.dart';
@@ -370,9 +371,13 @@ class _MenuHomeState extends State<MenuHome> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CardMenu(
-                      icon: LineIcons.bookmark,
-                      label: "KRS",
+                    GestureDetector(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => KrsScreen())),
+                      child: CardMenu(
+                        icon: LineIcons.bookmark,
+                        label: "KRS",
+                      ),
                     ),
                     SizedBox(
                       width: 10,
