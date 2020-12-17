@@ -10,8 +10,8 @@ import 'package:sisfo_mobile/krs/status_pengurusan_krs_model.dart';
 import 'package:sisfo_mobile/krs/tahun_ajaran_aktif_model.dart';
 import 'package:sisfo_mobile/krs/krs_paket_terpilih_model.dart';
 
-import 'package:sisfo_mobile/providers/global_config.dart';
-import 'package:sisfo_mobile/providers/storage.dart';
+import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 
 class KrsProvider extends ChangeNotifier {
   Response response;

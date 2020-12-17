@@ -6,8 +6,8 @@ import 'package:http/http.dart' show Client, Response;
 import 'package:sisfo_mobile/keuangan/keuangan_detail_model.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_khs_model.dart';
 import 'package:sisfo_mobile/nilai/tahun_khs_model.dart';
-import 'package:sisfo_mobile/providers/global_config.dart';
-import 'package:sisfo_mobile/providers/storage.dart';
+import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 
 class KeuanganProvider extends ChangeNotifier {
   Client client = new Client();

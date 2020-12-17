@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +12,7 @@ import 'package:sisfo_mobile/keuangan/keuangan_provider.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/nilai/nilai_provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
-import 'package:sisfo_mobile/providers/initial_provider.dart';
+import 'package:sisfo_mobile/services/initial_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,16 +51,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = FirebaseAnalytics();
     final InitialProvider prov = Provider.of<InitialProvider>(context);
     final init = prov.getInitialPage;
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Sisfo Mobile',
-        theme: ThemeData(fontFamily: 'Roboto', primarySwatch: Colors.blue),
-        home: init == 'SPLASH'
-            ? SplashScreen()
-            : init == 'LOGIN'
-                ? LoginScreen()
-                : HomeScreen());
+      debugShowCheckedModeBanner: false,
+      title: 'Sisfo Mobile',
+      theme: ThemeData(fontFamily: 'Roboto', primarySwatch: Colors.blue),
+      home: init == 'SPLASH'
+          ? SplashScreen()
+          : init == 'LOGIN'
+              ? LoginScreen()
+              : HomeScreen(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
+    );
   }
 }

@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/krs/krs_model.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/krs/widgets/krs_terpilih_widget.dart';
-import 'package:sisfo_mobile/providers/global_config.dart';
-import 'package:sisfo_mobile/providers/storage.dart';
+import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 

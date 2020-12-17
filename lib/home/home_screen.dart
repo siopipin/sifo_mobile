@@ -8,7 +8,7 @@ import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';
-import 'package:sisfo_mobile/providers/global_config.dart';
+import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:toast/toast.dart';
 
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final HomeProvider prov = Provider.of<HomeProvider>(context);
     final LoginProvider provLogin = Provider.of<LoginProvider>(context);
     return Scaffold(
-      bottomNavigationBar: BottomBar(tabIndex: 0),
+      bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
       appBar: AppBar(
         backgroundColor: bgColor,
         leading: Container(

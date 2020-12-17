@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client, Response;
 import 'package:sisfo_mobile/auth/login_model.dart';
-import 'package:sisfo_mobile/providers/global_config.dart';
-import 'package:sisfo_mobile/providers/storage.dart';
+import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 
 class LoginProvider extends ChangeNotifier {
   Response response;

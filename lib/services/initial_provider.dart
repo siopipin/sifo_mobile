@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sisfo_mobile/providers/storage.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 
 class InitialProvider extends ChangeNotifier {
   String initialPage;
