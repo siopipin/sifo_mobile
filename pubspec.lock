@@ -51,7 +51,7 @@ packages:
     source: hosted
     version: "1.1.0-nullsafety.1"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -129,7 +129,14 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.19"
+    version: "2.1.13"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.1"
   line_icons:
     dependency: "direct main"
     description:
@@ -267,7 +274,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.1"
+    version: "3.7.0"
   yaml:
     dependency: transitive
     description:

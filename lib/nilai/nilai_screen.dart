@@ -40,6 +40,12 @@ class _NilaiScreenState extends State<NilaiScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      colorFilter: new ColorFilter.mode(
+                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                      image: AssetImage('assets/images/bg-stikes.jpg'),
+                      fit: BoxFit.cover)),
               padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
               child: Row(
                 children: [
@@ -144,6 +150,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
         },
         children: prov.dataNilai.data.map((item) {
           return ExpansionPanel(
+            canTapOnHeader: true,
             headerBuilder: (BuildContext context, bool isExpanded) {
               return ListTile(
                 title: Column(
