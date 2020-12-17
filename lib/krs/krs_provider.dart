@@ -579,4 +579,69 @@ class KrsProvider extends ChangeNotifier {
       setMessage = 'Coba lagi, tidak dapat menghubungkan';
     }
   }
+
+  //Simpan KRS
+  bool _loadingSimpanKRS = false;
+  bool get isLoadingSimpanKRS => _loadingSimpanKRS;
+  set setLoadingSimpanKRS(val) {
+    _loadingSimpanKRS = val;
+    notifyListeners();
+  }
+
+  bool _errorSimpanKRS = false;
+  bool get isErrorSimpanKRS => _errorSimpanKRS;
+  set setErrorSimpanKRS(val) {
+    _errorSimpanKRS = val;
+    notifyListeners();
+  }
+
+  bool _adaDataSimpanKRS = false;
+  bool get isAdaDataSimpanKRS => _adaDataSimpanKRS;
+  set setAdaDataSimpanKRS(val) {
+    _adaDataSimpanKRS = val;
+    notifyListeners();
+  }
+
+  doGetSimpanKRS({@required String tahunid, @required String paketid}) async {
+    setLoadingSimpanKRS = true;
+    response = await getSimpanKRS(tahunid: tahunid, paketid: paketid);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        setAdaDataSimpanKRS = true;
+        setMessage = 'Data ditemukan';
+      } else if (response.statusCode == 400) {
+        setAdaDataSimpanKRS = false;
+        setMessage = 'Data tidak ditemukan';
+      } else if (response.statusCode == 401) {
+        setMessage = 'Otentikasi tidak berhasil!';
+        setErrorSimpanKRS = true;
+      } else {
+        setMessage = 'Silahkan coba lagi!';
+        setErrorSimpanKRS = true;
+      }
+    } else {
+      print('Response tidak ditemukan');
+    }
+  }
+
+  getSimpanKRS({@required String tahunid, @required String paketid}) async {
+    var data = json.encode({'tahunid': tahunid, 'paketid': paketid});
+    var token = await store.token();
+    final header = {
+      'Content-Type': 'application/json',
+      HttpHeaders.authorizationHeader: 'Barer $token'
+    };
+    try {
+      response = await client.post('$api/mahasiswa/simpan-krs',
+          headers: header, body: data);
+      print(response.statusCode);
+      setLoadingSimpanKRS = false;
+      return response;
+    } catch (e) {
+      print(e.toString());
+      setLoadingSimpanKRS = false;
+      setErrorSimpanKRS = true;
+      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+    }
+  }
 }

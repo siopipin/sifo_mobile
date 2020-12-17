@@ -122,7 +122,9 @@ class _KrsScreenState extends State<KrsScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   color: bgColor,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    //TODO simpan krs
+                                  },
                                   child: Text(
                                     'Ambil Paket KRS',
                                     style: TextStyle(
