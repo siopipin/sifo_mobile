@@ -66,6 +66,9 @@ class LoginProvider extends ChangeNotifier {
         await store.saveToken(val: _loginModel.token);
         await store.saveNama(val: _loginModel.nama);
         await store.saveNPM(val: _loginModel.idmhs);
+        await store.saveProdi(val: _loginModel.prodi);
+        await store.saveProgram(val: _loginModel.program);
+        await store.saveStatus(val: _loginModel.status);
 
         setMessage = 'Selamat Datang ${_loginModel.nama}';
         setLoginStatus = true;

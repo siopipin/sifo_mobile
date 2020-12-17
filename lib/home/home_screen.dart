@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() async {
-      Provider.of<HomeProvider>(context, listen: false).getNamaMahasiswa();
+      Provider.of<HomeProvider>(context, listen: false).getDataAwal();
     });
   }
 
@@ -90,6 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: textPrimary,
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${prov.isNIM}",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
                           )
                         ],
                       )
@@ -144,9 +151,11 @@ class InfoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeProvider prov = Provider.of<HomeProvider>(context);
+
     return Container(
       width: double.infinity,
-      height: 140,
+      height: 130,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(20),
@@ -172,16 +181,6 @@ class InfoBanner extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Info Grafik",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
                   Padding(
                     padding: EdgeInsets.only(right: 20),
                     child: Column(
@@ -192,67 +191,25 @@ class InfoBanner extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: '3000',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    WidgetSpan(
-                                      child: Transform.translate(
-                                        offset: const Offset(4, -8),
-                                        child: Text(
-                                          '+',
-                                          //superscript is usually smaller in size
-                                          textScaleFactor: 0.7,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                                ),
                                 Text(
-                                  'Alumni',
+                                  'Program Studi',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w200,
-                                      fontSize: 10),
-                                )
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: '800',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    WidgetSpan(
-                                      child: Transform.translate(
-                                        offset: const Offset(4, -8),
-                                        child: Text(
-                                          '+',
-                                          //superscript is usually smaller in size
-                                          textScaleFactor: 0.7,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
+                                      fontSize: 12),
                                 ),
-                                Text(
-                                  'Mahasiswa',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 10),
-                                )
+                                Container(
+                                  width: 140,
+                                  child: Text(
+                                    prov.isProdi,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ),
                               ],
                             )
                           ],
@@ -264,67 +221,39 @@ class InfoBanner extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: '25',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    WidgetSpan(
-                                      child: Transform.translate(
-                                        offset: const Offset(4, -8),
-                                        child: Text(
-                                          'thn+',
-                                          //superscript is usually smaller in size
-                                          textScaleFactor: 0.7,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                                ),
                                 Text(
-                                  'Pengalaman Pendidikan',
+                                  'Program',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
-                                )
+                                ),
+                                Text(
+                                  prov.isProgram,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 16),
+                                ),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: '35',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    WidgetSpan(
-                                      child: Transform.translate(
-                                        offset: const Offset(4, -8),
-                                        child: Text(
-                                          '+',
-                                          //superscript is usually smaller in size
-                                          textScaleFactor: 0.7,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                                ),
                                 Text(
-                                  'Dosen',
+                                  'Status',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
-                                )
+                                ),
+                                Text(
+                                  prov.isStatus,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 16),
+                                ),
                               ],
                             )
                           ],

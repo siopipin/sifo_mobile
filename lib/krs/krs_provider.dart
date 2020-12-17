@@ -64,11 +64,10 @@ class KrsProvider extends ChangeNotifier {
 
         //Ambil status pengurusan KRS
         await doGetStatusPengurusanKRS();
-        if (isStatusKepengurusanKRS) {
-          await doGetPaketKRS();
-        } else {
-          await doGetStatusKRS(tahunid: dataTahunAktif.data.tahunTA);
-        }
+
+        await doGetPaketKRS();
+
+        await doGetStatusKRS(tahunid: dataTahunAktif.data.tahunTA);
 
         setMessage = 'Tahun Ajaran Aktif ditemukan';
       } else if (response.statusCode == 400) {

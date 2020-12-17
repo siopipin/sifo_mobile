@@ -29,118 +29,218 @@ class _KrsScreenState extends State<KrsScreen> {
   Widget build(BuildContext context) {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: bgColor,
-        title: Text('KRS'),
-      ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      colorFilter: new ColorFilter.mode(
-                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                      image: AssetImage('assets/images/bg-stikes.jpg'),
-                      fit: BoxFit.cover)),
-              padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        LineIcons.user,
-                        color: Colors.black.withOpacity(0.4),
-                        size: 40,
-                      ),
-                      prov.isStatusKepengurusanKRS
-                          ? Container()
-                          : cekStatusKRS(),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      cekTahunKRS(),
-                      FutureBuilder(
-                        future: store.nama(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: textPrimary),
-                            );
-                          } else {
-                            return loadingH2;
-                          }
-                        },
-                      ),
-                      FutureBuilder(
-                        future: store.npm(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: textPrimary),
-                            );
-                          } else {
-                            return loadingH3;
-                          }
-                        },
-                      ),
-                    ],
-                  )
-                ],
-              ),
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: bgColor,
+            title: Text('KRS'),
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  icon: Icon(Icons.list_alt),
+                  text: 'KRS Mahasiswa',
+                ),
+                Tab(icon: Icon(Icons.app_registration), text: 'Pengajuan KRS'),
+              ],
             ),
-            checkStatusKepengurusan(),
-            prov.isStatusKepengurusanKRS
-                ? Container(
-                    child: Column(
-                    children: [
-                      dropDownBuild(),
-                      prov.isAdaDataKRSPaketTerpilih
-                          ? Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              width: MediaQuery.of(context).size.width,
-                              child: FlatButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  color: bgColor,
-                                  onPressed: () {
-                                    //TODO simpan krs
-                                  },
-                                  child: Text(
-                                    'Ambil Paket KRS',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            )
-                          : Container()
-                    ],
-                  ))
-                : Container(),
-            cekBodyKRS()
-          ],
-        ),
-      )),
-    );
+          ),
+          body: TabBarView(
+            children: [
+              SafeArea(
+                  child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              colorFilter: new ColorFilter.mode(
+                                  Colors.black.withOpacity(0.2),
+                                  BlendMode.dstATop),
+                              image: AssetImage('assets/images/bg-stikes.jpg'),
+                              fit: BoxFit.cover)),
+                      padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                LineIcons.user,
+                                color: Colors.black.withOpacity(0.4),
+                                size: 40,
+                              ),
+                              cekStatusKRS(),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              cekTahunKRS(),
+                              FutureBuilder(
+                                future: store.nama(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: textPrimary),
+                                    );
+                                  } else {
+                                    return loadingH2;
+                                  }
+                                },
+                              ),
+                              FutureBuilder(
+                                future: store.npm(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          color: textPrimary),
+                                    );
+                                  } else {
+                                    return loadingH3;
+                                  }
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    cekKRS()
+                  ],
+                ),
+              )),
+
+              //Pengajuan KRS
+              SafeArea(
+                  child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              colorFilter: new ColorFilter.mode(
+                                  Colors.black.withOpacity(0.2),
+                                  BlendMode.dstATop),
+                              image: AssetImage('assets/images/bg-stikes.jpg'),
+                              fit: BoxFit.cover)),
+                      padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                LineIcons.user,
+                                color: Colors.black.withOpacity(0.4),
+                                size: 40,
+                              ),
+                              prov.isStatusKepengurusanKRS
+                                  ? Container()
+                                  : cekStatusKRS(),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              cekTahunKRS(),
+                              FutureBuilder(
+                                future: store.nama(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: textPrimary),
+                                    );
+                                  } else {
+                                    return loadingH2;
+                                  }
+                                },
+                              ),
+                              FutureBuilder(
+                                future: store.npm(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          color: textPrimary),
+                                    );
+                                  } else {
+                                    return loadingH3;
+                                  }
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    checkStatusKepengurusan(),
+                    prov.isStatusKepengurusanKRS
+                        ? Container(
+                            child: Column(
+                            children: [
+                              dropDownBuild(),
+                              prov.isAdaDataKRSPaketTerpilih
+                                  ? Container(
+                                      padding:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: FlatButton(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          color: bgColor,
+                                          onPressed: () {
+                                            //TODO simpan krs
+                                          },
+                                          child: Text(
+                                            'Ambil Paket KRS',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                    )
+                                  : Container()
+                            ],
+                          ))
+                        : Container(),
+                    cekBodyKRS()
+                  ],
+                ),
+              ))
+            ],
+          ),
+        ));
   }
 
   Widget cekBodyKRS() {

@@ -3,15 +3,26 @@ class LoginModel {
   String nama;
   String hp;
   String prodi;
+  String program;
+  String status;
   String token;
 
-  LoginModel({this.idmhs, this.nama, this.hp, this.prodi, this.token});
+  LoginModel(
+      {this.idmhs,
+      this.nama,
+      this.hp,
+      this.prodi,
+      this.program,
+      this.status,
+      this.token});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     idmhs = json['idmhs'];
     nama = json['nama'];
     hp = json['hp'];
     prodi = json['prodi'];
+    program = json['program'];
+    status = json['status'];
     token = json['token'];
   }
 
@@ -21,6 +32,8 @@ class LoginModel {
     data['nama'] = this.nama;
     data['hp'] = this.hp;
     data['prodi'] = this.prodi;
+    data['program'] = this.program;
+    data['status'] = this.status;
     data['token'] = this.token;
     return data;
   }
