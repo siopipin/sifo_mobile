@@ -19,6 +19,8 @@ dependencies:
   shimmer: ^1.1.2
   toast: ^0.1.5
   intl: ^0.16.1
+  flushbar: ^1.10.4
+  flutter_app_badger: ^1.1.2
 
   # firebase
   firebase_messaging: ^7.0.3

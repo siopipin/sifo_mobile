@@ -77,7 +77,7 @@ final loadingList = Shimmer.fromColors(
         color: Colors.white,
       ),
       width: 350,
-      height: 100,
+      height: 80,
     ));
 
 final loadingTable = Shimmer.fromColors(

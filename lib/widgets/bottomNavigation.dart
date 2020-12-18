@@ -18,7 +18,7 @@ class BottomBar extends StatelessWidget {
       {'icon': LineIcons.home, 'label': 'home'},
       {'icon': LineIcons.bookmark, 'label': 'KRS'},
       {'icon': LineIcons.graduation_cap, 'label': 'Nilai'},
-      {'icon': LineIcons.user, 'label': 'Keuangan'},
+      {'icon': LineIcons.user, 'label': 'Profile'},
     ];
     return Container(
       decoration: BoxDecoration(

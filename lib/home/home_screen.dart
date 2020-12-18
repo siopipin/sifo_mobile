@@ -6,8 +6,11 @@ import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
+import 'package:sisfo_mobile/notification/notification_screen.dart';
+
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';
+import 'package:sisfo_mobile/services/firebase_notification_handler.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:toast/toast.dart';
@@ -23,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    new FirebaseNotifications().setUpFirebase(context);
     Future.microtask(() async {
       Provider.of<HomeProvider>(context, listen: false).getDataAwal();
     });
@@ -45,7 +49,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   image: const AssetImage('assets/images/logo.png'),
                   fit: BoxFit.fill)),
         ),
-        actions: [Icon(LineIcons.bell)],
+        actions: [
+          GestureDetector(
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => NotificationScreen())),
+            child: Stack(alignment: Alignment.centerLeft, children: <Widget>[
+              new Icon(LineIcons.bell),
+              new Positioned(
+                // draw a red marble
+                top: 15,
+                right: 5,
+                child: new Icon(Icons.brightness_1,
+                    size: 8.0, color: Colors.redAccent),
+              )
+            ]),
+          )
+        ],
         title: Text(
           'STIKES Gunung Sari',
           style: TextStyle(color: Colors.white),

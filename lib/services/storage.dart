@@ -4,6 +4,18 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class Storage {
   final storage = new FlutterSecureStorage();
 
+  saveTokenFCM({@required String val}) async {
+    await storage.write(key: 'tokenfcm', value: val);
+  }
+
+  tokenFCM() async {
+    await storage.read(key: 'tokenfcm');
+  }
+
+  destroyTokenFCM() async {
+    await storage.delete(key: 'tokenfcm');
+  }
+
   saveToken({@required String val}) async {
     await storage.write(key: 'token', value: val);
   }
