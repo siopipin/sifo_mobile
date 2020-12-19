@@ -10,7 +10,7 @@ const grey = Color(0xFFF5F5F7);
 const appTitle = TextStyle(
     fontSize: 30, fontWeight: FontWeight.bold, height: 1.5, color: textWhite);
 
-const api = 'http://10.0.2.2:3000/mobile';
+const api = 'http://36.94.36.7:3000';
 final header = {
   'Content-Type': 'application/json',
 };
