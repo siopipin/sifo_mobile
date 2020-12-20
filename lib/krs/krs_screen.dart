@@ -1,11 +1,16 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:sisfo_mobile/krs/krs_model.dart';
+import 'package:sisfo_mobile/krs/krs_pengajuan_screen.dart';
+import 'package:sisfo_mobile/krs/models/krs_model.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
+import 'package:sisfo_mobile/krs/widgets/info_widget.dart';
 import 'package:sisfo_mobile/krs/widgets/krs_terpilih_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
+import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
@@ -28,257 +33,93 @@ class _KrsScreenState extends State<KrsScreen> {
   @override
   Widget build(BuildContext context) {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
-
-    return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: bgColor,
-            title: Text('KRS'),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.list_alt),
-                  text: 'KRS Mahasiswa',
-                ),
-                Tab(icon: Icon(Icons.app_registration), text: 'Pengajuan KRS'),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        title: Text('KRS'),
+      ),
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      colorFilter: new ColorFilter.mode(
+                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                      image: AssetImage('assets/images/bg-stikes.jpg'),
+                      fit: BoxFit.cover)),
+              padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        LineIcons.user,
+                        color: Colors.black.withOpacity(0.4),
+                        size: 40,
+                      ),
+                      cekStatusKRS(),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      cekTahunKRS(),
+                      FutureBuilder(
+                        future: store.nama(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  color: textPrimary),
+                            );
+                          } else {
+                            return loadingH2;
+                          }
+                        },
+                      ),
+                      FutureBuilder(
+                        future: store.npm(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: textPrimary),
+                            );
+                          } else {
+                            return loadingH3;
+                          }
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-          body: TabBarView(
-            children: [
-              SafeArea(
-                  child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              colorFilter: new ColorFilter.mode(
-                                  Colors.black.withOpacity(0.2),
-                                  BlendMode.dstATop),
-                              image: AssetImage('assets/images/bg-stikes.jpg'),
-                              fit: BoxFit.cover)),
-                      padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                LineIcons.user,
-                                color: Colors.black.withOpacity(0.4),
-                                size: 40,
-                              ),
-                              cekStatusKRS(),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              cekTahunKRS(),
-                              FutureBuilder(
-                                future: store.nama(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: textPrimary),
-                                    );
-                                  } else {
-                                    return loadingH2;
-                                  }
-                                },
-                              ),
-                              FutureBuilder(
-                                future: store.npm(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          color: textPrimary),
-                                    );
-                                  } else {
-                                    return loadingH3;
-                                  }
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    cekKRS()
-                  ],
-                ),
-              )),
-
-              //Pengajuan KRS
-              SafeArea(
-                  child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              colorFilter: new ColorFilter.mode(
-                                  Colors.black.withOpacity(0.2),
-                                  BlendMode.dstATop),
-                              image: AssetImage('assets/images/bg-stikes.jpg'),
-                              fit: BoxFit.cover)),
-                      padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                LineIcons.user,
-                                color: Colors.black.withOpacity(0.4),
-                                size: 40,
-                              ),
-                              prov.isStatusKepengurusanKRS
-                                  ? Container()
-                                  : cekStatusKRS(),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              cekTahunKRS(),
-                              FutureBuilder(
-                                future: store.nama(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: textPrimary),
-                                    );
-                                  } else {
-                                    return loadingH2;
-                                  }
-                                },
-                              ),
-                              FutureBuilder(
-                                future: store.npm(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          color: textPrimary),
-                                    );
-                                  } else {
-                                    return loadingH3;
-                                  }
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    checkStatusKepengurusan(),
-                    prov.isStatusKepengurusanKRS
-                        ? Container(
-                            child: Column(
-                            children: [
-                              dropDownBuild(),
-                              prov.isAdaDataKRSPaketTerpilih
-                                  ? Container(
-                                      padding:
-                                          EdgeInsets.only(left: 10, right: 10),
-                                      width: MediaQuery.of(context).size.width,
-                                      child: FlatButton(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          color: bgColor,
-                                          onPressed: () {
-                                            //TODO simpan krs
-                                          },
-                                          child: Text(
-                                            'Ambil Paket KRS',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                    )
-                                  : Container()
-                            ],
-                          ))
-                        : Container(),
-                    cekBodyKRS()
-                  ],
-                ),
-              ))
-            ],
-          ),
-        ));
-  }
-
-  Widget cekBodyKRS() {
-    final KrsProvider prov = Provider.of<KrsProvider>(context);
-    if (prov.isStatusKepengurusanKRS && !prov.isPilihPaket) {
-      return Container(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/info.png',
-                width: MediaQuery.of(context).size.width / 2 + 50,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Masa pengurusan KRS!\nSilahkan pilih paket KRS semeseter ini.',
-                style: TextStyle(
-                    color: textPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12),
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
+            SizedBox(
+              height: 10,
+            ),
+            cekStatusKRSBody()
+          ],
         ),
-      );
-    }
-    if (prov.isStatusKepengurusanKRS && prov.isPilihPaket) {
-      return KRSTerpilihWidget();
-    } else if (!prov.isStatusKepengurusanKRS) {
-      return cekKRS();
-    } else {
-      return Container();
-    }
+      )),
+
+      //Pengajuan KRS
+    );
   }
 
   Widget checkStatusKepengurusan() {
@@ -423,7 +264,7 @@ class _KrsScreenState extends State<KrsScreen> {
       print('Error at CekStatusKRS');
       return Container();
     } else if (!prov.isAdaDataStatusKRS) {
-      return Text('Tidak ditemukan!');
+      return Container();
     } else if (prov.isAdaDataStatusKRS) {
       return Container(
           padding: EdgeInsets.only(left: 5, right: 5),
@@ -442,13 +283,61 @@ class _KrsScreenState extends State<KrsScreen> {
     }
   }
 
+  Widget cekStatusKRSBody() {
+    final KrsProvider prov = Provider.of<KrsProvider>(context);
+    if (prov.isLoadingStatusKRS) {
+      return Container();
+    } else if (prov.isErrorStatusKRS) {
+      print('Error at CekStatusKRS');
+      return Container();
+    } else if (!prov.isAdaDataStatusKRS) {
+      return Container();
+    } else if (prov.isAdaDataStatusKRS) {
+      return (prov.dataStatusKRS.data.statuskrs == 'Aktif' ||
+              prov.dataStatusKRS.data.statuskrs == 'A')
+          ? cekKRS()
+          : Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InfoWidget(
+                    info:
+                        'Belum memenuhi syarat ambil KRS. Silahkan hubungi Administrasi',
+                  ),
+                ],
+              ),
+            );
+    } else {
+      return Container();
+    }
+  }
+
   Widget cekKRS() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
+
     if (prov.isLoadingKRS) {
-      return loadingTable;
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [loadingTable],
+      );
     } else if (prov.isErrorKRS) {
       print('Error at CekKRS');
-      return Container();
+      return Column(
+        children: [
+          SomeError(),
+          RaisedButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            textColor: Colors.blueGrey,
+            onPressed: () async {
+              await prov.doGetKRS(khsid: prov.dataStatusKRS.data.kHSID);
+              Toast.show(prov.isMessage, context,
+                  duration: 3, gravity: Toast.TOP);
+            },
+            child: Text('Reload'),
+          )
+        ],
+      );
     } else if (!prov.isAdaDataKRS) {
       return Center(
         child: Column(
@@ -467,10 +356,14 @@ class _KrsScreenState extends State<KrsScreen> {
       );
     } else if (prov.isAdaDataKRS) {
       return Container(
-        padding: EdgeInsets.only(left: 15, right: 20),
+        padding: EdgeInsets.only(left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            cekKRSData(),
+            SizedBox(
+              height: 10,
+            ),
             prov.isSenin
                 ? Container(
                     decoration: BoxDecoration(
@@ -566,6 +459,73 @@ class _KrsScreenState extends State<KrsScreen> {
     } else {
       return Container();
     }
+  }
+
+  Widget cekKRSData() {
+    final KrsProvider prov = Provider.of<KrsProvider>(context);
+
+    //TODO hapus button theme ini
+    return ButtonTheme(
+      buttonColor: bgColor,
+      minWidth: MediaQuery.of(context).size.width,
+      child: RaisedButton(
+        textColor: Colors.white,
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => KrsPengajuanScreen())),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Ambil KRS'),
+            SizedBox(
+              width: 10,
+            ),
+            Icon(LineIcons.arrow_circle_right),
+          ],
+        ),
+      ),
+    );
+
+    // if (prov.isAdaDataCekKrs) {
+    //   return Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       prov.dataCekKrs.data == true
+    //           ? InfoWidget(
+    //               info:
+    //                   "Batas pengambilan / pengubahan KRS sudah selesai. KRS tidak dapat diubah.")
+    //           : Container(),
+    //       prov.dataCekKrs.data == false
+    //           ? InfoWidget(
+    //               info: "Silahkan klik 'Ambil KRS' untuk memilih paket KRS.")
+    //           : Container(),
+    //       prov.dataCekKrs.data == false
+    //           ? ButtonTheme(
+    //               buttonColor: bgColor,
+    //               minWidth: MediaQuery.of(context).size.width,
+    //               child: RaisedButton(
+    //                 textColor: Colors.white,
+    //                 onPressed: () => Navigator.push(
+    //                     context,
+    //                     MaterialPageRoute(
+    //                         builder: (_) => KrsPengajuanScreen())),
+    //                 child: Row(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   children: [
+    //                     Text('Ambil KRS'),
+    //                     SizedBox(
+    //                       width: 10,
+    //                     ),
+    //                     Icon(LineIcons.arrow_circle_right),
+    //                   ],
+    //                 ),
+    //               ),
+    //             )
+    //           : Container(),
+    //     ],
+    //   );
+    // } else {
+    //   return Container();
+    // }
   }
 
   Widget expandedBuilder(Data e, int i) {

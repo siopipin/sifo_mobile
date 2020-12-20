@@ -35,25 +35,6 @@ class KRSTerpilihWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(5),
-            width: MediaQuery.of(context).size.width,
-            color: Colors.green,
-            child: Row(
-              children: [
-                Icon(LineIcons.info_circle, color: Colors.white),
-                SizedBox(width: 10),
-                Flexible(
-                    child: Text(
-                  'Klik "Ambil" untuk menyimpan Paket KRS.',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500),
-                ))
-              ],
-            ),
-          ),
-          Container(
               child: Scrollbar(
                   child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,

@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client, Response;
-import 'package:sisfo_mobile/krs/krs_model.dart';
-import 'package:sisfo_mobile/krs/krs_paket_mode.dart';
-import 'package:sisfo_mobile/krs/status_krs_model.dart';
-import 'package:sisfo_mobile/krs/status_pengurusan_krs_model.dart';
-import 'package:sisfo_mobile/krs/tahun_ajaran_aktif_model.dart';
-import 'package:sisfo_mobile/krs/krs_paket_terpilih_model.dart';
+import 'package:sisfo_mobile/krs/models/cek_krs_model.dart';
+import 'package:sisfo_mobile/krs/models/krs_model.dart';
+import 'package:sisfo_mobile/krs/models/krs_paket_model.dart';
+import 'package:sisfo_mobile/krs/models/status_krs_model.dart';
+import 'package:sisfo_mobile/krs/models/status_pengurusan_krs_model.dart';
+import 'package:sisfo_mobile/krs/models/tahun_ajaran_aktif_model.dart';
+import 'package:sisfo_mobile/krs/models/krs_paket_terpilih_model.dart';
 
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
@@ -61,13 +62,13 @@ class KrsProvider extends ChangeNotifier {
         var tmp = json.decode(response.body);
         setTahunAjaranAktif = TahunAjaranAktifModel.fromJson(tmp);
         setDataTAaktif = true;
+        //Cek status KRS dulu
+        await doGetStatusKRS(tahunid: dataTahunAktif.data.tahunTA);
 
         //Ambil status pengurusan KRS
         await doGetStatusPengurusanKRS();
 
         await doGetPaketKRS();
-
-        await doGetStatusKRS(tahunid: dataTahunAktif.data.tahunTA);
 
         setMessage = 'Tahun Ajaran Aktif ditemukan';
       } else if (response.statusCode == 400) {
@@ -105,8 +106,6 @@ class KrsProvider extends ChangeNotifier {
   }
 
   ///Kondisi ambil paket KRS
-
-  //TODO ganti status pengurusan KRS ke false
   bool _statusPengurusanKRS = false;
 
   // bool _statusPengurusanKRS = false;
@@ -132,9 +131,7 @@ class KrsProvider extends ChangeNotifier {
     if (now.isBefore(mulai) && now.isBefore(selesai)) {
       setStatusPengurusanKRS = true;
     } else {
-      //TODO ganti status pengurusan KRS ke false
       setStatusPengurusanKRS = false;
-      // setStatusPengurusanKRS = true;
     }
   }
 
@@ -371,7 +368,81 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  //Status KRS
+  //Cek KRS
+  bool _loadingCekKrs = false;
+  bool get isLoadingCekKrs => _loadingCekKrs;
+  set setLoadingCekKrs(val) {
+    _loadingCekKrs = val;
+    notifyListeners();
+  }
+
+  bool _errorCekKrs = false;
+  bool get isErrorCekKrs => _errorCekKrs;
+  set setErrorCekKrs(val) {
+    _errorCekKrs = val;
+    notifyListeners();
+  }
+
+  bool _adaDataCekKrs = false;
+  bool get isAdaDataCekKrs => _adaDataCekKrs;
+  set setAdaDataCekKrs(val) {
+    _adaDataCekKrs = val;
+    notifyListeners();
+  }
+
+  CekKRSModel _cekKrsModel;
+  CekKRSModel get dataCekKrs => _cekKrsModel;
+  set setDataCekKrs(val) {
+    _cekKrsModel = val;
+    notifyListeners();
+  }
+
+  doGetCekKrs({@required String tahunid}) async {
+    setLoadingCekKrs = true;
+    response = await getCekKrs(tahunid: tahunid);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        var tmp = json.decode(response.body);
+        setDataCekKrs = CekKRSModel.fromJson(tmp);
+        setAdaDataCekKrs = true;
+        setMessage = 'Status KRS ditemukan';
+      } else if (response.statusCode == 400) {
+        setAdaDataCekKrs = false;
+        setMessage = 'Data tidak ditemukan';
+      } else if (response.statusCode == 401) {
+        setMessage = 'Otentikasi tidak berhasil!';
+        setErrorCekKrs = true;
+      } else {
+        setMessage = 'Silahkan coba lagi!';
+        setErrorCekKrs = true;
+      }
+    } else {
+      print('Response tidak ditemukan');
+    }
+  }
+
+  getCekKrs({@required String tahunid}) async {
+    var data = json.encode({'tahunid': tahunid});
+    var token = await store.token();
+    final header = {
+      'Content-Type': 'application/json',
+      HttpHeaders.authorizationHeader: 'Barer $token'
+    };
+    try {
+      response = await client.post('$api/mahasiswa/cek-krs',
+          headers: header, body: data);
+      print(response.statusCode);
+      setLoadingCekKrs = false;
+      return response;
+    } catch (e) {
+      print(e.toString());
+      setLoadingCekKrs = false;
+      setErrorCekKrs = true;
+      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+    }
+  }
+
+  //KRS Mahasiswa
   bool _loadingKrs = false;
   bool get isLoadingKRS => _loadingKrs;
   set setLoadingKRS(val) {
@@ -459,7 +530,9 @@ class KrsProvider extends ChangeNotifier {
         setDataKRS = KrsModel.fromJson(tmp);
         setAdaDataKRS = true;
         setMessage = 'KRS ditemukan';
-        print(dataKRS.data[0].nama);
+
+        //cek KRS
+        await doGetCekKrs(tahunid: dataTahunAktif.data.tahunTA);
       } else if (response.statusCode == 400) {
         setAdaDataKRS = false;
         setMessage = 'Data tidak ditemukan';
@@ -601,13 +674,29 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  doGetSimpanKRS({@required String tahunid, @required String paketid}) async {
+  doGetSimpanKRS(
+      {@required String kodeid,
+      @required String khsid,
+      @required String tahunid,
+      @required String jadwalid,
+      @required String mkid,
+      @required String mkkode,
+      @required String namamk,
+      @required String sks}) async {
     setLoadingSimpanKRS = true;
-    response = await getSimpanKRS(tahunid: tahunid, paketid: paketid);
+    response = await getSimpanKRS(
+        jadwalid: jadwalid,
+        kodeid: kodeid,
+        khsid: khsid,
+        tahunid: tahunid,
+        mkid: mkid,
+        mkkode: mkkode,
+        namamk: namamk,
+        sks: sks);
     if (response != null) {
       if (response.statusCode == 200) {
         setAdaDataSimpanKRS = true;
-        setMessage = 'Data ditemukan';
+        setMessage = 'Berhasil disimpan';
       } else if (response.statusCode == 400) {
         setAdaDataSimpanKRS = false;
         setMessage = 'Data tidak ditemukan';
@@ -623,8 +712,25 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  getSimpanKRS({@required String tahunid, @required String paketid}) async {
-    var data = json.encode({'tahunid': tahunid, 'paketid': paketid});
+  getSimpanKRS(
+      {@required String kodeid,
+      @required String khsid,
+      @required String tahunid,
+      @required String jadwalid,
+      @required String mkid,
+      @required String mkkode,
+      @required String namamk,
+      @required String sks}) async {
+    var data = json.encode({
+      'kodeid': kodeid,
+      'khsid': khsid,
+      'tahunid': tahunid,
+      'jadwalid': jadwalid,
+      'mkid': mkid,
+      'mkkode': mkkode,
+      'namamk': namamk,
+      'sks': sks
+    });
     var token = await store.token();
     final header = {
       'Content-Type': 'application/json',
