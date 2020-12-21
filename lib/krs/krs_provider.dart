@@ -273,13 +273,15 @@ class KrsProvider extends ChangeNotifier {
   }
 
   getPaketKRS() async {
+    var data = json.encode({'tahunid': dataTahunAktif.data.tahunTA});
     var token = await store.token();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get('$api/mahasiswa/krs-paket', headers: header);
+      response = await client.post('$api/mahasiswa/krs-paket',
+          headers: header, body: data);
       setLoadingPaketKRS = false;
       return response;
     } catch (e) {

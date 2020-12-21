@@ -63,11 +63,11 @@ class KRSTerpilihWidget extends StatelessWidget {
                         Text(e.dSN ?? '-', style: TextStyle(fontSize: 10))
                       ],
                     )),
-                    DataCell(
-                        Text(e.jadwalID ?? '-', style: TextStyle(fontSize: 9))),
-                    DataCell(Text(e.hR ?? '-', style: TextStyle(fontSize: 9))),
+                    DataCell(Text(e.jadwalID.toString() ?? '-',
+                        style: TextStyle(fontSize: 10))),
+                    DataCell(Text(e.hR ?? '-', style: TextStyle(fontSize: 10))),
                     DataCell(Text('${e.jM ?? '-'} - ${e.jS ?? '-'}',
-                        style: TextStyle(fontSize: 9))),
+                        style: TextStyle(fontSize: 10))),
                   ],
                 );
               }).toList(),

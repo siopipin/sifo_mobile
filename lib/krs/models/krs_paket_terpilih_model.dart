@@ -27,16 +27,16 @@ class Data {
   String mKKode;
   String namaMK;
   int sKS;
-  Null jadwalID;
-  Null jM;
-  Null jS;
-  Null namaKelas;
-  Null hR;
-  Null adaResponsi;
-  Null dSN;
-  Null gelar;
-  Null nNamaJenisJadwal;
-  Null tambahan;
+  var jadwalID;
+  var jM;
+  var jS;
+  var namaKelas;
+  var hR;
+  var adaResponsi;
+  var dSN;
+  var gelar;
+  var nNamaJenisJadwal;
+  var tambahan;
 
   Data(
       {this.mKPaketIsiID,
