@@ -13,8 +13,8 @@ const appTitle = TextStyle(
 //TODO Ganti API
 // const apilocal = 'http://10.0.2.2:3000/mobile';
 
-// const api = 'http://36.94.36.7:3000/mobile';
-const api = 'http://10.0.2.2:3000/mobile';
+const api = 'http://36.94.36.7:3000/mobile';
+// const api = 'http://10.0.2.2:3000/mobile';
 final header = {
   'Content-Type': 'application/json',
 };
