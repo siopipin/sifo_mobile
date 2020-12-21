@@ -357,9 +357,15 @@ class _MenuHomeState extends State<MenuHome> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CardMenu(
-                      icon: LineIcons.newspaper_o,
-                      label: "Berita",
+                    GestureDetector(
+                      child: CardMenu(
+                        icon: LineIcons.newspaper_o,
+                        label: "Inbox",
+                      ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => NotificationScreen())),
                     ),
                     SizedBox(
                       width: 10,

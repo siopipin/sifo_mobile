@@ -674,32 +674,16 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  doGetSimpanKRS(
-      {@required String kodeid,
-      @required String khsid,
-      @required String tahunid,
-      @required String jadwalid,
-      @required String mkid,
-      @required String mkkode,
-      @required String namamk,
-      @required String sks}) async {
+  doGetSimpanKRS() async {
     setLoadingSimpanKRS = true;
-    response = await getSimpanKRS(
-        jadwalid: jadwalid,
-        kodeid: kodeid,
-        khsid: khsid,
-        tahunid: tahunid,
-        mkid: mkid,
-        mkkode: mkkode,
-        namamk: namamk,
-        sks: sks);
+    response = await getSimpanKRS();
     if (response != null) {
       if (response.statusCode == 200) {
         setAdaDataSimpanKRS = true;
         setMessage = 'Berhasil disimpan';
       } else if (response.statusCode == 400) {
         setAdaDataSimpanKRS = false;
-        setMessage = 'Data tidak ditemukan';
+        setMessage = 'Tidak berhasil disimpan, coba lagi.';
       } else if (response.statusCode == 401) {
         setMessage = 'Otentikasi tidak berhasil!';
         setErrorSimpanKRS = true;
@@ -712,25 +696,14 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  getSimpanKRS(
-      {@required String kodeid,
-      @required String khsid,
-      @required String tahunid,
-      @required String jadwalid,
-      @required String mkid,
-      @required String mkkode,
-      @required String namamk,
-      @required String sks}) async {
+  getSimpanKRS() async {
     var data = json.encode({
-      'kodeid': kodeid,
-      'khsid': khsid,
-      'tahunid': tahunid,
-      'jadwalid': jadwalid,
-      'mkid': mkid,
-      'mkkode': mkkode,
-      'namamk': namamk,
-      'sks': sks
+      'kodeid': dataTahunAktif.data.kodeID,
+      'khsid': dataStatusKRS.data.kHSID,
+      'tahunid': dataTahunAktif.data.tahunTA,
+      'data': dataKRSPaketTerpilih.data
     });
+    print(data);
     var token = await store.token();
     final header = {
       'Content-Type': 'application/json',

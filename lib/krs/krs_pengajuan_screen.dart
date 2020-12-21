@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/home/home_screen.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/krs/widgets/info_widget.dart';
 import 'package:sisfo_mobile/krs/widgets/krs_terpilih_widget.dart';
@@ -133,27 +134,45 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             color: bgColor,
-                            onPressed: () {
-                              //TODO simpan krs
+                            onPressed: () async {
+                              await prov.doGetSimpanKRS();
+                              if (prov.isAdaDataSimpanKRS) {
+                                Toast.show(prov.isMessage, context,
+                                    duration: 3, gravity: Toast.TOP);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => HomeScreen()));
+                              } else {
+                                Toast.show(prov.isMessage, context,
+                                    duration: 3, gravity: Toast.TOP);
+                              }
                             },
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Ambil Paket KRS',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(
-                                  LineIcons.save,
-                                  color: Colors.white,
-                                )
-                              ],
-                              mainAxisAlignment: MainAxisAlignment.center,
-                            )),
+                            child: !prov.isLoadingSimpanKRS
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        'Ambil Paket KRS',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        LineIcons.save,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  )
+                                : Text(
+                                    'Sedang menyimpan',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                       )
                     : Container()
               ],

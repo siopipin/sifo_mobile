@@ -464,68 +464,47 @@ class _KrsScreenState extends State<KrsScreen> {
   Widget cekKRSData() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
 
-    //TODO hapus button theme ini
-    return ButtonTheme(
-      buttonColor: bgColor,
-      minWidth: MediaQuery.of(context).size.width,
-      child: RaisedButton(
-        textColor: Colors.white,
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => KrsPengajuanScreen())),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Ambil KRS'),
-            SizedBox(
-              width: 10,
-            ),
-            Icon(LineIcons.arrow_circle_right),
-          ],
-        ),
-      ),
-    );
-
-    // if (prov.isAdaDataCekKrs) {
-    //   return Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       prov.dataCekKrs.data == true
-    //           ? InfoWidget(
-    //               info:
-    //                   "Batas pengambilan / pengubahan KRS sudah selesai. KRS tidak dapat diubah.")
-    //           : Container(),
-    //       prov.dataCekKrs.data == false
-    //           ? InfoWidget(
-    //               info: "Silahkan klik 'Ambil KRS' untuk memilih paket KRS.")
-    //           : Container(),
-    //       prov.dataCekKrs.data == false
-    //           ? ButtonTheme(
-    //               buttonColor: bgColor,
-    //               minWidth: MediaQuery.of(context).size.width,
-    //               child: RaisedButton(
-    //                 textColor: Colors.white,
-    //                 onPressed: () => Navigator.push(
-    //                     context,
-    //                     MaterialPageRoute(
-    //                         builder: (_) => KrsPengajuanScreen())),
-    //                 child: Row(
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     Text('Ambil KRS'),
-    //                     SizedBox(
-    //                       width: 10,
-    //                     ),
-    //                     Icon(LineIcons.arrow_circle_right),
-    //                   ],
-    //                 ),
-    //               ),
-    //             )
-    //           : Container(),
-    //     ],
-    //   );
-    // } else {
-    //   return Container();
-    // }
+    if (prov.isAdaDataCekKrs) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          prov.dataCekKrs.data == true
+              ? InfoWidget(
+                  info:
+                      "Batas pengambilan / pengubahan KRS sudah selesai. KRS tidak dapat diubah.")
+              : Container(),
+          prov.dataCekKrs.data == false
+              ? InfoWidget(
+                  info: "Silahkan klik 'Ambil KRS' untuk memilih paket KRS.")
+              : Container(),
+          prov.dataCekKrs.data == false
+              ? ButtonTheme(
+                  buttonColor: bgColor,
+                  minWidth: MediaQuery.of(context).size.width,
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => KrsPengajuanScreen())),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Ambil KRS'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(LineIcons.arrow_circle_right),
+                      ],
+                    ),
+                  ),
+                )
+              : Container(),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget expandedBuilder(Data e, int i) {

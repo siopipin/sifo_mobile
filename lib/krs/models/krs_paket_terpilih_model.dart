@@ -23,6 +23,7 @@ class KRSPaketTerpilihModel {
 
 class Data {
   int mKPaketIsiID;
+  int mKID;
   String mKKode;
   String namaMK;
   int sKS;
@@ -39,6 +40,7 @@ class Data {
 
   Data(
       {this.mKPaketIsiID,
+      this.mKID,
       this.mKKode,
       this.namaMK,
       this.sKS,
@@ -55,6 +57,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     mKPaketIsiID = json['MKPaketIsiID'];
+    mKID = json['MKID'];
     mKKode = json['MKKode'];
     namaMK = json['NamaMK'];
     sKS = json['SKS'];
@@ -73,6 +76,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['MKPaketIsiID'] = this.mKPaketIsiID;
+    data['MKID'] = this.mKID;
     data['MKKode'] = this.mKKode;
     data['NamaMK'] = this.namaMK;
     data['SKS'] = this.sKS;
