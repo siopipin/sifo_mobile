@@ -31,7 +31,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
     return Scaffold(
       bottomNavigationBar: bottomTahun(),
       appBar: AppBar(
-        backgroundColor: bgColor,
+        backgroundColor: appbarColor,
         title: Text('Nilai'),
       ),
       body: SafeArea(
@@ -57,7 +57,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Nilai Tahun KHS : ${prov.isTahun}'),
+                      Text('Tahun Ajaran : ${prov.isTahun}'),
                       FutureBuilder(
                         future: store.nama(),
                         builder:
@@ -177,7 +177,15 @@ class _NilaiScreenState extends State<NilaiScreen> {
                     Text(item.mKKode,
                         style: TextStyle(
                           fontSize: 12,
-                        ))
+                        )),
+                    Text('   -    ${item.sKS.toString() ?? '-'}',
+                        style: TextStyle(
+                          fontSize: 12,
+                        )),
+                    Text(' SKS',
+                        style: TextStyle(
+                          fontSize: 12,
+                        )),
                   ],
                 ),
               );
@@ -192,62 +200,55 @@ class _NilaiScreenState extends State<NilaiScreen> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("1")),
-                    DataCell(Text("SKS")),
-                    DataCell(Text(item.sKS.toString() ?? '-')),
-                  ],
-                ),
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text("2")),
                     DataCell(Text("Tugas 1")),
                     DataCell(Text(item.tugas1.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("3")),
+                    DataCell(Text("2")),
                     DataCell(Text("Tugas 2")),
                     DataCell(Text(item.tugas2.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("4")),
+                    DataCell(Text("3")),
                     DataCell(Text("Tugas 3")),
                     DataCell(Text(item.tugas3.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("5")),
-                    DataCell(Text("Value Presensi")),
+                    DataCell(Text("4")),
+                    DataCell(Text("Jumlah Absensi")),
                     DataCell(Text(item.vPresensi.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("6")),
-                    DataCell(Text("Presensi Kelas")),
+                    DataCell(Text("5")),
+                    DataCell(Text("Nilai Absensi")),
                     DataCell(Text(item.nPresensi.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("7")),
+                    DataCell(Text("6")),
                     DataCell(Text("UTS")),
                     DataCell(Text(item.uTS.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("8")),
+                    DataCell(Text("7")),
                     DataCell(Text("UAS")),
                     DataCell(Text(item.uAS.toString() ?? '-')),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text("9")),
+                    DataCell(Text("8")),
                     DataCell(Text("Nilai Akhi")),
                     DataCell(Text(item.nilaiAkhir.toString() ?? '-')),
                   ],
@@ -267,7 +268,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: bgColor),
+            color: navigationColor),
         child: dropDownBuild());
   }
 
@@ -289,7 +290,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Icon(LineIcons.calendar),
-                    Text('Tahun KHS'),
+                    Text('Tahun Ajaran'),
                     SizedBox(
                       width: 100,
                     ),

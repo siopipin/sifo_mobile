@@ -30,7 +30,7 @@ class BottomBar extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
         child: Container(
           decoration: BoxDecoration(
-            color: bgColor,
+            color: navigationColor,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Padding(

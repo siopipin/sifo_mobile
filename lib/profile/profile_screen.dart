@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           label: 'Profile',
         ),
         appBar: AppBar(
-          backgroundColor: bgColor,
+          backgroundColor: appbarColor,
           leading: Container(
             margin: EdgeInsets.all(6),
             width: 50,

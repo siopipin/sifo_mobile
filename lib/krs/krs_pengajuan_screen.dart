@@ -21,11 +21,9 @@ class KrsPengajuanScreen extends StatefulWidget {
 class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
   @override
   Widget build(BuildContext context) {
-    final KrsProvider prov = Provider.of<KrsProvider>(context);
-
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: bgColor,
+          backgroundColor: appbarColor,
           title: Text('Pengajuan KRS'),
         ),
         body: SafeArea(

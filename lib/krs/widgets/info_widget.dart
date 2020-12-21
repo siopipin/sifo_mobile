@@ -8,9 +8,12 @@ class InfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        color: Colors.green,
+      ),
       padding: EdgeInsets.all(5),
       width: MediaQuery.of(context).size.width,
-      color: Colors.green,
       child: Row(
         children: [
           Icon(LineIcons.info_circle, color: Colors.white),

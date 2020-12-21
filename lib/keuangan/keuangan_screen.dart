@@ -33,7 +33,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
         child: Scaffold(
           bottomNavigationBar: bottomTahun(),
           appBar: AppBar(
-            backgroundColor: bgColor,
+            backgroundColor: appbarColor,
             title: Text('Keuangan'),
             bottom: TabBar(
               tabs: [
@@ -64,7 +64,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Keuangan Tahun KHS : ${prov.isTahun}'),
+                              Text('Keuangan Tahun Ajaran : ${prov.isTahun}'),
                               FutureBuilder(
                                 future: store.nama(),
                                 builder: (BuildContext context,
@@ -82,6 +82,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                                   }
                                 },
                               ),
+                              detailBuild()
                             ],
                           )
                         ],
@@ -109,7 +110,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  'Keuangan Detail Tahun KHS : ${prov.isTahun}'),
+                                  'Keuangan Detail Tahun Ajaran : ${prov.isTahun}'),
                               FutureBuilder(
                                 future: store.nama(),
                                 builder: (BuildContext context,
@@ -139,6 +140,60 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
             ],
           ),
         ));
+  }
+
+  Widget detailBuild() {
+    final KeuanganProvider prov = Provider.of<KeuanganProvider>(context);
+    if (prov.isDataKeuangan) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.check_box,
+            color: Colors.green,
+            size: 13,
+          ),
+          Text(
+            'Sesi : ',
+            style: TextStyle(color: Colors.black54, fontSize: 12),
+          ),
+          Text(prov.dataKeuanganKHSModel.data?.sesi.toString() ?? '-',
+              style: TextStyle(color: Colors.black54, fontSize: 12)),
+          SizedBox(
+            width: 15,
+          ),
+          Icon(
+            Icons.check_box,
+            color: Colors.green,
+            size: 13,
+          ),
+          Text(
+            'SKS : ',
+            style: TextStyle(color: Colors.black54, fontSize: 12),
+          ),
+          Text(prov.dataKeuanganKHSModel.data?.sks.toString() ?? '-',
+              style: TextStyle(color: Colors.black54, fontSize: 12)),
+          SizedBox(
+            width: 15,
+          ),
+          Icon(
+            Icons.check_box,
+            color: Colors.green,
+            size: 13,
+          ),
+          Text(
+            'IPS : ',
+            style: TextStyle(color: Colors.black54, fontSize: 12),
+          ),
+          Text(prov.dataKeuanganKHSModel.data?.ips.toString() ?? '-',
+              style: TextStyle(color: Colors.black54, fontSize: 12)),
+        ],
+      );
+    } else if (!prov.isDataKeuangan) {
+      return Container();
+    } else {
+      return Container();
+    }
   }
 
   Widget checkKeuanganKHS() {
@@ -194,69 +249,50 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
     final KeuanganProvider prov = Provider.of<KeuanganProvider>(context);
 
     return Container(
-      child: DataTable(
-        columns: <DataColumn>[
-          DataColumn(label: Text("No.")),
-          DataColumn(label: Text("Nama")),
-          DataColumn(label: Text("Keterangan")),
-        ],
-        rows: <DataRow>[
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("1")),
-              DataCell(Text("Sesi")),
-              DataCell(
-                  Text(prov.dataKeuanganKHSModel.data?.sesi.toString() ?? '-')),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          DataTable(
+            columns: <DataColumn>[
+              DataColumn(label: Text("No.")),
+              DataColumn(label: Text("Nama")),
+              DataColumn(label: Text("Keterangan")),
             ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("2")),
-              DataCell(Text("SKS")),
-              DataCell(
-                  Text(prov.dataKeuanganKHSModel.data?.sks.toString() ?? '-')),
+            rows: <DataRow>[
+              DataRow(
+                cells: <DataCell>[
+                  DataCell(Text("1")),
+                  DataCell(Text("Biaya")),
+                  DataCell(Text(rpFormat
+                      .format(prov.dataKeuanganKHSModel.data?.biaya ?? 0))),
+                ],
+              ),
+              DataRow(
+                cells: <DataCell>[
+                  DataCell(Text("2")),
+                  DataCell(Text("Potongan")),
+                  DataCell(Text(rpFormat
+                      .format(prov.dataKeuanganKHSModel.data?.potongan ?? 0))),
+                ],
+              ),
+              DataRow(
+                cells: <DataCell>[
+                  DataCell(Text("3")),
+                  DataCell(Text("Bayar")),
+                  DataCell(Text(rpFormat
+                      .format(prov.dataKeuanganKHSModel.data?.bayar ?? 0))),
+                ],
+              ),
+              DataRow(
+                cells: <DataCell>[
+                  DataCell(Text("4")),
+                  DataCell(Text("Tarik")),
+                  DataCell(Text(rpFormat
+                      .format(prov.dataKeuanganKHSModel.data?.tarik ?? 0))),
+                ],
+              ),
             ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("3")),
-              DataCell(Text("IPS")),
-              DataCell(
-                  Text(prov.dataKeuanganKHSModel.data?.ips.toString() ?? '-')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("4")),
-              DataCell(Text("Biaya")),
-              DataCell(Text(
-                  'Rp. ${prov.dataKeuanganKHSModel.data?.biaya.toString() ?? '-'}')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("5")),
-              DataCell(Text("Potongan")),
-              DataCell(Text(
-                  'Rp. ${prov.dataKeuanganKHSModel.data?.potongan.toString() ?? '-'}')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("6")),
-              DataCell(Text("Bayar")),
-              DataCell(Text(
-                  'Rp. ${prov.dataKeuanganKHSModel.data?.bayar.toString() ?? '-'}')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text("7")),
-              DataCell(Text("Tarik")),
-              DataCell(Text(
-                  'Rp. ${prov.dataKeuanganKHSModel.data?.tarik.toString() ?? '-'}')),
-            ],
-          ),
+          )
         ],
       ),
     );
@@ -334,6 +370,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
               ],
             ),
             subtitle: DataTable(
+              columnSpacing: 20,
               columns: <DataColumn>[
                 DataColumn(label: Text("Jumlah")),
                 DataColumn(label: Text("Besar")),
@@ -344,12 +381,12 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                   cells: <DataCell>[
                     DataCell(Text(
                       e.jumlah.toString(),
-                      style: TextStyle(fontSize: 11),
+                      style: TextStyle(fontSize: 12),
                     )),
-                    DataCell(Text("Rp.${e.besar.toString()}",
-                        style: TextStyle(fontSize: 11))),
-                    DataCell(Text("Rp.${e.dibayar.toString()}",
-                        style: TextStyle(fontSize: 11))),
+                    DataCell(Text("${rpFormat.format(e.besar ?? 0)}",
+                        style: TextStyle(fontSize: 12))),
+                    DataCell(Text("${rpFormat.format(e.dibayar ?? 0)}",
+                        style: TextStyle(fontSize: 12))),
                   ],
                 ),
               ],
@@ -366,7 +403,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: bgColor),
+            color: navigationColor),
         child: dropDownBuild());
   }
 
@@ -388,7 +425,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Icon(LineIcons.calendar),
-                    Text('Tahun KHS'),
+                    Text('Tahun Ajaran'),
                     SizedBox(
                       width: 100,
                     ),

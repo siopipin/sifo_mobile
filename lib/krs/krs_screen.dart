@@ -32,10 +32,9 @@ class _KrsScreenState extends State<KrsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final KrsProvider prov = Provider.of<KrsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: bgColor,
+        backgroundColor: appbarColor,
         title: Text('KRS'),
       ),
       body: SafeArea(

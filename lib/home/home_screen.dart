@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
       appBar: AppBar(
-        backgroundColor: bgColor,
+        backgroundColor: appbarColor,
         leading: Container(
           margin: EdgeInsets.all(6),
           width: 50,
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: 15,
                 right: 5,
                 child: new Icon(Icons.brightness_1,
-                    size: 8.0, color: Colors.redAccent),
+                    size: 8.0, color: primaryYellow),
               )
             ]),
           )
@@ -176,7 +176,7 @@ class InfoBanner extends StatelessWidget {
       width: double.infinity,
       height: 130,
       decoration: BoxDecoration(
-        color: bgColor,
+        color: primaryYellow,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
@@ -213,7 +213,7 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Program Studi',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: textBlack,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 12),
                                 ),
@@ -222,7 +222,7 @@ class InfoBanner extends StatelessWidget {
                                   child: Text(
                                     prov.isProdi,
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: textBlack,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
                                     overflow: TextOverflow.ellipsis,
@@ -243,14 +243,14 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Program',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: textBlack,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
                                 ),
                                 Text(
                                   prov.isProgram,
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 16),
                                 ),
@@ -262,14 +262,14 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Status',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: textBlack,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
                                 ),
                                 Text(
                                   prov.isStatus,
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: textBlack,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 16),
                                 ),

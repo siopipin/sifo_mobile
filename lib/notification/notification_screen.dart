@@ -30,7 +30,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: bgColor,
+            backgroundColor: appbarColor,
             title: Text('Keuangan'),
             bottom: TabBar(
               tabs: [
