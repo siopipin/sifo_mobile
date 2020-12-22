@@ -26,6 +26,7 @@ dependencies:
   # Handle File
   flutter_pdfview: ^1.0.4
   path_provider: ^1.6.24
+  android_path_provider: ^0.1.1
   permissions_plugin: ^1.1.4
 
   # firebase

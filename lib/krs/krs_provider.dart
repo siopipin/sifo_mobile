@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:android_path_provider/android_path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
@@ -781,33 +782,36 @@ class KrsProvider extends ChangeNotifier {
   }
 
   createFileKRSPdf() async {
-    print("Start download file from internet!");
+    try {
+      print("Start download file from internet!");
 
-    final url = "$apiPdf${dataStatusKRS.data.kHSID}";
-    print(url);
-    final filename = url.substring(url.lastIndexOf("=") + 1);
-    // var request = await HttpClient().getUrl(Uri.parse(url));
-    // var response = await request.close();
-    // var bytes = await consolidateHttpClientResponseBytes(response);
-    var dir =
-        await getExternalStorageDirectories(type: StorageDirectory.documents);
-    print("Download files");
-    print("${dir[0].path}/$filename.pdf");
+      final url = "$apiPdf${dataStatusKRS.data.kHSID}";
+      print(url);
+      final filename = url.substring(url.lastIndexOf("=") + 1);
+      // var request = await HttpClient().getUrl(Uri.parse(url));
+      // var response = await request.close();
+      // var bytes = await consolidateHttpClientResponseBytes(response);
+      var dir =
+          await getExternalStorageDirectories(type: StorageDirectory.documents);
+      print("Download files");
 
-    // var knockDir =
-    //     await new Directory('${dir.path}/KRS').create(recursive: true);
-    await dio.Dio().download(url, '${dir[0].path}/$filename.pdf');
+      // var knockDir =
+      //     await new Directory('${dir.path}/KRS').create(recursive: true);
+      await dio.Dio().download(url, '${dir[0].path}/$filename.pdf');
 
-    var newdir = "${dir[0].path}/$filename.pdf";
-    // File file =
-    //     await File("${dir[0].path}/$filename.pdf").create(recursive: true);
-    // await file.writeAsBytes(bytes, flush: true);
-    // completer.complete(file);
+      var newdir = "${dir[0].path}/$filename.pdf";
+      // File file =
+      //     await File("${dir[0].path}/$filename.pdf").create(recursive: true);
+      // await file.writeAsBytes(bytes, flush: true);
+      // completer.complete(file);
 
-    print('Berhasil Simpan');
-    //Jika telah selesai download, maka loading false
-    setLoadingPdfKRS = false;
-    setMessage = "KRS berhasil di download!";
-    return newdir;
+      print('Berhasil Simpan');
+      //Jika telah selesai download, maka loading false
+      setLoadingPdfKRS = false;
+      setMessage = "KRS berhasil di download!";
+      return newdir;
+    } catch (e) {
+      setLoadingPdfKRS = false;
+    }
   }
 }
