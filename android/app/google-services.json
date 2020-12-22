@@ -9,7 +9,36 @@
       "client_info": {
         "mobilesdk_app_id": "1:1056332050992:android:d94c5762a346e281e333f5",
         "android_client_info": {
-          "package_name": "com.example.sisfo_mobile"
+          "package_name": "com.stikesgunungsari.sisfo_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1056332050992-basvgl1vlrdbd3122bt48lkkga0602t9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFDlSKFxnIjWYfEfUPtYzlJs6o28N2gsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1056332050992-basvgl1vlrdbd3122bt48lkkga0602t9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056332050992:android:1abaac63021f0158e333f5",
+        "android_client_info": {
+          "package_name": "com.stikesgunungsari.sisfo_mobile"
         }
       },
       "oauth_client": [

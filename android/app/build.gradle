@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.sisfo_mobile"
+        applicationId "com.stikesgunungsari.sisfo_mobile"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
