@@ -170,15 +170,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               }
             },
-            color: bgColor,
+            color: navigationColor,
             child: prov.isLoading
                 ? Text(
                     'Memuat ...',
-                    style: TextStyle(color: textWhite),
+                    style: TextStyle(color: textPrimary),
                   )
                 : Text(
                     'Login',
-                    style: TextStyle(color: textWhite),
+                    style: TextStyle(
+                        color: textWhite,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
                   )),
       ),
     );

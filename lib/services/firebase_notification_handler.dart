@@ -39,14 +39,12 @@ class FirebaseNotifications {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('onMessage');
-        _floatingNotification(message, context);
       },
       onResume: (Map<String, dynamic> message) async {
-        _navigateToItemDetail(message, context, 'onResume');
+        print('onResume');
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('onLaunch');
-        _navigateToItemDetail(message, context, 'onLaunch');
       },
     );
   }

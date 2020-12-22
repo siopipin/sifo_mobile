@@ -28,3 +28,31 @@ class SomeError extends StatelessWidget {
     );
   }
 }
+
+class NotFound extends StatelessWidget {
+  const NotFound({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 30),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              LineIcons.hand_stop_o,
+              size: 30,
+            ),
+            Text(
+              'Data not found\nPlease reload!',
+              style: TextStyle(color: Colors.grey, fontSize: 10),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

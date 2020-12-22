@@ -213,7 +213,7 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Program Studi',
                                   style: TextStyle(
-                                      color: textBlack,
+                                      color: textPrimary,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 12),
                                 ),
@@ -222,7 +222,7 @@ class InfoBanner extends StatelessWidget {
                                   child: Text(
                                     prov.isProdi,
                                     style: TextStyle(
-                                        color: textBlack,
+                                        color: textPrimary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
                                     overflow: TextOverflow.ellipsis,
@@ -243,14 +243,14 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Program',
                                   style: TextStyle(
-                                      color: textBlack,
+                                      color: textPrimary,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
                                 ),
                                 Text(
                                   prov.isProgram,
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: textPrimary,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 16),
                                 ),
@@ -262,14 +262,14 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Status',
                                   style: TextStyle(
-                                      color: textBlack,
+                                      color: textPrimary,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
                                 ),
                                 Text(
                                   prov.isStatus,
                                   style: TextStyle(
-                                      color: textBlack,
+                                      color: textPrimary,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 16),
                                 ),

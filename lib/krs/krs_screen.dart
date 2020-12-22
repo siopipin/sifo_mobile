@@ -1,13 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:permissions_plugin/permissions_plugin.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/krs/krs_pdf_viewer.dart';
 import 'package:sisfo_mobile/krs/krs_pengajuan_screen.dart';
 import 'package:sisfo_mobile/krs/models/krs_model.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/krs/widgets/info_widget.dart';
-import 'package:sisfo_mobile/krs/widgets/krs_terpilih_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/error_widget.dart';
@@ -32,10 +31,13 @@ class _KrsScreenState extends State<KrsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final KrsProvider prov = Provider.of<KrsProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appbarColor,
         title: Text('KRS'),
+        actions: [cekToShowDownloadKRS()],
       ),
       body: SafeArea(
           child: SingleChildScrollView(
@@ -121,119 +123,61 @@ class _KrsScreenState extends State<KrsScreen> {
     );
   }
 
-  Widget checkStatusKepengurusan() {
+  Widget cekToShowDownloadKRS() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
-    if (prov.isStatusKepengurusanKRS && !prov.isPilihPaket) {
-      return Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.all(5),
-              width: MediaQuery.of(context).size.width,
-              color: Colors.green,
-              child: Row(
-                children: [
-                  Icon(LineIcons.info_circle, color: Colors.white),
-                  SizedBox(width: 10),
-                  Flexible(
-                      child: Text(
-                    'Tidak ada paket mata kuliah yang dipilih. Pilihlah paket mata kuliah untuk di bawah terlebih dahulu',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500),
-                  ))
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    } else if (prov.isStatusKepengurusanKRS && prov.isPilihPaket) {
-      return Container();
-    } else if (prov.isStatusKepengurusanKRS) {
-      return Container(
-        padding: EdgeInsets.all(5),
-        width: MediaQuery.of(context).size.width,
-        color: Colors.green,
-        child: Row(
-          children: [
-            Icon(LineIcons.info_circle, color: Colors.white),
-            SizedBox(width: 10),
-            Flexible(
-                child: Text(
-              'Batas pengambilan / pengubahan KRS sudah selesai. KRS tidak dapat diubah',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500),
-            ))
-          ],
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
-
-  dropDownBuild() {
-    final KrsProvider prov = Provider.of<KrsProvider>(context);
-    if (prov.isLoadingPaketKRS) {
-      return Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 25),
-          child: loadingDropDown);
-    } else if (prov.isAdaDataPaketKRS) {
-      return Container(
-        child: DropdownButtonFormField(
-          items: prov.dataPaketKRS.data.map((e) {
-            return new DropdownMenuItem(
-                value: e.mkpaketid,
+    if (prov.isAdaDataStatusKRS) {
+      return (prov.dataStatusKRS.data.statuskrs == 'Aktif' ||
+              prov.dataStatusKRS.data.statuskrs == 'A')
+          ? GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.only(right: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(LineIcons.dot_circle_o),
-                    SizedBox(
-                      width: 3,
+                    Icon(
+                      LineIcons.cloud_download,
+                      color: textWhite,
+                      size: 20,
                     ),
-                    Container(
-                      child: Text(
-                        e.namapaket,
-                      ),
-                    )
+                    SizedBox(
+                      width: 5,
+                    ),
+                    !prov.isLoadingPdfKRS
+                        ? Text(
+                            'Download KRS',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: textWhite),
+                          )
+                        : Text(
+                            'Downloading ...',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                          ),
                   ],
-                ));
-          }).toList(),
-          onChanged: (val) async {
-            prov.setPilihPaket = true;
-            await prov.doGetKRSPaketTerpilih(
-                tahunid: prov.dataTahunAktif.data.tahunTA,
-                paketid: val.toString());
-            Toast.show(prov.isMessage, context,
-                gravity: Toast.TOP, duration: 3);
-          },
-          // value: 'Pilih Paket',
-          hint: Row(
-            children: [
-              Icon(LineIcons.check_circle_o),
-              SizedBox(
-                width: 10,
+                ),
               ),
-              Text("Pilih Paket")
-            ],
-          ),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-            filled: true,
-            fillColor: Colors.grey[200],
-          ),
-        ),
-      );
-    } else if (prov.isErrorPaketKRS) {
-      return Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 25),
-        child: loadingH1,
-      );
+              onTap: () async {
+                await PermissionsPlugin.requestPermissions([
+                  Permission.READ_EXTERNAL_STORAGE,
+                  Permission.WRITE_EXTERNAL_STORAGE,
+                ]);
+                await prov.downloadPDFKRS();
+                if (prov.isDataPDF) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => KRSPdfViewer(
+                                path: prov.pDFpath,
+                              )));
+                  Toast.show(prov.isMessage, context,
+                      gravity: Toast.TOP, duration: 3);
+                } else {
+                  Toast.show(prov.isMessage, context,
+                      gravity: Toast.TOP, duration: 3);
+                }
+              },
+            )
+          : Container();
     } else {
       return Container();
     }
@@ -284,13 +228,30 @@ class _KrsScreenState extends State<KrsScreen> {
 
   Widget cekStatusKRSBody() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
+
     if (prov.isLoadingStatusKRS) {
-      return Container();
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [loadingTable],
+      );
     } else if (prov.isErrorStatusKRS) {
-      print('Error at CekStatusKRS');
-      return Container();
-    } else if (!prov.isAdaDataStatusKRS) {
-      return Container();
+      print('Error at CekKRS');
+      return Column(
+        children: [
+          SomeError(),
+          RaisedButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            textColor: Colors.blueGrey,
+            onPressed: () async {
+              await prov.doGetTahunAjaranAktif();
+              Toast.show(prov.isMessage, context,
+                  duration: 3, gravity: Toast.TOP);
+            },
+            child: Text('Reload'),
+          )
+        ],
+      );
     } else if (prov.isAdaDataStatusKRS) {
       return (prov.dataStatusKRS.data.statuskrs == 'Aktif' ||
               prov.dataStatusKRS.data.statuskrs == 'A')
@@ -306,6 +267,23 @@ class _KrsScreenState extends State<KrsScreen> {
                 ],
               ),
             );
+    } else if (prov.isAdaDataStatusKRS == false) {
+      return Column(
+        children: [
+          loadingTable,
+          RaisedButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            textColor: Colors.blueGrey,
+            onPressed: () async {
+              await prov.doGetTahunAjaranAktif();
+              Toast.show(prov.isMessage, context,
+                  duration: 3, gravity: Toast.TOP);
+            },
+            child: Text('Reload'),
+          )
+        ],
+      );
     } else {
       return Container();
     }

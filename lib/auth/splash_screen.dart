@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final LoginProvider prov = Provider.of<LoginProvider>(context);
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: colorbgSplashScreen,
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 50),
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
             FlatButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: primaryRed,
+                color: colorButtonSplashScreen,
                 onPressed: () async {
                   await prov.doWelcome();
                   Navigator.pushReplacement(context,
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Center(
                     child: Text(
                       "Mulai Gunakan!",
-                      style: TextStyle(color: textWhite),
+                      style: TextStyle(color: textPrimary),
                     ),
                   ),
                 )),

@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show Client, Response;
+import 'package:dio/dio.dart' as dio;
 import 'package:sisfo_mobile/krs/models/cek_krs_model.dart';
 import 'package:sisfo_mobile/krs/models/krs_model.dart';
 import 'package:sisfo_mobile/krs/models/krs_paket_model.dart';
@@ -22,6 +26,13 @@ class KrsProvider extends ChangeNotifier {
   String get isMessage => _msg;
   set setMessage(val) {
     _msg = val;
+    notifyListeners();
+  }
+
+  String nim = '';
+  String get dataNim => nim;
+  set setNim(val) {
+    nim = val;
     notifyListeners();
   }
 
@@ -55,6 +66,10 @@ class KrsProvider extends ChangeNotifier {
   }
 
   doGetTahunAjaranAktif() async {
+    //Ambil Nim dari store
+    var tmp = await store.npm();
+    setNim = tmp;
+
     setLoadingTahun = true;
     response = await getTahunAjaranAktif();
     if (response != null) {
@@ -723,5 +738,76 @@ class KrsProvider extends ChangeNotifier {
       setErrorSimpanKRS = true;
       setMessage = 'Coba lagi, tidak dapat menghubungkan';
     }
+  }
+
+  ///KRS Download
+  bool _loadingPdfKRS = false;
+  bool get isLoadingPdfKRS => _loadingPdfKRS;
+  set setLoadingPdfKRS(val) {
+    _loadingPdfKRS = val;
+    notifyListeners();
+  }
+
+  bool _errorPdfKRS = false;
+  bool get isErrorPdfKRS => _errorPdfKRS;
+  set setErrorPdfKRS(val) {
+    _errorPdfKRS = val;
+    notifyListeners();
+  }
+
+  bool _adaDataPDF = false;
+  bool get isDataPDF => _adaDataPDF;
+  set setDataPDF(val) {
+    _adaDataPDF = val;
+    notifyListeners();
+  }
+
+  String pDFpath = "";
+  set setPdfPath(val) {
+    pDFpath = val;
+    notifyListeners();
+  }
+
+  downloadPDFKRS() async {
+    setLoadingPdfKRS = true;
+    var data = await createFileKRSPdf();
+    setPdfPath = data;
+    if ((pDFpath != null || pDFpath.isNotEmpty)) {
+      setDataPDF = true;
+      print('Path pdf : $pDFpath');
+    } else {
+      setDataPDF = false;
+    }
+  }
+
+  createFileKRSPdf() async {
+    print("Start download file from internet!");
+
+    final url = "$apiPdf${dataStatusKRS.data.kHSID}";
+    print(url);
+    final filename = url.substring(url.lastIndexOf("=") + 1);
+    // var request = await HttpClient().getUrl(Uri.parse(url));
+    // var response = await request.close();
+    // var bytes = await consolidateHttpClientResponseBytes(response);
+    var dir =
+        await getExternalStorageDirectories(type: StorageDirectory.documents);
+    print("Download files");
+    print("${dir[0].path}/$filename.pdf");
+
+    // var knockDir =
+    //     await new Directory('${dir.path}/KRS').create(recursive: true);
+    await dio.Dio().download(url, '${dir[0].path}/$filename.pdf');
+
+    var newdir = "${dir[0].path}/$filename.pdf";
+    // File file =
+    //     await File("${dir[0].path}/$filename.pdf").create(recursive: true);
+    // await file.writeAsBytes(bytes, flush: true);
+    // completer.complete(file);
+
+    print('Berhasil Simpan');
+    //Jika telah selesai download, maka loading false
+    setLoadingPdfKRS = false;
+    setMessage = "KRS berhasil di download!";
+    return newdir;
   }
 }

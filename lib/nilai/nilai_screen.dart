@@ -91,12 +91,19 @@ class _NilaiScreenState extends State<NilaiScreen> {
     final NilaiProvider prov = Provider.of<NilaiProvider>(context);
 
     if (prov.isLoading) {
-      return Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Column(
-          children: List.generate(3, (index) => loadingList),
+      return Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                children: List.generate(3, (index) => loadingList),
+              ),
+            )
+          ],
         ),
       );
     } else if (prov.isData) {
