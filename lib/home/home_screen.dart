@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/about/about_screen.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
@@ -383,10 +384,14 @@ class _MenuHomeState extends State<MenuHome> {
                     SizedBox(
                       width: 10,
                     ),
-                    CardMenu(
-                      icon: LineIcons.dot_circle_o,
-                      label: "More..",
-                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => AboutScreen())),
+                      child: CardMenu(
+                        icon: LineIcons.dot_circle_o,
+                        label: "About",
+                      ),
+                    )
                   ],
                 )
               ],

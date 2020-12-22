@@ -34,7 +34,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: bgColor,
+          backgroundColor: appbarColor,
           actions: [
             prov.isEdit
                 ? GestureDetector(
@@ -444,6 +444,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
             children: [
               Expanded(
                   child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     no,

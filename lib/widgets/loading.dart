@@ -76,8 +76,8 @@ final loadingList = Shimmer.fromColors(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
       ),
-      width: 350,
-      height: 80,
+      width: 300,
+      height: 75,
     ));
 
 final loadingTable = Shimmer.fromColors(
