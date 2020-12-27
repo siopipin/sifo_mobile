@@ -468,6 +468,7 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //TODO fix error KRS when change user
   bool _errorKRS = false;
   bool get isErrorKRS => _errorKRS;
   set setErrorKRS(val) {

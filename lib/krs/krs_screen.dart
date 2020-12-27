@@ -235,7 +235,7 @@ class _KrsScreenState extends State<KrsScreen> {
         children: [loadingTable],
       );
     } else if (prov.isErrorStatusKRS) {
-      print('Error at CekKRS');
+      print('PROV.ISERRORSTATUSKRS: ${prov.isErrorStatusKRS}');
       return Column(
         children: [
           SomeError(),
@@ -291,6 +291,7 @@ class _KrsScreenState extends State<KrsScreen> {
 
   Widget cekKRS() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
+    print('PROV.ISERRORKRS: ${prov.isErrorKRS}');
 
     if (prov.isLoadingKRS) {
       return Row(
@@ -298,7 +299,6 @@ class _KrsScreenState extends State<KrsScreen> {
         children: [loadingTable],
       );
     } else if (prov.isErrorKRS) {
-      print('Error at CekKRS');
       return Column(
         children: [
           SomeError(),

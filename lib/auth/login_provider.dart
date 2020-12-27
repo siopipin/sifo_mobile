@@ -88,6 +88,10 @@ class LoginProvider extends ChangeNotifier {
     await store.destroyToken();
     await store.destroyNama();
     await store.destroyNpm();
+    await store.destroyProdi();
+    await store.destroyProgram();
+    await store.destroyStatus();
+    await store.destroyTokenFCM();
 
     setMessage = 'Logout Berhasil, silahkan login ulang!';
   }

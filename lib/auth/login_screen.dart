@@ -20,8 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _nimText.text = '18192001';
-    _passText.text = '123456';
   }
 
   @override
@@ -69,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Nomor POKOK Mahasiswa',
+                        hintText: 'Nomor Pokok Mahasiswa',
                         hintStyle: TextStyle(
                           color: Colors.black.withOpacity(0.4),
                         ),
