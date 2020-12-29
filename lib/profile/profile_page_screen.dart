@@ -439,95 +439,87 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 5),
-          child: Row(
-            children: [
-              Expanded(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    no,
-                    style: TextStyle(
-                        fontSize: 30, color: Colors.black.withOpacity(0.3)),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 + 23,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          ket,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black.withOpacity(0.5),
-                          ),
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  no,
+                  style: TextStyle(
+                      fontSize: 30, color: Colors.black.withOpacity(0.3)),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2 + 23,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        ket,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black.withOpacity(0.5),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        prov.isData
-                            ? prov.isEdit && iconEdit
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        color: grey,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    padding:
-                                        EdgeInsets.only(top: 7.5, left: 10),
-                                    child: TextField(
-                                      controller: textCtrl,
-                                      cursorColor: Colors.black,
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'Tidak boleh kosong !',
-                                        hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.4),
-                                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      prov.isData
+                          ? prov.isEdit && iconEdit
+                              ? Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      color: grey,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  padding: EdgeInsets.only(top: 7.5, left: 10),
+                                  child: TextField(
+                                    controller: textCtrl,
+                                    cursorColor: Colors.black,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Tidak boleh kosong !',
+                                      hintStyle: TextStyle(
+                                        color: Colors.black.withOpacity(0.4),
                                       ),
                                     ),
-                                  )
-                                : Text(
-                                    data,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                  )
-                            : loadingH3
-                      ],
-                    ),
+                                  ),
+                                )
+                              : Text(
+                                  data,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                )
+                          : loadingH3
+                    ],
                   ),
-                  iconEdit
-                      ? prov.isEdit == false
-                          ? GestureDetector(
-                              child: Container(
-                                width: 45,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                    color: Colors.green.withOpacity(0.4),
-                                    shape: BoxShape.circle),
-                                child: Center(child: Icon(LineIcons.edit)),
-                              ),
-                              onTap: () {
-                                if (prov.isEdit == false) {
-                                  prov.setEdit = true;
-                                } else {
-                                  prov.setEdit = false;
-                                }
-                              },
-                            )
-                          : Container()
-                      : Container()
-                ],
-              ))
-            ],
-          ),
-        ),
+                ),
+                iconEdit
+                    ? prov.isEdit == false
+                        ? GestureDetector(
+                            child: Container(
+                              width: 45,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  color: Colors.green.withOpacity(0.4),
+                                  shape: BoxShape.circle),
+                              child: Center(child: Icon(LineIcons.edit)),
+                            ),
+                            onTap: () {
+                              if (prov.isEdit == false) {
+                                prov.setEdit = true;
+                              } else {
+                                prov.setEdit = false;
+                              }
+                            },
+                          )
+                        : Container()
+                    : Container()
+              ],
+            )),
       ],
     );
   }

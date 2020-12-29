@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
-import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
@@ -28,15 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     new FirebaseNotifications().setUpFirebase(context);
-    Future.microtask(() async {
-      Provider.of<HomeProvider>(context, listen: false).getDataAwal();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final HomeProvider prov = Provider.of<HomeProvider>(context);
     final LoginProvider provLogin = Provider.of<LoginProvider>(context);
+    prov.infoUpdate?.updateAvailable == true &&
+            prov.infoUpdate?.updateAvailable != null
+        ? InAppUpdate.performImmediateUpdate().catchError((e) {})
+        : print('not available');
     return Scaffold(
       bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
       appBar: AppBar(
@@ -127,8 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       await provLogin.doLogout();
                       Toast.show(provLogin.msg, context,
                           gravity: Toast.TOP, duration: 3);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) => LoginScreen()));
+                      Phoenix.rebirth(context);
+                      // Navigator.pushReplacement(context,
+                      //     MaterialPageRoute(builder: (_) => LoginScreen()));
                     },
                     child: Column(
                       children: [

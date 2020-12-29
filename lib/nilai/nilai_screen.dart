@@ -17,17 +17,8 @@ class NilaiScreen extends StatefulWidget {
 
 class _NilaiScreenState extends State<NilaiScreen> {
   @override
-  void initState() {
-    super.initState();
-    Future.microtask(() async {
-      Provider.of<NilaiProvider>(context, listen: false).doGetTahunKHS();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final NilaiProvider prov = Provider.of<NilaiProvider>(context);
-
     return Scaffold(
       bottomNavigationBar: bottomTahun(),
       appBar: AppBar(
@@ -113,9 +104,11 @@ class _NilaiScreenState extends State<NilaiScreen> {
           ],
         ),
       );
-    } else if (prov.isData) {
+    } else if (prov.isDataNilai) {
+      print('PROV.ISDATA: ${prov.isDataNilai}');
       return expansionList();
-    } else if (prov.isError) {
+    } else if (prov.isErrorNilai) {
+      print('PROV.ISERRORNILAI: ${prov.isErrorNilai}');
       return Container(
         child: Column(
           children: [
@@ -126,26 +119,23 @@ class _NilaiScreenState extends State<NilaiScreen> {
             SizedBox(
               height: 30,
             ),
-            Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width / 2 + 30,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                onPressed: () async {
-                  await prov.doGetTahunKHS();
-                },
-                child: Text(
-                  'Reaload !',
-                  style: TextStyle(color: Colors.white),
-                ),
-                color: bgColor,
-              ),
+            RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              textColor: Colors.blueGrey,
+              onPressed: () async {
+                await prov.doGetTahunKHS();
+
+                Toast.show(prov.message, context,
+                    duration: 3, gravity: Toast.TOP);
+              },
+              child: Text('Reload'),
             )
           ],
         ),
       );
     } else {
+      print('checkBuilder / Else');
       return Container();
     }
   }

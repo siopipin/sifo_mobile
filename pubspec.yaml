@@ -22,6 +22,7 @@ dependencies:
   flushbar: ^1.10.4
   flutter_app_badger: ^1.1.2
   dio: ^3.0.10
+  flutter_phoenix: ^0.1.0
 
   # Handle File
   flutter_pdfview: ^1.0.4
@@ -32,6 +33,8 @@ dependencies:
   # firebase
   firebase_messaging: ^7.0.3
   firebase_analytics: ^6.3.0
+
+  in_app_update: ^1.1.14
 
 dev_dependencies:
   flutter_test:

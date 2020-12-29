@@ -9,23 +9,23 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class NilaiProvider extends ChangeNotifier {
+  NilaiProvider() {
+    doGetTahunKHS();
+  }
   Client client = Client();
   Response response;
 
-  bool loading = false, error = false, adaData = false, adaDataNilai = false;
+  bool loading = false, error = false, adaData = false;
   String message = '';
   String tahun = '';
   TahunKHS tahunKHS = new TahunKHS();
-  NilaiModel nilaiModel = new NilaiModel();
 
   bool get isLoading => loading;
   bool get isError => error;
   bool get isData => adaData;
-  bool get isDataNilai => adaDataNilai;
 
   String get isMsg => message;
   TahunKHS get dataTahunKHS => tahunKHS;
-  NilaiModel get dataNilai => nilaiModel;
 
   set setLoading(val) {
     loading = val;
@@ -50,19 +50,6 @@ class NilaiProvider extends ChangeNotifier {
 
   set setData(val) {
     adaData = val;
-    notifyListeners();
-  }
-
-  set setNilai(NilaiModel val) {
-    val.data.forEach((element) {
-      element.isExpanded = false;
-    });
-    nilaiModel = val;
-    notifyListeners();
-  }
-
-  set setDataNilai(val) {
-    adaDataNilai = val;
     notifyListeners();
   }
 
@@ -120,8 +107,39 @@ class NilaiProvider extends ChangeNotifier {
   }
 
   //Fungsi ambil nilai
+  bool loadingNilai = false;
+  bool get isLoadingNilai => loadingNilai;
+  set setLoadingNilai(val) {
+    loading = val;
+    notifyListeners();
+  }
+
+  bool errorNilai = false;
+  bool get isErrorNilai => errorNilai;
+  set setErrorNilai(val) {
+    errorNilai = val;
+    notifyListeners();
+  }
+
+  bool adaDataNilai = false;
+  bool get isDataNilai => adaDataNilai;
+  set setDataNilai(val) {
+    adaDataNilai = val;
+    notifyListeners();
+  }
+
+  NilaiModel nilaiModel = new NilaiModel();
+  NilaiModel get dataNilai => nilaiModel;
+  set setNilai(NilaiModel val) {
+    val.data.forEach((element) {
+      element.isExpanded = false;
+    });
+    nilaiModel = val;
+    notifyListeners();
+  }
+
   doGetNilai({@required String tahun}) async {
-    setLoading = true;
+    setLoadingNilai = true;
     response = await getNilai(tahun: tahun);
     print('doGetNilai / statusCode : ${response.statusCode}');
     if (response != null) {
@@ -132,10 +150,12 @@ class NilaiProvider extends ChangeNotifier {
         setMessage = 'Data Nilai Berhasil direquest';
       } else if (response.statusCode == 401) {
         setMessage = 'Otentikasi tidak berhasil!';
-        setError = true;
+        setErrorNilai = true;
+        setDataNilai = false;
       } else {
+        print('doGetNilai / ELSE: else');
+        setErrorNilai = true;
         setMessage = 'Silahkan coba lagi!';
-        setError = true;
       }
     } else {
       print('Response tidak ditemukan');
@@ -153,12 +173,12 @@ class NilaiProvider extends ChangeNotifier {
     try {
       response = await client.post('$api/mahasiswa/nilai',
           headers: header, body: data);
-      setLoading = false;
+      setLoadingNilai = false;
       return response;
     } catch (e) {
       print(e.toString());
       setLoading = false;
-      setError = true;
+      setErrorNilai = true;
       setMessage = 'Coba lagi, tidak dapat menghubungkan';
     }
   }

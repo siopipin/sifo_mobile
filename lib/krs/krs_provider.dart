@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:android_path_provider/android_path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +20,13 @@ import 'package:sisfo_mobile/services/storage.dart';
 class KrsProvider extends ChangeNotifier {
   Response response;
   Client client = Client();
+
+  bool errorKRS;
+  KrsProvider() {
+    print('KRSPROVIDER');
+    errorKRS = false;
+    doGetTahunAjaranAktif();
+  }
 
   String _msg = '';
   String get isMessage => _msg;
@@ -67,6 +72,7 @@ class KrsProvider extends ChangeNotifier {
   }
 
   doGetTahunAjaranAktif() async {
+    print('DOGETTAHUNAJARANAKTIF()');
     //Ambil Nim dari store
     var tmp = await store.npm();
     setNim = tmp;
@@ -469,10 +475,13 @@ class KrsProvider extends ChangeNotifier {
   }
 
   //TODO fix error KRS when change user
-  bool _errorKRS = false;
-  bool get isErrorKRS => _errorKRS;
+
+  bool get isErrorKRS {
+    return errorKRS;
+  }
+
   set setErrorKRS(val) {
-    _errorKRS = val;
+    errorKRS = val;
     notifyListeners();
   }
 
@@ -577,7 +586,7 @@ class KrsProvider extends ChangeNotifier {
     try {
       response = await client.post('$api/mahasiswa/krs-mahasiswa',
           headers: header, body: data);
-      print(response.statusCode);
+      print('getKRS / RESPONSE.STATUSCODE: ${response.statusCode}');
       setLoadingKRS = false;
       return response;
     } catch (e) {

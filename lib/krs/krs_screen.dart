@@ -24,15 +24,11 @@ class _KrsScreenState extends State<KrsScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
-      Provider.of<KrsProvider>(context, listen: false).doGetTahunAjaranAktif();
-    });
+    KrsProvider();
   }
 
   @override
   Widget build(BuildContext context) {
-    final KrsProvider prov = Provider.of<KrsProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appbarColor,
@@ -291,7 +287,6 @@ class _KrsScreenState extends State<KrsScreen> {
 
   Widget cekKRS() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
-    print('PROV.ISERRORKRS: ${prov.isErrorKRS}');
 
     if (prov.isLoadingKRS) {
       return Row(
@@ -575,5 +570,10 @@ class _KrsScreenState extends State<KrsScreen> {
         }
       }).toList(),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
