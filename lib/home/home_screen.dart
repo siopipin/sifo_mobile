@@ -37,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final LoginProvider provLogin = Provider.of<LoginProvider>(context);
     prov.infoUpdate?.updateAvailable == true &&
             prov.infoUpdate?.updateAvailable != null
-        ? InAppUpdate.performImmediateUpdate().catchError((e) {})
+        ? InAppUpdate.performImmediateUpdate().catchError((e) {
+            print(e.toString());
+          })
         : print('not available');
     return Scaffold(
       bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
