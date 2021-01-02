@@ -556,6 +556,10 @@ class KrsProvider extends ChangeNotifier {
       } else if (response.statusCode == 400) {
         setAdaDataKRS = false;
         setMessage = 'Data tidak ditemukan';
+      } else if (response.statusCode == 404) {
+        setAdaDataKRS = false;
+        setMessage =
+            'Belum pernah melakukan pengisian KRS. Harap menghubungi bagian Akademik';
       } else if (response.statusCode == 401) {
         setMessage = 'Otentikasi tidak berhasil!';
         setErrorKRS = true;
@@ -578,7 +582,6 @@ class KrsProvider extends ChangeNotifier {
     try {
       response = await client.post('$api/mahasiswa/krs-mahasiswa',
           headers: header, body: data);
-      print('getKRS / RESPONSE.STATUSCODE: ${response.statusCode}');
       setLoadingKRS = false;
       return response;
     } catch (e) {

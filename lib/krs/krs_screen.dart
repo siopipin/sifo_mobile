@@ -311,20 +311,12 @@ class _KrsScreenState extends State<KrsScreen> {
         ],
       );
     } else if (!prov.isAdaDataKRS) {
-      return Center(
-        child: Column(
-          children: [
-            Icon(
-              LineIcons.warning,
-              size: 30,
-            ),
-            Text('Tidak ditemukan!',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                )),
-          ],
-        ),
+      print('masuk sini');
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: InfoWidget(
+            info:
+                'Belum pernah melakukan pengisian KRS. Harap menghubungi bagian Akademik'),
       );
     } else if (prov.isAdaDataKRS) {
       return Container(

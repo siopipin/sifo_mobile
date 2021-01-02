@@ -1,7 +1,7 @@
 name: sisfo_mobile
 description: Sistem Informasi Akademik.
 
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -33,6 +33,7 @@ dependencies:
   # firebase
   firebase_messaging: ^7.0.3
   firebase_analytics: ^6.3.0
+  firebase_core: ^0.5.3
 
   in_app_update: ^1.1.14
   cached_network_image: ^2.5.0

@@ -202,23 +202,30 @@ class InfoBanner extends StatelessWidget {
                 future: store.foto(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    return CachedNetworkImage(
-                      imageUrl: '$imgurl/${snapshot.data}',
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 82.0,
-                        height: 100.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
+                    if (snapshot.data != null || snapshot.data.isNotEmpty) {
+                      return CachedNetworkImage(
+                        imageUrl: '$imgurl/${snapshot.data}',
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: 82.0,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
                         ),
-                      ),
-                      placeholder: (context, url) => loadingFoto,
-                      errorWidget: (context, url, error) => Image.asset(
+                        placeholder: (context, url) => loadingFoto,
+                        errorWidget: (context, url, error) => Image.asset(
+                          "assets/images/logo.png",
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    } else {
+                      return Image.asset(
                         "assets/images/logo.png",
                         fit: BoxFit.cover,
-                      ),
-                    );
+                      );
+                    }
                   } else {
                     return loadingFoto;
                   }
