@@ -4,10 +4,6 @@ import 'package:sisfo_mobile/services/storage.dart';
 import 'dart:async';
 
 class HomeProvider extends ChangeNotifier {
-  HomeProvider() {
-    getDataAwal();
-    checkForUpdate();
-  }
   AppUpdateInfo _updateInfo;
   AppUpdateInfo get infoUpdate => _updateInfo;
 
@@ -59,6 +55,13 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String _foto = '';
+  String get dataFoto => _foto;
+  set setFoto(val) {
+    _foto = val;
+    notifyListeners();
+  }
+
   getDataAwal() async {
     String tmp = await store.nama();
     if (tmp != null) {
@@ -93,6 +96,13 @@ class HomeProvider extends ChangeNotifier {
       setStatus = tmp5;
     } else {
       setStatus = '-';
+    }
+
+    String tmp6 = await store.foto();
+    if (tmp6 != null) {
+      setFoto = tmp6;
+    } else {
+      setFoto = '-';
     }
   }
 }

@@ -6,6 +6,7 @@ class LoginModel {
   String program;
   String status;
   String token;
+  var foto;
 
   LoginModel(
       {this.idmhs,
@@ -14,6 +15,7 @@ class LoginModel {
       this.prodi,
       this.program,
       this.status,
+      this.foto,
       this.token});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class LoginModel {
     program = json['program'];
     status = json['status'];
     token = json['token'];
+    foto = json['foto'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class LoginModel {
     data['program'] = this.program;
     data['status'] = this.status;
     data['token'] = this.token;
+    data['foto'] = this.foto;
     return data;
   }
 }

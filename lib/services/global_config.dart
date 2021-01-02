@@ -16,16 +16,18 @@ const colorbgSplashScreen = Color(0xFFCC0000);
 const colorButtonSplashScreen = Color(0xFFFFEB3B);
 
 //Currency
-final rpFormat = new NumberFormat.currency(locale: "id_ID", symbol: "Rp.");
+final rpFormat =
+    new NumberFormat.currency(locale: "id_ID", symbol: "Rp.", decimalDigits: 0);
 
 const appTitle = TextStyle(
     fontSize: 30, fontWeight: FontWeight.bold, height: 1.5, color: textWhite);
 
 //TODO Ganti API
-// const apilocal = 'http://10.0.2.2:3000/mobile';
+// const api = 'http://10.0.2.2:3000/mobile';
 
 const api = 'http://36.94.36.7:3000/mobile';
 const apiPdf = 'http://36.94.36.7/sisfo/jur/krs.cetak.php?khsid=';
+const imgurl = 'http://36.94.36.7/sisfo';
 
 // const api = 'http://10.0.2.2:3000/mobile';
 final header = {

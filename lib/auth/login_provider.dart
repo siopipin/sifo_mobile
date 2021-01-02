@@ -69,6 +69,7 @@ class LoginProvider extends ChangeNotifier {
         await store.saveProdi(val: _loginModel.prodi);
         await store.saveProgram(val: _loginModel.program);
         await store.saveStatus(val: _loginModel.status);
+        await store.saveFoto(val: _loginModel.foto);
 
         setMessage = 'Selamat Datang ${_loginModel.nama}';
         setLoginStatus = true;
@@ -92,6 +93,7 @@ class LoginProvider extends ChangeNotifier {
     await store.destroyProgram();
     await store.destroyStatus();
     await store.destroyTokenFCM();
+    await store.delFoto();
 
     setMessage = 'Logout Berhasil, silahkan login ulang!';
   }

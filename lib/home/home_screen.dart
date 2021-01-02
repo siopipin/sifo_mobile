@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -14,7 +15,9 @@ import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';
 import 'package:sisfo_mobile/services/firebase_notification_handler.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
+import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    Provider.of<HomeProvider>(context, listen: false).getDataAwal();
+    Provider.of<HomeProvider>(context, listen: false).checkForUpdate();
+
     new FirebaseNotifications().setUpFirebase(context);
   }
 
@@ -180,7 +186,7 @@ class InfoBanner extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: 130,
+      height: 120,
       decoration: BoxDecoration(
         color: primaryYellow,
         borderRadius: BorderRadius.circular(20),
@@ -188,13 +194,35 @@ class InfoBanner extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 18,
+            top: 8,
             left: 10,
             child: Container(
               height: 100,
-              child: Image.asset(
-                "assets/images/logo.png",
-                fit: BoxFit.cover,
+              child: FutureBuilder(
+                future: store.foto(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return CachedNetworkImage(
+                      imageUrl: '$imgurl/${snapshot.data}',
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 82.0,
+                        height: 100.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                      placeholder: (context, url) => loadingFoto,
+                      errorWidget: (context, url, error) => Image.asset(
+                        "assets/images/logo.png",
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  } else {
+                    return loadingFoto;
+                  }
+                },
               ),
             ),
           ),

@@ -157,3 +157,16 @@ final loadingDropDown = Shimmer.fromColors(
       width: 300,
       height: 25,
     ));
+
+final loadingFoto = Shimmer.fromColors(
+    baseColor: Colors.grey[300],
+    highlightColor: Colors.grey[100],
+    enabled: true,
+    child: Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+      ),
+      width: 82,
+      height: 100,
+    ));

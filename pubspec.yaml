@@ -1,7 +1,7 @@
 name: sisfo_mobile
 description: Sistem Informasi Akademik.
 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -35,6 +35,7 @@ dependencies:
   firebase_analytics: ^6.3.0
 
   in_app_update: ^1.1.14
+  cached_network_image: ^2.5.0
 
 dev_dependencies:
   flutter_test:

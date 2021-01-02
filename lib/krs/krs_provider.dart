@@ -21,13 +21,6 @@ class KrsProvider extends ChangeNotifier {
   Response response;
   Client client = Client();
 
-  bool errorKRS;
-  KrsProvider() {
-    print('KRSPROVIDER');
-    errorKRS = false;
-    doGetTahunAjaranAktif();
-  }
-
   String _msg = '';
   String get isMessage => _msg;
   set setMessage(val) {
@@ -474,8 +467,7 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO fix error KRS when change user
-
+  bool errorKRS = false;
   bool get isErrorKRS {
     return errorKRS;
   }

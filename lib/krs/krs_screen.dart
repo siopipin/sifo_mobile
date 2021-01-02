@@ -24,7 +24,7 @@ class _KrsScreenState extends State<KrsScreen> {
   @override
   void initState() {
     super.initState();
-    KrsProvider();
+    Provider.of<KrsProvider>(context, listen: false).doGetTahunAjaranAktif();
   }
 
   @override

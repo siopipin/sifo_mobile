@@ -133,6 +133,19 @@ class Storage {
   destroyStatus() async {
     await storage.delete(key: 'status');
   }
+
+  //Foto
+  saveFoto({@required String val}) async {
+    await storage.write(key: 'foto', value: val);
+  }
+
+  foto() async {
+    return await storage.read(key: 'foto');
+  }
+
+  delFoto() async {
+    await storage.delete(key: 'foto');
+  }
 }
 
 final store = Storage();
