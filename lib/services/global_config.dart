@@ -25,9 +25,9 @@ const appTitle = TextStyle(
 //TODO Ganti API
 // const api = 'http://10.0.2.2:3000/mobile';
 
-const api = 'http://36.94.36.7:3000/mobile';
-const apiPdf = 'http://36.94.36.7/sisfo/jur/krs.cetak.php?khsid=';
-const imgurl = 'http://36.94.36.7/sisfo';
+const api = 'http://103.167.34.22:3000/mobile';
+const apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
+const imgurl = 'http://103.167.34.22/sisfo';
 
 // const api = 'http://10.0.2.2:3000/mobile';
 final header = {

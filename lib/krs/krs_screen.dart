@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:permissions_plugin/permissions_plugin.dart';
+// import 'package:permissions_plugin/permissions_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/krs/krs_pdf_viewer.dart';
 import 'package:sisfo_mobile/krs/krs_pengajuan_screen.dart';
@@ -153,10 +153,10 @@ class _KrsScreenState extends State<KrsScreen> {
                 ),
               ),
               onTap: () async {
-                await PermissionsPlugin.requestPermissions([
-                  Permission.READ_EXTERNAL_STORAGE,
-                  Permission.WRITE_EXTERNAL_STORAGE,
-                ]);
+                // await PermissionsPlugin.requestPermissions([
+                //   Permission.READ_EXTERNAL_STORAGE,
+                //   Permission.WRITE_EXTERNAL_STORAGE,
+                // ]);
                 await prov.downloadPDFKRS();
                 if (prov.isDataPDF) {
                   Navigator.push(

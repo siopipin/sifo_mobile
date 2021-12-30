@@ -15,12 +15,11 @@ class FirebaseNotifications {
   Response response;
 
   void setUpFirebase(BuildContext context) {
-    _firebaseMessaging = FirebaseMessaging();
     firebaseCloudMessagingListeners(context);
   }
 
   void firebaseCloudMessagingListeners(BuildContext context) async {
-    if (Platform.isIOS) iOSPermission();
+    // if (Platform.isIOS) iOSPermission();
 
     _firebaseMessaging.getToken().then((token) async {
       print('Token: $token');
@@ -36,17 +35,17 @@ class FirebaseNotifications {
     });
 
     _firebaseMessaging.subscribeToTopic('global');
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch');
-      },
-    );
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print('onMessage');
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print('onResume');
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print('onLaunch');
+    //   },
+    // );
   }
 
   _floatingNotification(Map<String, dynamic> message, BuildContext context) {
@@ -137,14 +136,14 @@ class FirebaseNotifications {
     }
   }
 
-  void iOSPermission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
+  // void iOSPermission() {
+  //   _firebaseMessaging.requestNotificationPermissions(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true));
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings) {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
 
   Future<bool> updateTokenMhs({@required String fcm}) async {
     var data = json.encode({"token": fcm});

@@ -1,10 +1,10 @@
 name: sisfo_mobile
 description: Sistem Informasi Akademik.
 
-version: 1.0.2+3
+version: 1.0.2+4
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.11.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -20,20 +20,19 @@ dependencies:
   toast: ^0.1.5
   intl: ^0.16.1
   flushbar: ^1.10.4
-  flutter_app_badger: ^1.1.2
+  flutter_app_badger: ^1.3.0
   dio: ^3.0.10
   flutter_phoenix: ^0.1.0
 
   # Handle File
-  flutter_pdfview: ^1.0.4
-  path_provider: ^1.6.24
-  android_path_provider: ^0.1.1
-  permissions_plugin: ^1.1.4
+  flutter_pdfview: ^1.2.1
+  path_provider: ^2.0.8
+  android_path_provider: ^0.3.0
+  # permissions_plugin: ^1.1.4
 
   # firebase
-  firebase_messaging: ^7.0.3
-  firebase_analytics: ^6.3.0
-  firebase_core: ^0.5.3
+  firebase_messaging: ^11.2.4
+  plugin_platform_interface: ^2.0.2
 
   in_app_update: ^1.1.14
   cached_network_image: ^2.5.0
