@@ -19,7 +19,7 @@ class KRSTerpilihWidget extends StatelessWidget {
         child: Column(
           children: [
             Icon(
-              LineIcons.warning,
+              LineIcons.stop,
               size: 30,
             ),
             Text('Tidak ditemukan!',

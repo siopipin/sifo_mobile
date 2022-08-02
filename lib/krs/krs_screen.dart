@@ -130,7 +130,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 child: Row(
                   children: [
                     Icon(
-                      LineIcons.cloud_download,
+                      LineIcons.download,
                       color: textWhite,
                       size: 20,
                     ),
@@ -458,7 +458,7 @@ class _KrsScreenState extends State<KrsScreen> {
                         SizedBox(
                           width: 10,
                         ),
-                        Icon(LineIcons.arrow_circle_right),
+                        Icon(LineIcons.arrowCircleRight),
                       ],
                     ),
                   ),

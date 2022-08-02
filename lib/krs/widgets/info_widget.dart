@@ -16,7 +16,7 @@ class InfoWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
-          Icon(LineIcons.info_circle, color: Colors.white),
+          Icon(LineIcons.infoCircle, color: Colors.white),
           SizedBox(width: 10),
           Flexible(
               child: Text(

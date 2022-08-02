@@ -1,23 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:sisfo_mobile/services/storage.dart';
-import 'dart:async';
 
 class HomeProvider extends ChangeNotifier {
-  AppUpdateInfo _updateInfo;
-  AppUpdateInfo get infoUpdate => _updateInfo;
-
   set setUpdateInfo(val) {
-    _updateInfo = val;
     notifyListeners();
-  }
-
-  Future<void> checkForUpdate() async {
-    InAppUpdate.checkForUpdate().then((info) {
-      setUpdateInfo = info;
-    }).catchError((e) {
-      print('checkForUpdate / E: $e');
-    });
   }
 
   String _name = '';

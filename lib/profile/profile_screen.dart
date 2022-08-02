@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Row(
                         children: [
                           Icon(
-                            LineIcons.close,
+                            LineIcons.closedCaptioning,
                             color: textWhite,
                             size: 20,
                           ),
@@ -279,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Icon(LineIcons.graduation_cap),
+                            Icon(LineIcons.graduationCap),
                             SizedBox(
                               width: 5,
                             ),

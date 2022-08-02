@@ -14,7 +14,7 @@ class SomeError extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              LineIcons.warning,
+              LineIcons.diagnoses,
               size: 30,
             ),
             Text(
@@ -42,7 +42,7 @@ class NotFound extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              LineIcons.hand_stop_o,
+              LineIcons.handHolding,
               size: 30,
             ),
             Text(

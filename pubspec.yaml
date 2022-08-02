@@ -25,16 +25,15 @@ dependencies:
   flutter_phoenix: ^0.1.0
 
   # Handle File
-  flutter_pdfview: ^1.2.1
-  path_provider: ^2.0.8
-  android_path_provider: ^0.3.0
+  flutter_pdfview: ^1.2.2
+  path_provider: ^2.0.11
+  # android_path_provider: ^0.3.0
   # permissions_plugin: ^1.1.4
 
   # firebase
-  firebase_messaging: ^11.2.4
+  firebase_messaging: ^12.0.1
   plugin_platform_interface: ^2.0.2
 
-  in_app_update: ^1.1.14
   cached_network_image: ^2.5.0
 
 dev_dependencies:

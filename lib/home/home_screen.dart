@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
@@ -32,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Provider.of<HomeProvider>(context, listen: false).getDataAwal();
-    Provider.of<HomeProvider>(context, listen: false).checkForUpdate();
 
     new FirebaseNotifications().setUpFirebase(context);
   }
@@ -41,12 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final HomeProvider prov = Provider.of<HomeProvider>(context);
     final LoginProvider provLogin = Provider.of<LoginProvider>(context);
-    prov.infoUpdate?.updateAvailable == true &&
-            prov.infoUpdate?.updateAvailable != null
-        ? InAppUpdate.performImmediateUpdate().catchError((e) {
-            print(e.toString());
-          })
-        : print('not available');
+
     return Scaffold(
       bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
       appBar: AppBar(
@@ -144,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         Icon(
-                          LineIcons.sign_out,
+                          LineIcons.sign,
                           color: Colors.black.withOpacity(0.4),
                         ),
                         Text(
@@ -375,7 +368,7 @@ class _MenuHomeState extends State<MenuHome> {
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (_) => NilaiScreen())),
                       child: CardMenu(
-                        icon: LineIcons.graduation_cap,
+                        icon: LineIcons.graduationCap,
                         label: "Nilai",
                       ),
                     ),
@@ -384,7 +377,7 @@ class _MenuHomeState extends State<MenuHome> {
                     ),
                     GestureDetector(
                       child: CardMenu(
-                        icon: LineIcons.money,
+                        icon: LineIcons.moneyBill,
                         label: "Keuangan",
                       ),
                       onTap: () => Navigator.push(context,
@@ -400,7 +393,7 @@ class _MenuHomeState extends State<MenuHome> {
                   children: [
                     GestureDetector(
                       child: CardMenu(
-                        icon: LineIcons.newspaper_o,
+                        icon: LineIcons.newspaper,
                         label: "Inbox",
                       ),
                       onTap: () => Navigator.push(
@@ -428,7 +421,7 @@ class _MenuHomeState extends State<MenuHome> {
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (_) => AboutScreen())),
                       child: CardMenu(
-                        icon: LineIcons.dot_circle_o,
+                        icon: LineIcons.dotCircle,
                         label: "About",
                       ),
                     )

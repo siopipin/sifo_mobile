@@ -350,7 +350,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               decoration: BoxDecoration(
                                   color: Colors.red, shape: BoxShape.circle),
                               child: Center(
-                                child: Icon(LineIcons.close,
+                                child: Icon(LineIcons.closedCaptioning,
                                     color: Colors.white, size: 14),
                               ),
                             ),
@@ -433,7 +433,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               decoration: BoxDecoration(
                                   color: Colors.red, shape: BoxShape.circle),
                               child: Center(
-                                child: Icon(LineIcons.close,
+                                child: Icon(LineIcons.closedCaptioning,
                                     color: Colors.white, size: 14),
                               ),
                             ),

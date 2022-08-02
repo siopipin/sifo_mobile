@@ -216,7 +216,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
               color: Colors.green,
               child: Row(
                 children: [
-                  Icon(LineIcons.info_circle, color: Colors.white),
+                  Icon(LineIcons.infoCircle, color: Colors.white),
                   SizedBox(width: 10),
                   Flexible(
                       child: Text(
@@ -239,7 +239,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
         color: Colors.green,
         child: Row(
           children: [
-            Icon(LineIcons.info_circle, color: Colors.white),
+            Icon(LineIcons.infoCircle, color: Colors.white),
             SizedBox(width: 10),
             Flexible(
                 child: Text(
@@ -272,7 +272,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(LineIcons.dot_circle_o),
+                    Icon(LineIcons.dotCircle),
                     SizedBox(
                       width: 3,
                     ),
@@ -295,7 +295,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
           // value: 'Pilih Paket',
           hint: Row(
             children: [
-              Icon(LineIcons.check_circle_o),
+              Icon(LineIcons.checkCircle),
               SizedBox(
                 width: 10,
               ),
