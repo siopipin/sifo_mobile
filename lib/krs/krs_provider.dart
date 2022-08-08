@@ -108,8 +108,8 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get('$api/mahasiswa/tahun-ajaran-aktif',
-          headers: header);
+      response = await client
+          .get(Uri.parse('$api/mahasiswa/tahun-ajaran-aktif'), headers: header);
       setLoadingTahun = false;
       return response;
     } catch (e) {
@@ -220,8 +220,10 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/status-pengurusan-krs',
-          headers: header, body: data);
+      response = await client.post(
+          Uri.parse('$api/mahasiswa/status-pengurusan-krs'),
+          headers: header,
+          body: data);
       setLoadingStatusPengurusanKRS = false;
       return response;
     } catch (e) {
@@ -295,7 +297,7 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/krs-paket',
+      response = await client.post(Uri.parse('$api/mahasiswa/krs-paket'),
           headers: header, body: data);
       setLoadingPaketKRS = false;
       return response;
@@ -372,7 +374,7 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/status-krs',
+      response = await client.post(Uri.parse('$api/mahasiswa/status-krs'),
           headers: header, body: data);
       print(response.statusCode);
       setLoadingStatusKRS = false;
@@ -446,7 +448,7 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/cek-krs',
+      response = await client.post(Uri.parse('$api/mahasiswa/cek-krs'),
           headers: header, body: data);
       print(response.statusCode);
       setLoadingCekKrs = false;
@@ -580,7 +582,7 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/krs-mahasiswa',
+      response = await client.post(Uri.parse('$api/mahasiswa/krs-mahasiswa'),
           headers: header, body: data);
       setLoadingKRS = false;
       return response;
@@ -662,7 +664,7 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/krs-paket-pilih',
+      response = await client.post(Uri.parse('$api/mahasiswa/krs-paket-pilih'),
           headers: header, body: data);
       print(response.statusCode);
       setLoadingKRSPaketTerpilih = false;
@@ -733,7 +735,7 @@ class KrsProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/simpan-krs',
+      response = await client.post(Uri.parse('$api/mahasiswa/simpan-krs'),
           headers: header, body: data);
       print(response.statusCode);
       setLoadingSimpanKRS = false;

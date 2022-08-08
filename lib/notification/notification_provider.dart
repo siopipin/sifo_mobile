@@ -82,8 +82,8 @@ class NotificationProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response =
-          await client.get('$api/notification/notification', headers: header);
+      response = await client.get(Uri.parse('$api/notification/notification'),
+          headers: header);
       print(response.statusCode);
       setLoadingNotification = false;
       return response;
@@ -158,7 +158,8 @@ class NotificationProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get('$api/notification/notification-mhs',
+      response = await client.get(
+          Uri.parse('$api/notification/notification-mhs'),
           headers: header);
       print(response.statusCode);
       setLoadingInbox = false;
@@ -227,8 +228,10 @@ class NotificationProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.put('$api/notification/notification-mhs-update',
-          headers: header, body: data);
+      response = await client.put(
+          Uri.parse('$api/notification/notification-mhs-update'),
+          headers: header,
+          body: data);
       print(response.statusCode);
       setLoadingInboxUpdate = false;
       return response;

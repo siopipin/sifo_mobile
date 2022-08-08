@@ -165,11 +165,9 @@ class _KrsScreenState extends State<KrsScreen> {
                           builder: (_) => KRSPdfViewer(
                                 path: prov.pDFpath,
                               )));
-                  Toast.show(prov.isMessage, context,
-                      gravity: Toast.TOP, duration: 3);
+                  Toast.show(prov.isMessage, gravity: Toast.top, duration: 3);
                 } else {
-                  Toast.show(prov.isMessage, context,
-                      gravity: Toast.TOP, duration: 3);
+                  Toast.show(prov.isMessage, gravity: Toast.top, duration: 3);
                 }
               },
             )
@@ -235,14 +233,14 @@ class _KrsScreenState extends State<KrsScreen> {
       return Column(
         children: [
           SomeError(),
-          RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            textColor: Colors.blueGrey,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                textStyle: TextStyle(color: Colors.blueGrey)),
             onPressed: () async {
               await prov.doGetTahunAjaranAktif();
-              Toast.show(prov.isMessage, context,
-                  duration: 3, gravity: Toast.TOP);
+              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
             },
             child: Text('Reload'),
           )
@@ -273,8 +271,7 @@ class _KrsScreenState extends State<KrsScreen> {
             textColor: Colors.blueGrey,
             onPressed: () async {
               await prov.doGetTahunAjaranAktif();
-              Toast.show(prov.isMessage, context,
-                  duration: 3, gravity: Toast.TOP);
+              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
             },
             child: Text('Reload'),
           )
@@ -303,8 +300,7 @@ class _KrsScreenState extends State<KrsScreen> {
             textColor: Colors.blueGrey,
             onPressed: () async {
               await prov.doGetKRS(khsid: prov.dataStatusKRS.data.kHSID);
-              Toast.show(prov.isMessage, context,
-                  duration: 3, gravity: Toast.TOP);
+              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
             },
             child: Text('Reload'),
           )

@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
+    Future.microtask(() {
       Provider.of<InitialProvider>(context, listen: false).cekInitialPage();
     });
   }

@@ -149,22 +149,19 @@ class _LoginScreenState extends State<LoginScreen> {
         child: FlatButton(
             onPressed: () async {
               if (_nimText.text.isEmpty || _passText.text.isEmpty) {
-                Toast.show('NIM dan Password tidak boleh kosong', context,
-                    duration: 2, gravity: Toast.TOP);
+                Toast.show('NIM dan Password tidak boleh kosong',
+                    duration: 2, gravity: Toast.top);
               } else {
                 await prov.doLogin(
                     login: _nimText.text, password: _passText.text);
                 if (prov.islogin == true) {
-                  Toast.show(prov.isMsg, context,
-                      gravity: Toast.TOP, duration: 2);
+                  Toast.show(prov.isMsg, gravity: Toast.top, duration: 2);
                   return Navigator.pushReplacement(
                       context, MaterialPageRoute(builder: (_) => HomeScreen()));
                 } else if (prov.islogin == false) {
-                  Toast.show(prov.isMsg, context,
-                      gravity: Toast.TOP, duration: 2);
+                  Toast.show(prov.isMsg, gravity: Toast.top, duration: 2);
                 } else if (prov.isError == true) {
-                  Toast.show(prov.isMsg, context,
-                      gravity: Toast.TOP, duration: 2);
+                  Toast.show(prov.isMsg, gravity: Toast.top, duration: 2);
                 }
               }
             },

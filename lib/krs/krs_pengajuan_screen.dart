@@ -128,22 +128,23 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                     ? Container(
                         padding: EdgeInsets.only(left: 10, right: 10),
                         width: MediaQuery.of(context).size.width,
-                        child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            color: bgColor,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                primary: bgColor),
                             onPressed: () async {
                               await prov.doGetSimpanKRS();
                               if (prov.isAdaDataSimpanKRS) {
-                                Toast.show(prov.isMessage, context,
-                                    duration: 3, gravity: Toast.TOP);
+                                Toast.show(prov.isMessage,
+                                    duration: 3, gravity: Toast.top);
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => HomeScreen()));
                               } else {
-                                Toast.show(prov.isMessage, context,
-                                    duration: 3, gravity: Toast.TOP);
+                                Toast.show(prov.isMessage,
+                                    duration: 3, gravity: Toast.top);
                               }
                             },
                             child: !prov.isLoadingSimpanKRS
@@ -187,14 +188,14 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
           child: Column(
         children: [
           SomeError(),
-          RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            textColor: Colors.blueGrey,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                primary: Colors.blueGrey),
             onPressed: () async {
               await prov.doGetKRS(khsid: prov.dataStatusKRS.data.kHSID);
-              Toast.show(prov.isMessage, context,
-                  duration: 3, gravity: Toast.TOP);
+              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
             },
             child: Text('Reload'),
           )
@@ -289,8 +290,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
             await prov.doGetKRSPaketTerpilih(
                 tahunid: prov.dataTahunAktif.data.tahunTA,
                 paketid: val.toString());
-            Toast.show(prov.isMessage, context,
-                gravity: Toast.TOP, duration: 3);
+            Toast.show(prov.isMessage, gravity: Toast.top, duration: 3);
           },
           // value: 'Pilih Paket',
           hint: Row(

@@ -148,8 +148,8 @@ class KeuanganProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response =
-          await client.post('$api/mahasiswa/tahun-khs', headers: headerJwt);
+      response = await client.post(Uri.parse('$api/mahasiswa/tahun-khs'),
+          headers: headerJwt);
       setLoading = false;
       return response;
     } catch (e) {
@@ -191,7 +191,7 @@ class KeuanganProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/keuangan-khs',
+      response = await client.post(Uri.parse('$api/mahasiswa/keuangan-khs'),
           headers: header, body: data);
       setloadingKeuangan = false;
       return response;
@@ -232,7 +232,7 @@ class KeuanganProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/keuangan-detail',
+      response = await client.post(Uri.parse('$api/mahasiswa/keuangan-detail'),
           headers: header, body: data);
       setLoadingKeuanganDetail = false;
       return response;

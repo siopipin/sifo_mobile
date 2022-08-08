@@ -128,8 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   GestureDetector(
                     onTap: () async {
                       await provLogin.doLogout();
-                      Toast.show(provLogin.msg, context,
-                          gravity: Toast.TOP, duration: 3);
+                      Toast.show(provLogin.msg,
+                          gravity: Toast.top, duration: 3);
                       Phoenix.rebirth(context);
                       // Navigator.pushReplacement(context,
                       //     MaterialPageRoute(builder: (_) => LoginScreen()));

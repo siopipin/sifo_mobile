@@ -126,8 +126,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
               onPressed: () async {
                 await prov.doGetTahunKHS();
 
-                Toast.show(prov.message, context,
-                    duration: 3, gravity: Toast.TOP);
+                Toast.show(prov.message, duration: 3, gravity: Toast.top);
               },
               child: Text('Reload'),
             )
@@ -311,7 +310,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
           onChanged: (val) async {
             await prov.doGetNilai(tahun: val);
             prov.tahun = val;
-            Toast.show(prov.isMsg, context, gravity: Toast.TOP, duration: 3);
+            Toast.show(prov.isMsg, gravity: Toast.top, duration: 3);
           },
           value: prov.isTahun,
           decoration: InputDecoration(

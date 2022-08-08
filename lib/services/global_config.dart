@@ -23,8 +23,8 @@ const appTitle = TextStyle(
     fontSize: 30, fontWeight: FontWeight.bold, height: 1.5, color: textWhite);
 
 //TODO Ganti API
-const api = 'http://10.0.2.2:3000/mobile';
-const fotoUrl = 'http://10.0.2.2:3000/images';
+const api = 'http://192.168.40.6:3000/mobile';
+const fotoUrl = 'http://192.168.40.6:3000/images';
 
 // const api = 'http://103.167.34.22:3000/mobile';
 const apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';

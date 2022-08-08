@@ -153,7 +153,7 @@ class FirebaseNotifications {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
 
-    response = await client.put('$api/mahasiswa/token-update',
+    response = await client.put(Uri.parse('$api/mahasiswa/token-update'),
         headers: headerJwt, body: data);
 
     if (response.statusCode == 200) {

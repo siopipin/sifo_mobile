@@ -187,7 +187,8 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get('$api/mahasiswa/profile', headers: headerJwt);
+      response = await client.get(Uri.parse('$api/mahasiswa/profile'),
+          headers: headerJwt);
       setLoading = false;
       return response;
     } catch (e) {
@@ -235,7 +236,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.put('$api/mahasiswa/profile-update',
+      response = await client.put(Uri.parse('$api/mahasiswa/profile-update'),
           headers: headerJwt, body: data);
       setLoading = false;
       return response;
@@ -277,7 +278,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/auth/cek-password',
+      response = await client.post(Uri.parse('$api/auth/cek-password'),
           headers: headerJwt, body: data);
       return response;
     } catch (e) {
@@ -318,7 +319,7 @@ class ProfileProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.put('$api/auth/password-update',
+      response = await client.put(Uri.parse('$api/auth/password-update'),
           headers: headerJwt, body: data);
       setLoading = false;
       return response;

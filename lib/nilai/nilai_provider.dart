@@ -94,8 +94,8 @@ class NilaiProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response =
-          await client.post('$api/mahasiswa/tahun-khs', headers: headerJwt);
+      response = await client.post(Uri.parse('$api/mahasiswa/tahun-khs'),
+          headers: headerJwt);
       setLoading = false;
       return response;
     } catch (e) {
@@ -171,7 +171,7 @@ class NilaiProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post('$api/mahasiswa/nilai',
+      response = await client.post(Uri.parse('$api/mahasiswa/nilai'),
           headers: header, body: data);
       setLoadingNilai = false;
       return response;

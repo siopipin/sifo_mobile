@@ -224,9 +224,11 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
             Container(
               height: 50,
               width: MediaQuery.of(context).size.width / 2 + 30,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    primary: bgColor),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -234,7 +236,6 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                   'Reaload !',
                   style: TextStyle(color: Colors.white),
                 ),
-                color: bgColor,
               ),
             )
           ],
@@ -326,9 +327,11 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
             Container(
               height: 50,
               width: MediaQuery.of(context).size.width / 2 + 30,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    primary: bgColor),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -336,7 +339,6 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                   'Reaload !',
                   style: TextStyle(color: Colors.white),
                 ),
-                color: bgColor,
               ),
             )
           ],
@@ -443,7 +445,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
             await prov.doGetKeuanganKHS(tahun: val);
             await prov.doGetKeuanganDetail(tahun: val);
             prov.tahun = val;
-            Toast.show(prov.isMsg, context, gravity: Toast.TOP, duration: 3);
+            Toast.show(prov.isMsg, gravity: Toast.top, duration: 3);
           },
           value: prov.isTahun,
           decoration: InputDecoration(
