@@ -1,5 +1,5 @@
 class StatusKRSModel {
-  Data data;
+  Data? data;
 
   StatusKRSModel({this.data});
 
@@ -10,15 +10,15 @@ class StatusKRSModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int kHSID;
-  String statuskrs;
+  int? kHSID;
+  String? statuskrs;
 
   Data({this.kHSID, this.statuskrs});
 

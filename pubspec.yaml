@@ -4,16 +4,16 @@ description: Sistem Informasi Akademik.
 version: 1.0.2+4
 
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: ">=2.17.6 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences: ^2.0.8
+  cupertino_icons: ^1.0.2
   collection: ^1.14.13
   line_icons:
-  cupertino_icons: ^1.0.0
   flutter_launcher_icons: ^0.10.0
-  flutter_secure_storage: ^5.1.0
   http: ^0.13.4
   provider: ^6.0.3
   shimmer: ^2.0.0
@@ -31,8 +31,6 @@ dependencies:
   # permissions_plugin: ^1.1.4
 
   # firebase
-  firebase_messaging: ^12.0.1
-  plugin_platform_interface: ^2.0.2
 
   cached_network_image: ^3.2.1
   image_picker: ^0.8.5+3

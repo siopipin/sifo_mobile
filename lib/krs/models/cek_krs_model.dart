@@ -1,5 +1,5 @@
 class CekKRSModel {
-  bool data;
+  bool? data;
 
   CekKRSModel({this.data});
 

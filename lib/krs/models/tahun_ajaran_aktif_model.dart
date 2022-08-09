@@ -1,5 +1,5 @@
 class TahunAjaranAktifModel {
-  Data data;
+  Data? data;
 
   TahunAjaranAktifModel({this.data});
 
@@ -10,18 +10,18 @@ class TahunAjaranAktifModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String tahunTA;
-  String namaTA;
-  String tglKRSMulai;
-  String tglKRSSelesai;
-  String kodeID;
+  String? tahunTA;
+  String? namaTA;
+  String? tglKRSMulai;
+  String? tglKRSSelesai;
+  String? kodeID;
 
   Data(
       {this.tahunTA,

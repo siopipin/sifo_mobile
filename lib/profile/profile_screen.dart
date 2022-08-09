@@ -9,7 +9,7 @@ import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -159,10 +159,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget infoBuilder(BuildContext context) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
-    _alamat.text = prov.dataMahasiswa?.data?.alamat ?? '-';
-    _email.text = prov.dataMahasiswa?.data?.email ?? '-';
-    _hp.text = prov.dataMahasiswa?.data?.handphone ?? '-';
-    _hportu.text = prov.dataMahasiswa?.data?.handphoneOrtu ?? '-';
+    _alamat.text = prov.dataMahasiswa.data.alamat;
+    _email.text = prov.dataMahasiswa.data.email;
+    _hp.text = prov.dataMahasiswa.data.handphone;
+    _hportu.text = prov.dataMahasiswa.data.handphoneOrtu;
 
     final size = MediaQuery.of(context).size;
     return Stack(
@@ -220,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               prov.isData
                                   ? Text(
-                                      "${prov.dataMahasiswa?.data?.nama ?? '-'}",
+                                      "${prov.dataMahasiswa.data.nama}",
                                       style: TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold,
@@ -232,7 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               prov.isData
                                   ? Text(
-                                      "${prov.dataMahasiswa?.data?.mhswID ?? '-'}",
+                                      "${prov.dataMahasiswa.data.mhswID}",
                                       style: TextStyle(
                                         color: textPrimary,
                                         fontSize: 14,
@@ -256,7 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Container(
                               child: prov.data
                                   ? Text(
-                                      "Program : ${prov.dataMahasiswa?.data?.programID ?? '-'} - ${prov.programId}",
+                                      "Program : ${prov.dataMahasiswa.data.programID} - ${prov.programId}",
                                       style: TextStyle(
                                         color: textPrimary,
                                         fontSize: 14,
@@ -298,7 +298,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.only(left: 30),
                         child: prov.isData
                             ? Text(
-                                "${prov.dataMahasiswa?.data?.prodiID ?? '-'}",
+                                "${prov.dataMahasiswa.data.prodiID}",
                                 style: TextStyle(
                                     color: textPrimary,
                                     fontSize: 16,
@@ -335,7 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     iconEdit: true,
                     no: '1',
                     ket: 'Alamat',
-                    data: prov.dataMahasiswa?.data?.alamat ?? '-',
+                    data: prov.dataMahasiswa.data.alamat,
                     textCtrl: _alamat),
                 Divider(),
                 detailBuider(
@@ -344,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     no: '2',
                     ket: 'Email',
                     textCtrl: _email,
-                    data: prov.dataMahasiswa?.data?.email ?? '-'),
+                    data: prov.dataMahasiswa.data.email),
                 Divider(),
                 detailBuider(
                     context: context,
@@ -352,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     no: '3',
                     ket: 'Handphone',
                     textCtrl: _hp,
-                    data: prov.dataMahasiswa?.data?.handphone ?? '-'),
+                    data: prov.dataMahasiswa.data.handphone),
                 Divider(),
                 detailBuider(
                     context: context,
@@ -360,28 +360,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     no: '4',
                     ket: 'Handphone Orang Tua',
                     textCtrl: _hportu,
-                    data: prov.dataMahasiswa?.data?.handphoneOrtu ?? '-'),
+                    data: prov.dataMahasiswa.data.handphoneOrtu),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '5',
                     ket: 'KTP',
-                    data: prov.dataMahasiswa?.data?.kTP ?? '-'),
+                    data: prov.dataMahasiswa.data.kTP),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '6',
                     ket: 'Agama',
-                    data: prov.dataMahasiswa?.data?.agama ?? '-'),
+                    data: prov.dataMahasiswa.data.agama),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '7',
                     ket: 'Nama Ibu',
-                    data: prov.dataMahasiswa?.data?.namaIbu ?? '-'),
+                    data: prov.dataMahasiswa.data.namaIbu),
                 Divider(),
                 SizedBox(
                   height: 20,
@@ -398,14 +398,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     iconEdit: false,
                     no: '1',
                     ket: 'Nama Kelas',
-                    data: prov.dataMahasiswa?.data?.namaKelas ?? '-'),
+                    data: prov.dataMahasiswa.data.namaKelas),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '2',
                     ket: 'Mentor - PA',
-                    data: prov.dataMahasiswa?.data?.pA ?? '-'),
+                    data: prov.dataMahasiswa.data.pA),
                 Divider(),
                 Column(
                   children: [
@@ -437,12 +437,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget detailBuider({
-    BuildContext context,
-    @required String no,
-    @required String ket,
-    @required String data,
-    TextEditingController textCtrl,
-    @required bool iconEdit,
+    required BuildContext context,
+    required String no,
+    required String ket,
+    required String data,
+    TextEditingController? textCtrl,
+    required bool iconEdit,
   }) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
 

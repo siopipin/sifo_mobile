@@ -1,5 +1,5 @@
 class ProfileModel {
-  Data data;
+  Data? data;
 
   ProfileModel({this.data});
 
@@ -10,30 +10,30 @@ class ProfileModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String mhswID;
-  String tahunID;
-  String bipotNama;
-  String nama;
-  String statusAwalID;
-  String statusMhswID;
-  String programID;
-  String prodiID;
-  var namaKelas;
-  var pA;
-  String agama;
-  String alamat;
-  String kTP;
-  String handphone;
-  String email;
-  String namaIbu;
-  String handphoneOrtu;
+  String? mhswID;
+  String? tahunID;
+  String? bipotNama;
+  String? nama;
+  String? statusAwalID;
+  String? statusMhswID;
+  String? programID;
+  String? prodiID;
+  String? namaKelas;
+  Null? pA;
+  String? agama;
+  String? alamat;
+  String? kTP;
+  String? handphone;
+  String? email;
+  String? namaIbu;
+  String? handphoneOrtu;
 
   Data(
       {this.mhswID,

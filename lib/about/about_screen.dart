@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
 class AboutScreen extends StatefulWidget {
-  AboutScreen({Key key}) : super(key: key);
+  AboutScreen({Key? key}) : super(key: key);
 
   @override
   _AboutScreenState createState() => _AboutScreenState();

@@ -1,13 +1,13 @@
 class NotificationModel {
-  List<Data> data;
+  List<Data>? data;
 
   NotificationModel({this.data});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -15,21 +15,21 @@ class NotificationModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  int id;
-  String title;
-  String isi;
-  String mhswid;
-  String topik;
-  int status;
-  String tanggalKirim;
-  String tanggalBaca;
+  int? id;
+  String? title;
+  String? isi;
+  String? mhswid;
+  String? topik;
+  int? status;
+  String? tanggalKirim;
+  String? tanggalBaca;
 
   Data(
       {this.id,

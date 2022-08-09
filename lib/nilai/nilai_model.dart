@@ -1,13 +1,13 @@
 class NilaiModel {
-  List<Data> data;
+  List<Data>? data;
 
   NilaiModel({this.data});
 
   NilaiModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -15,25 +15,24 @@ class NilaiModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String mKKode;
-  String nama;
-  int sKS;
-  int tugas1;
-  int tugas2;
-  int tugas3;
-  int vPresensi;
-  int nPresensi;
-  var uTS;
-  var uAS;
-  var nilaiAkhir;
-  bool isExpanded;
+  String? mKKode;
+  String? nama;
+  int? sKS;
+  int? tugas1;
+  int? tugas2;
+  int? tugas3;
+  int? vPresensi;
+  int? nPresensi;
+  int? uTS;
+  int? uAS;
+  int? nilaiAkhir;
 
   Data(
       {this.mKKode,
@@ -46,8 +45,7 @@ class Data {
       this.nPresensi,
       this.uTS,
       this.uAS,
-      this.nilaiAkhir,
-      this.isExpanded});
+      this.nilaiAkhir});
 
   Data.fromJson(Map<String, dynamic> json) {
     mKKode = json['MKKode'];
@@ -61,7 +59,6 @@ class Data {
     uTS = json['UTS'];
     uAS = json['UAS'];
     nilaiAkhir = json['NilaiAkhir'];
-    isExpanded = json['isExpanded'];
   }
 
   Map<String, dynamic> toJson() {
@@ -77,7 +74,6 @@ class Data {
     data['UTS'] = this.uTS;
     data['UAS'] = this.uAS;
     data['NilaiAkhir'] = this.nilaiAkhir;
-    data['isExpanded'] = this.isExpanded;
     return data;
   }
 }

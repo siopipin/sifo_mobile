@@ -1,5 +1,5 @@
 class KeuanganKHSModel {
-  Data data;
+  Data? data;
 
   KeuanganKHSModel({this.data});
 
@@ -10,21 +10,21 @@ class KeuanganKHSModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String tahunid;
-  int sesi;
-  int sks;
-  var ips;
-  var biaya;
-  var potongan;
-  var bayar;
-  var tarik;
+  String? tahunid;
+  int? sesi;
+  int? sks;
+  int? ips;
+  int? biaya;
+  int? potongan;
+  int? bayar;
+  int? tarik;
 
   Data(
       {this.tahunid,

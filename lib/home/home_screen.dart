@@ -12,7 +12,6 @@ import 'package:sisfo_mobile/notification/notification_screen.dart';
 
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';
-import 'package:sisfo_mobile/services/firebase_notification_handler.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
@@ -31,8 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Provider.of<HomeProvider>(context, listen: false).getDataAwal();
-
-    new FirebaseNotifications().setUpFirebase(context);
   }
 
   @override

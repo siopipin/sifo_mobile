@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {
-  final storage = new FlutterSecureStorage();
-
-  saveTokenFCM({@required String val}) async {
-    await storage.write(key: 'tokenfcm', value: val);
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+ 
+ saveLogin(
+      {required String id, required String nama, required String token}) async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setString('id', id);
+    await prefs.setString('nama', nama);
+    await prefs.setString('token', token);
   }
-
+ 
   tokenFCM() async {
     await storage.read(key: 'tokenfcm');
   }
