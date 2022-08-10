@@ -5,7 +5,7 @@ import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({Key key}) : super(key: key);
+  SplashScreen({Key? key}) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final LoginProvider prov = Provider.of<LoginProvider>(context);
     return Scaffold(
-      backgroundColor: colorbgSplashScreen,
+      backgroundColor: config.colorPrimary,
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 50),
@@ -28,15 +28,16 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: const AssetImage('assets/images/logo.png'),
-                    fit: BoxFit.fill),
+                  image: AssetImage(config.logoPath),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             Column(
               children: <Widget>[
                 Text(
                   "STIKES Gunung Sari",
-                  style: appTitle,
+                  style: config.appTitle,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -53,10 +54,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ],
             ),
-            FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                color: colorButtonSplashScreen,
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  primary: config.colorPrimary,
+                ),
                 onPressed: () async {
                   await prov.doWelcome();
                   Navigator.pushReplacement(context,
@@ -68,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Center(
                     child: Text(
                       "Mulai Gunakan!",
-                      style: TextStyle(color: textPrimary),
+                      style: TextStyle(color: config.fontWhite),
                     ),
                   ),
                 )),

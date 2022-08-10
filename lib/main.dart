@@ -39,7 +39,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -49,28 +49,22 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<InitialProvider>(context, listen: false).cekInitialPage();
-    });
+    Future.microtask(() => context.read<InitialProvider>().initial());
   }
 
   @override
   Widget build(BuildContext context) {
-    // FirebaseAnalytics analytics = FirebaseAnalytics();
-    final InitialProvider prov = Provider.of<InitialProvider>(context);
-    final init = prov.getInitialPage;
+    final watchInitial = context.watch<InitialProvider>();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sisfo Mobile',
       theme: ThemeData(fontFamily: 'Roboto', primarySwatch: Colors.blue),
-      home: init == 'SPLASH'
+      home: watchInitial.initialPage == 'SPLASH'
           ? SplashScreen()
-          : init == 'LOGIN'
+          : watchInitial.initialPage == 'LOGIN'
               ? LoginScreen()
               : HomeScreen(),
-      navigatorObservers: [
-        // FirebaseAnalyticsObserver(analytics: analytics),
-      ],
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 
 class NotificationScreen extends StatefulWidget {
-  NotificationScreen({Key key}) : super(key: key);
+  NotificationScreen({Key? key}) : super(key: key);
 
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -30,7 +30,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: appbarColor,
+            backgroundColor: config.colorPrimary,
             title: Text('Notifikasi'),
             bottom: TabBar(
               tabs: [
@@ -102,7 +102,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       );
     } else if (prov.isAdaDataInbox) {
       return Column(
-        children: prov.dataInbox.data.map((e) {
+        children: prov.dataInbox.data!.map((e) {
           return Column(
             children: [
               GestureDetector(
@@ -114,8 +114,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           width: 30,
                           height: 30,
-                          decoration: BoxDecoration(
-                              color: textPrimary, shape: BoxShape.circle),
+                          decoration: BoxDecoration(shape: BoxShape.circle),
                           child: Center(
                             child: Icon(LineIcons.inbox,
                                 color: Colors.white, size: 15),
@@ -140,7 +139,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           Container(
                             width: MediaQuery.of(context).size.width - 50,
                             child: Text(
-                              e.title,
+                              e.title!,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14),
                             ),
@@ -148,7 +147,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           Container(
                             width: MediaQuery.of(context).size.width - 50,
                             child: Text(
-                              e.tanggalKirim,
+                              e.tanggalKirim!,
                               style: TextStyle(
                                   color: Colors.grey[700], fontSize: 10),
                             ),
@@ -158,7 +157,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width - 50,
-                            child: Text(e.isi,
+                            child: Text(e.isi!,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
@@ -170,11 +169,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
                 onTap: () => _modalBottomSheetMenu(
-                    status: e.status,
-                    id: e.id,
-                    isi: e.isi,
-                    title: e.title,
-                    tgl: e.tanggalKirim),
+                    status: e.status!,
+                    id: e.id!,
+                    isi: e.isi!,
+                    title: e.title!,
+                    tgl: e.tanggalKirim!),
               ),
               Divider()
             ],
@@ -217,7 +216,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       );
     } else if (prov.isAdaDataNotification) {
       return Column(
-        children: prov.dataNotification.data.map((e) {
+        children: prov.dataNotification.data!.map((e) {
           return Column(
             children: [
               GestureDetector(
@@ -229,8 +228,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           width: 30,
                           height: 30,
-                          decoration: BoxDecoration(
-                              color: textPrimary, shape: BoxShape.circle),
+                          decoration: BoxDecoration(shape: BoxShape.circle),
                           child: Center(
                             child: Icon(LineIcons.inbox,
                                 color: Colors.white, size: 15),
@@ -255,7 +253,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           Container(
                             width: MediaQuery.of(context).size.width - 50,
                             child: Text(
-                              e.title,
+                              e.title!,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14),
                             ),
@@ -263,7 +261,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           Container(
                             width: MediaQuery.of(context).size.width - 50,
                             child: Text(
-                              e.tanggalKirim,
+                              e.tanggalKirim!,
                               style: TextStyle(
                                   color: Colors.grey[700], fontSize: 10),
                             ),
@@ -273,7 +271,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width - 50,
-                            child: Text(e.isi,
+                            child: Text(e.isi!,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(
@@ -285,7 +283,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
                 onTap: () => _modalBottomSheetMenuNotif(
-                    id: e.id, isi: e.isi, title: e.title, tgl: e.tanggalKirim),
+                    id: e.id!,
+                    isi: e.isi!,
+                    title: e.title!,
+                    tgl: e.tanggalKirim!),
               ),
               Divider()
             ],
@@ -298,11 +299,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _modalBottomSheetMenu(
-      {@required int id,
-      @required String isi,
-      @required int status,
-      @required String title,
-      @required String tgl}) {
+      {required int id,
+      required String isi,
+      required int status,
+      required String title,
+      required String tgl}) {
     final NotificationProvider prov =
         Provider.of<NotificationProvider>(context, listen: false);
     showModalBottomSheet(
@@ -385,10 +386,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _modalBottomSheetMenuNotif(
-      {@required int id,
-      @required String isi,
-      @required String title,
-      @required String tgl}) {
+      {required int id,
+      required String isi,
+      required String title,
+      required String tgl}) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         context: context,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FotoProfileWidget extends StatefulWidget {
-  FotoProfileWidget({Key key}) : super(key: key);
+  FotoProfileWidget({Key? key}) : super(key: key);
 
   @override
   State<FotoProfileWidget> createState() => _FotoProfileWidgetState();

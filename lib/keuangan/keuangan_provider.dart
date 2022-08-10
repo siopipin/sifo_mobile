@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart' show Client;
 import 'package:sisfo_mobile/keuangan/keuangan_detail_model.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_khs_model.dart';
 import 'package:sisfo_mobile/nilai/tahun_khs_model.dart';
@@ -11,7 +11,6 @@ import 'package:sisfo_mobile/services/storage.dart';
 
 class KeuanganProvider extends ChangeNotifier {
   Client client = new Client();
-  Response response;
 
   String message = '';
   String get isMsg => message;
@@ -97,7 +96,7 @@ class KeuanganProvider extends ChangeNotifier {
   TahunKHS get dataTahunKHS => tahunKHS;
   set setTahunKHS(val) {
     tahunKHS = val;
-    setTahun = tahunKHS.data[0].tahunid;
+    setTahun = tahunKHS.data![0].tahunid;
     notifyListeners();
   }
 
@@ -105,7 +104,7 @@ class KeuanganProvider extends ChangeNotifier {
   KeuanganKHSModel get dataKeuanganKHSModel => keuanganKHSModel;
   set setKeuanganKHS(val) {
     keuanganKHSModel = val;
-    setTahun = tahunKHS.data[0].tahunid;
+    setTahun = tahunKHS.data![0].tahunid;
     notifyListeners();
   }
 
@@ -113,13 +112,13 @@ class KeuanganProvider extends ChangeNotifier {
   KeuanganDetailModel get dataKeuanganDetail => keuanganDetailModel;
   set setKeuanganDetail(val) {
     keuanganDetailModel = val;
-    setTahun = tahunKHS.data[0].tahunid;
+    setTahun = tahunKHS.data![0].tahunid;
     notifyListeners();
   }
 
   doGetTahunKHS() async {
     setLoading = true;
-    response = await getTahunKHS();
+    final response = await getTahunKHS();
     print(response.statusCode);
     if (response != null) {
       if (response.statusCode == 200) {
@@ -142,13 +141,14 @@ class KeuanganProvider extends ChangeNotifier {
   }
 
   getTahunKHS() async {
-    var token = await store.token();
+    var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/tahun-khs'),
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/tahun-khs'),
           headers: headerJwt);
       setLoading = false;
       return response;
@@ -161,9 +161,9 @@ class KeuanganProvider extends ChangeNotifier {
   }
 
   ///Fungsi untuk ambil data keuangan KHS
-  doGetKeuanganKHS({@required String tahun}) async {
+  doGetKeuanganKHS({required String tahun}) async {
     setloadingKeuangan = true;
-    response = await getKeuanganKHS(tahun: tahun);
+    final response = await getKeuanganKHS(tahun: tahun);
     print(response.statusCode);
     if (response != null) {
       if (response.statusCode == 200) {
@@ -183,16 +183,18 @@ class KeuanganProvider extends ChangeNotifier {
     }
   }
 
-  getKeuanganKHS({@required String tahun}) async {
-    var token = await store.token();
+  getKeuanganKHS({required String tahun}) async {
+    var token = await store.showToken();
     var data = json.encode({"tahunid": tahun});
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/keuangan-khs'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/keuangan-khs'),
+          headers: header,
+          body: data);
       setloadingKeuangan = false;
       return response;
     } catch (e) {
@@ -203,9 +205,9 @@ class KeuanganProvider extends ChangeNotifier {
     }
   }
 
-  doGetKeuanganDetail({@required String tahun}) async {
+  doGetKeuanganDetail({required String tahun}) async {
     setLoadingKeuanganDetail = true;
-    response = await getKeuanganDetail(tahun: tahun);
+    final response = await getKeuanganDetail(tahun: tahun);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -224,16 +226,18 @@ class KeuanganProvider extends ChangeNotifier {
     }
   }
 
-  getKeuanganDetail({@required String tahun}) async {
-    var token = await store.token();
+  getKeuanganDetail({required String tahun}) async {
+    var token = await store.showToken();
     var data = json.encode({"tahunid": tahun});
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/keuangan-detail'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/keuangan-detail'),
+          headers: header,
+          body: data);
       setLoadingKeuanganDetail = false;
       return response;
     } catch (e) {

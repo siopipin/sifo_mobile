@@ -26,7 +26,7 @@ class Data {
   String? programID;
   String? prodiID;
   String? namaKelas;
-  Null? pA;
+  dynamic pA;
   String? agama;
   String? alamat;
   String? kTP;

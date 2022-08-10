@@ -49,43 +49,43 @@ class HomeProvider extends ChangeNotifier {
   }
 
   getDataAwal() async {
-    String tmp = await store.nama();
-    if (tmp != null) {
+    String tmp = await store.showNama();
+    if (tmp.isEmpty) {
       setNama = tmp;
     } else {
       setNama = 'User';
     }
 
-    String tmp2 = await store.npm();
-    if (tmp2 != null) {
+    String tmp2 = await store.showNPM();
+    if (tmp2.isEmpty) {
       setNim = tmp2;
     } else {
       setNim = '-';
     }
 
-    String tmp3 = await store.prodi();
-    if (tmp3 != null) {
+    String tmp3 = await store.showProdi();
+    if (tmp3.isEmpty) {
       setProdi = tmp3;
     } else {
       setProdi = '-';
     }
 
-    String tmp4 = await store.program();
-    if (tmp4 != null) {
+    String tmp4 = await store.showProgram();
+    if (tmp4.isEmpty) {
       setProgram = tmp4;
     } else {
       setProgram = '-';
     }
 
-    String tmp5 = await store.status();
-    if (tmp5 != null) {
+    String tmp5 = await store.showStatus();
+    if (tmp5.isEmpty) {
       setStatus = tmp5;
     } else {
       setStatus = '-';
     }
 
-    String tmp6 = await store.foto();
-    if (tmp6 != null) {
+    String tmp6 = await store.showFoto();
+    if (tmp6.isEmpty) {
       setFoto = tmp6;
     } else {
       setFoto = '-';

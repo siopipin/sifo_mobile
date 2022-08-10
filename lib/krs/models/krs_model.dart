@@ -1,13 +1,13 @@
 class KrsModel {
-  List<Data> data;
+  List<Data>? data;
 
   KrsModel({this.data});
 
   KrsModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -15,145 +15,141 @@ class KrsModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  int kRSID;
-  String kodeID;
-  int kHSID;
-  String mhswID;
-  String tahunID;
-  int jadwalID;
-  int jadwalResponsiID;
-  int mKID;
-  String mKKode;
-  String nama;
-  int sKS;
-  String dosenID;
-  String hargaStandar;
-  int harga;
-  int bayar;
-  int tugas1;
-  int tugas2;
-  int tugas3;
-  int tugas4;
-  int tugas5;
-  int presensi;
-  int iPresensi;
-  int uTS;
-  int uAS;
-  int responsi;
-  int nilaiAkhir;
-  String gradeNilai;
-  int bobotNilai;
-  String statusKRSID;
-  String tinggi;
-  String finalNilai;
-  String setara;
-  String setaraKode;
-  String setaraGrade;
-  String setaraNama;
-  String dispensasi;
-  var dispensasiOleh;
-  String tanggalDispensasi;
-  var catatanDispensasi;
-  var catatan;
-  var catatanError;
-  String sedangRemedial;
-  String ruangID;
-  int urutanUTS;
-  int urutanUAS;
-  String sah;
-  String loginBuat;
-  String tanggalBuat;
-  var loginEdit;
-  var tanggalEdit;
-  String nA;
-  var term;
-  String sync;
-  String mKNama;
-  int hariID;
-  var namaKelas;
-  String jM;
-  String jS;
-  int sesi;
-  String adaResponsi;
-  String dSN;
-  String jenisJadwalID;
-  String sNamaJenisJadwal;
-  String tambahan;
-  bool isExpanded;
-
-  Data(
-      {this.kRSID,
-      this.kodeID,
-      this.kHSID,
-      this.mhswID,
-      this.tahunID,
-      this.jadwalID,
-      this.jadwalResponsiID,
-      this.mKID,
-      this.mKKode,
-      this.nama,
-      this.sKS,
-      this.dosenID,
-      this.hargaStandar,
-      this.harga,
-      this.bayar,
-      this.tugas1,
-      this.tugas2,
-      this.tugas3,
-      this.tugas4,
-      this.tugas5,
-      this.presensi,
-      this.iPresensi,
-      this.uTS,
-      this.uAS,
-      this.responsi,
-      this.nilaiAkhir,
-      this.gradeNilai,
-      this.bobotNilai,
-      this.statusKRSID,
-      this.tinggi,
-      this.finalNilai,
-      this.setara,
-      this.setaraKode,
-      this.setaraGrade,
-      this.setaraNama,
-      this.dispensasi,
-      this.dispensasiOleh,
-      this.tanggalDispensasi,
-      this.catatanDispensasi,
-      this.catatan,
-      this.catatanError,
-      this.sedangRemedial,
-      this.ruangID,
-      this.urutanUTS,
-      this.urutanUAS,
-      this.sah,
-      this.loginBuat,
-      this.tanggalBuat,
-      this.loginEdit,
-      this.tanggalEdit,
-      this.nA,
-      this.term,
-      this.sync,
-      this.mKNama,
-      this.hariID,
-      this.namaKelas,
-      this.jM,
-      this.jS,
-      this.sesi,
-      this.adaResponsi,
-      this.dSN,
-      this.jenisJadwalID,
-      this.sNamaJenisJadwal,
-      this.tambahan,
-      this.isExpanded});
+  int? kRSID;
+  String? kodeID;
+  int? kHSID;
+  String? mhswID;
+  String? tahunID;
+  int? jadwalID;
+  int? jadwalResponsiID;
+  int? mKID;
+  String? mKKode;
+  String? nama;
+  int? sKS;
+  String? dosenID;
+  String? hargaStandar;
+  int? harga;
+  int? bayar;
+  int? tugas1;
+  int? tugas2;
+  int? tugas3;
+  int? tugas4;
+  int? tugas5;
+  int? presensi;
+  int? iPresensi;
+  int? uTS;
+  int? uAS;
+  int? responsi;
+  double? nilaiAkhir;
+  String? gradeNilai;
+  int? bobotNilai;
+  String? statusKRSID;
+  String? tinggi;
+  String? setara;
+  String? setaraKode;
+  String? setaraGrade;
+  String? setaraNama;
+  String? dispensasi;
+  dynamic dispensasiOleh;
+  String? tanggalDispensasi;
+  dynamic catatanDispensasi;
+  dynamic catatan;
+  dynamic catatanError;
+  String? sedangRemedial;
+  String? ruangID;
+  int? urutanUTS;
+  int? urutanUAS;
+  String? sah;
+  String? loginBuat;
+  String? tanggalBuat;
+  String? loginEdit;
+  String? tanggalEdit;
+  String? nA;
+  dynamic term;
+  String? mKNama;
+  int? hariID;
+  String? namaKelas;
+  String? jM;
+  String? jS;
+  int? sesi;
+  String? adaResponsi;
+  String? dSN;
+  String? jenisJadwalID;
+  String? sNamaJenisJadwal;
+  String? tambahan;
+  bool? isExpanded;
+  Data({
+    this.kRSID,
+    this.kodeID,
+    this.kHSID,
+    this.mhswID,
+    this.tahunID,
+    this.jadwalID,
+    this.jadwalResponsiID,
+    this.mKID,
+    this.mKKode,
+    this.nama,
+    this.sKS,
+    this.dosenID,
+    this.hargaStandar,
+    this.harga,
+    this.bayar,
+    this.tugas1,
+    this.tugas2,
+    this.tugas3,
+    this.tugas4,
+    this.tugas5,
+    this.presensi,
+    this.iPresensi,
+    this.uTS,
+    this.uAS,
+    this.responsi,
+    this.nilaiAkhir,
+    this.gradeNilai,
+    this.bobotNilai,
+    this.statusKRSID,
+    this.tinggi,
+    this.setara,
+    this.setaraKode,
+    this.setaraGrade,
+    this.setaraNama,
+    this.dispensasi,
+    this.dispensasiOleh,
+    this.tanggalDispensasi,
+    this.catatanDispensasi,
+    this.catatan,
+    this.catatanError,
+    this.sedangRemedial,
+    this.ruangID,
+    this.urutanUTS,
+    this.urutanUAS,
+    this.sah,
+    this.loginBuat,
+    this.tanggalBuat,
+    this.loginEdit,
+    this.tanggalEdit,
+    this.nA,
+    this.term,
+    this.mKNama,
+    this.hariID,
+    this.namaKelas,
+    this.jM,
+    this.jS,
+    this.sesi,
+    this.adaResponsi,
+    this.dSN,
+    this.jenisJadwalID,
+    this.sNamaJenisJadwal,
+    this.tambahan,
+    this.isExpanded,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     kRSID = json['KRSID'];
@@ -186,7 +182,6 @@ class Data {
     bobotNilai = json['BobotNilai'];
     statusKRSID = json['StatusKRSID'];
     tinggi = json['Tinggi'];
-    finalNilai = json['Final'];
     setara = json['Setara'];
     setaraKode = json['SetaraKode'];
     setaraGrade = json['SetaraGrade'];
@@ -208,7 +203,6 @@ class Data {
     tanggalEdit = json['TanggalEdit'];
     nA = json['NA'];
     term = json['Term'];
-    sync = json['Sync'];
     mKNama = json['MKNama'];
     hariID = json['HariID'];
     namaKelas = json['NamaKelas'];
@@ -255,7 +249,6 @@ class Data {
     data['BobotNilai'] = this.bobotNilai;
     data['StatusKRSID'] = this.statusKRSID;
     data['Tinggi'] = this.tinggi;
-    data['Final'] = this.finalNilai;
     data['Setara'] = this.setara;
     data['SetaraKode'] = this.setaraKode;
     data['SetaraGrade'] = this.setaraGrade;
@@ -277,7 +270,6 @@ class Data {
     data['TanggalEdit'] = this.tanggalEdit;
     data['NA'] = this.nA;
     data['Term'] = this.term;
-    data['Sync'] = this.sync;
     data['MKNama'] = this.mKNama;
     data['HariID'] = this.hariID;
     data['NamaKelas'] = this.namaKelas;
@@ -290,7 +282,6 @@ class Data {
     data['_NamaJenisJadwal'] = this.sNamaJenisJadwal;
     data['Tambahan'] = this.tambahan;
     data['isExpanded'] = this.isExpanded;
-
     return data;
   }
 }

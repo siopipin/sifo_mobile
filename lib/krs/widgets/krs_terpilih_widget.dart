@@ -5,7 +5,7 @@ import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 
 class KRSTerpilihWidget extends StatelessWidget {
-  const KRSTerpilihWidget({Key key}) : super(key: key);
+  const KRSTerpilihWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,26 +47,26 @@ class KRSTerpilihWidget extends StatelessWidget {
                 DataColumn(label: Text("Hari")),
                 DataColumn(label: Text("Jam Kuliah")),
               ],
-              rows: prov.dataKRSPaketTerpilih.data.map((e) {
+              rows: prov.dataKRSPaketTerpilih.data!.map((e) {
                 return DataRow(
                   cells: <DataCell>[
-                    DataCell(Text(e.mKKode ?? '-',
+                    DataCell(Text(e.mKKode!,
                         style: TextStyle(
                             fontSize: 11, fontWeight: FontWeight.bold))),
                     DataCell(Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(e.namaMK ?? '-',
+                        Text(e.namaMK!,
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold)),
-                        Text(e.dSN ?? '-', style: TextStyle(fontSize: 10))
+                        Text(e.dSN!, style: TextStyle(fontSize: 10))
                       ],
                     )),
-                    DataCell(Text(e.jadwalID.toString() ?? '-',
+                    DataCell(Text(e.jadwalID.toString(),
                         style: TextStyle(fontSize: 10))),
-                    DataCell(Text(e.hR ?? '-', style: TextStyle(fontSize: 10))),
-                    DataCell(Text('${e.jM ?? '-'} - ${e.jS ?? '-'}',
+                    DataCell(Text(e.hR!, style: TextStyle(fontSize: 10))),
+                    DataCell(Text('${e.jM} - ${e.jS}',
                         style: TextStyle(fontSize: 10))),
                   ],
                 );

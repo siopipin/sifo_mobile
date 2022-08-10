@@ -4,7 +4,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
-import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
@@ -19,7 +18,7 @@ import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -35,20 +34,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final HomeProvider prov = Provider.of<HomeProvider>(context);
-    final LoginProvider provLogin = Provider.of<LoginProvider>(context);
 
     return Scaffold(
       bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
       appBar: AppBar(
-        backgroundColor: appbarColor,
+        backgroundColor: config.colorPrimary,
         leading: Container(
           margin: EdgeInsets.all(6),
           width: 50,
           height: 50,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: const AssetImage('assets/images/logo.png'),
-                  fit: BoxFit.fill)),
+            image: AssetImage(config.logoPath),
+            fit: BoxFit.fill,
+          )),
         ),
         actions: [
           GestureDetector(
@@ -60,8 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 // draw a red marble
                 top: 15,
                 right: 5,
-                child: new Icon(Icons.brightness_1,
-                    size: 8.0, color: primaryYellow),
+                child: new Icon(
+                  Icons.brightness_1,
+                  size: 8.0,
+                  color: config.colorSecondary,
+                ),
               )
             ]),
           )
@@ -98,8 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             "Welcome",
-                            style:
-                                TextStyle(color: textPrimary.withOpacity(0.7)),
+                            style: TextStyle(
+                                color: config.colorPrimary.withOpacity(0.7)),
                           ),
                           SizedBox(
                             height: 3,
@@ -107,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             "${prov.isName}",
                             style: TextStyle(
-                                color: textPrimary,
+                                color: config.fontPrimary,
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -124,12 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      await provLogin.doLogout();
-                      Toast.show(provLogin.msg,
-                          gravity: Toast.top, duration: 3);
-                      Phoenix.rebirth(context);
-                      // Navigator.pushReplacement(context,
-                      //     MaterialPageRoute(builder: (_) => LoginScreen()));
+                      await store.removeLoginData().then((value) {
+                        if (value) {
+                          Toast.show('Logout berhasil, silahkan login!',
+                              gravity: Toast.top, duration: 3);
+                          Phoenix.rebirth(context);
+                        }
+                      });
                     },
                     child: Column(
                       children: [
@@ -140,7 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           'Sign Out',
                           style: TextStyle(
-                              fontSize: 8, color: textPrimary.withOpacity(0.8)),
+                              fontSize: 8,
+                              color: config.fontPrimary.withOpacity(0.8)),
                         )
                       ],
                     ),
@@ -168,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class InfoBanner extends StatelessWidget {
-  const InfoBanner({Key key}) : super(key: key);
+  const InfoBanner({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +182,7 @@ class InfoBanner extends StatelessWidget {
       width: double.infinity,
       height: 120,
       decoration: BoxDecoration(
-        color: primaryYellow,
+        color: config.colorSecondary,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
@@ -189,12 +193,12 @@ class InfoBanner extends StatelessWidget {
             child: Container(
               height: 100,
               child: FutureBuilder(
-                future: store.foto(),
+                future: store.showFoto(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data != null || snapshot.data.isNotEmpty) {
                       return CachedNetworkImage(
-                        imageUrl: '$imgurl/${snapshot.data}',
+                        imageUrl: '${config.imgurl}/${snapshot.data}',
                         imageBuilder: (context, imageProvider) => Container(
                           width: 82.0,
                           height: 100.0,
@@ -244,7 +248,7 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Program Studi',
                                   style: TextStyle(
-                                      color: textPrimary,
+                                      color: config.fontPrimary,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 12),
                                 ),
@@ -253,7 +257,6 @@ class InfoBanner extends StatelessWidget {
                                   child: Text(
                                     prov.isProdi,
                                     style: TextStyle(
-                                        color: textPrimary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
                                     overflow: TextOverflow.ellipsis,
@@ -274,14 +277,12 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Program',
                                   style: TextStyle(
-                                      color: textPrimary,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
                                 ),
                                 Text(
                                   prov.isProgram,
                                   style: TextStyle(
-                                      color: textPrimary,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 16),
                                 ),
@@ -293,14 +294,12 @@ class InfoBanner extends StatelessWidget {
                                 Text(
                                   'Status',
                                   style: TextStyle(
-                                      color: textPrimary,
                                       fontWeight: FontWeight.w200,
                                       fontSize: 10),
                                 ),
                                 Text(
                                   prov.isStatus,
                                   style: TextStyle(
-                                      color: textPrimary,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 16),
                                 ),
@@ -322,7 +321,7 @@ class InfoBanner extends StatelessWidget {
 }
 
 class MenuHome extends StatefulWidget {
-  MenuHome({Key key}) : super(key: key);
+  MenuHome({Key? key}) : super(key: key);
 
   @override
   _MenuHomeState createState() => _MenuHomeState();
@@ -337,8 +336,7 @@ class _MenuHomeState extends State<MenuHome> {
         children: [
           Text(
             'Layanan',
-            style: TextStyle(
-                color: textPrimary, fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           SizedBox(
             height: 10,
@@ -436,7 +434,7 @@ class _MenuHomeState extends State<MenuHome> {
 class CardMenu extends StatelessWidget {
   final IconData icon;
   final String label;
-  const CardMenu({Key key, @required this.icon, @required this.label})
+  const CardMenu({Key? key, required this.icon, required this.label})
       : super(key: key);
 
   @override
@@ -444,13 +442,10 @@ class CardMenu extends StatelessWidget {
     return Container(
       width: 90,
       height: 100,
-      decoration: BoxDecoration(
-          color: textWhite,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-                color: Color(0x148b8a8a), offset: Offset(0, 3), blurRadius: 6)
-          ]),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(15), boxShadow: [
+        BoxShadow(color: Color(0x148b8a8a), offset: Offset(0, 3), blurRadius: 6)
+      ]),
       child: Padding(
         padding: EdgeInsets.all(15),
         child: Column(
@@ -459,8 +454,8 @@ class CardMenu extends StatelessWidget {
             Icon(icon),
             Text(
               label,
-              style:
-                  TextStyle(color: textPrimary.withOpacity(0.5), fontSize: 12),
+              style: TextStyle(
+                  color: config.colorPrimary.withOpacity(0.5), fontSize: 12),
             )
           ],
         ),

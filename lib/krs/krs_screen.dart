@@ -14,7 +14,7 @@ import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class KrsScreen extends StatefulWidget {
-  KrsScreen({Key key}) : super(key: key);
+  KrsScreen({Key? key}) : super(key: key);
 
   @override
   _KrsScreenState createState() => _KrsScreenState();
@@ -31,7 +31,7 @@ class _KrsScreenState extends State<KrsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appbarColor,
+        backgroundColor: config.colorPrimary,
         title: Text('KRS'),
         actions: [cekToShowDownloadKRS()],
       ),
@@ -45,7 +45,7 @@ class _KrsScreenState extends State<KrsScreen> {
                   image: DecorationImage(
                       colorFilter: new ColorFilter.mode(
                           Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                      image: AssetImage('assets/images/bg-stikes.jpg'),
+                      image: AssetImage(config.bgPath),
                       fit: BoxFit.cover)),
               padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
               child: Row(
@@ -69,16 +69,14 @@ class _KrsScreenState extends State<KrsScreen> {
                     children: [
                       cekTahunKRS(),
                       FutureBuilder(
-                        future: store.nama(),
+                        future: store.showNama(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
                             return Text(
                               snapshot.data,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: textPrimary),
+                                  fontWeight: FontWeight.w700, fontSize: 16),
                             );
                           } else {
                             return loadingH2;
@@ -86,16 +84,16 @@ class _KrsScreenState extends State<KrsScreen> {
                         },
                       ),
                       FutureBuilder(
-                        future: store.npm(),
+                        future: store.showNPM(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
                             return Text(
                               snapshot.data,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: textPrimary),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             );
                           } else {
                             return loadingH3;
@@ -122,8 +120,8 @@ class _KrsScreenState extends State<KrsScreen> {
   Widget cekToShowDownloadKRS() {
     final KrsProvider prov = Provider.of<KrsProvider>(context);
     if (prov.isAdaDataStatusKRS) {
-      return (prov.dataStatusKRS.data.statuskrs == 'Aktif' ||
-              prov.dataStatusKRS.data.statuskrs == 'A')
+      return (prov.dataStatusKRS.data!.statuskrs == 'Aktif' ||
+              prov.dataStatusKRS.data!.statuskrs == 'A')
           ? GestureDetector(
               child: Padding(
                 padding: EdgeInsets.only(right: 20),
@@ -131,7 +129,7 @@ class _KrsScreenState extends State<KrsScreen> {
                   children: [
                     Icon(
                       LineIcons.download,
-                      color: textWhite,
+                      color: config.fontWhite,
                       size: 20,
                     ),
                     SizedBox(
@@ -141,7 +139,8 @@ class _KrsScreenState extends State<KrsScreen> {
                         ? Text(
                             'Download KRS',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: textWhite),
+                                fontWeight: FontWeight.bold,
+                                color: config.fontWhite),
                           )
                         : Text(
                             'Downloading ...',
@@ -187,7 +186,7 @@ class _KrsScreenState extends State<KrsScreen> {
     } else if (!prov.isDataTAaktif) {
       return Text('Tahun Ajaran Aktif tidak ada!');
     } else if (prov.isDataTAaktif) {
-      return Text(prov.dataTahunAktif?.data?.namaTA ?? '-');
+      return Text(prov.dataTahunAktif.data!.namaTA!);
     } else {
       return Container();
     }
@@ -207,12 +206,12 @@ class _KrsScreenState extends State<KrsScreen> {
           padding: EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: primaryRed,
+            color: config.colorPrimary,
           ),
           child: Padding(
               padding: EdgeInsets.all(5),
               child: Text(
-                "${prov.dataStatusKRS?.data?.statuskrs ?? '-'}",
+                "${prov.dataStatusKRS.data!.statuskrs!}",
                 style: TextStyle(color: Colors.white, fontSize: 12),
               )));
     } else {
@@ -247,8 +246,8 @@ class _KrsScreenState extends State<KrsScreen> {
         ],
       );
     } else if (prov.isAdaDataStatusKRS) {
-      return (prov.dataStatusKRS.data.statuskrs == 'Aktif' ||
-              prov.dataStatusKRS.data.statuskrs == 'A')
+      return (prov.dataStatusKRS.data!.statuskrs == 'Aktif' ||
+              prov.dataStatusKRS.data!.statuskrs == 'A')
           ? cekKRS()
           : Container(
               child: Column(
@@ -265,10 +264,11 @@ class _KrsScreenState extends State<KrsScreen> {
       return Column(
         children: [
           loadingTable,
-          RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            textColor: Colors.blueGrey,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                textStyle: TextStyle(color: Colors.blueGrey)),
             onPressed: () async {
               await prov.doGetTahunAjaranAktif();
               Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
@@ -294,12 +294,14 @@ class _KrsScreenState extends State<KrsScreen> {
       return Column(
         children: [
           SomeError(),
-          RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            textColor: Colors.blueGrey,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              textStyle: TextStyle(color: Colors.blueGrey),
+            ),
             onPressed: () async {
-              await prov.doGetKRS(khsid: prov.dataStatusKRS.data.kHSID);
+              await prov.doGetKRS(khsid: prov.dataStatusKRS.data!.kHSID!);
               Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
             },
             child: Text('Reload'),
@@ -328,7 +330,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: primaryYellow,
+                      color: config.colorSecondary,
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(5),
@@ -343,7 +345,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: primaryYellow,
+                      color: config.colorSecondary,
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(5),
@@ -358,7 +360,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: primaryYellow,
+                      color: config.colorSecondary,
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(5),
@@ -373,7 +375,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: primaryYellow,
+                      color: config.colorSecondary,
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(5),
@@ -388,7 +390,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: primaryYellow,
+                      color: config.colorSecondary,
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(5),
@@ -403,7 +405,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: primaryYellow,
+                      color: config.colorSecondary,
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(5),
@@ -439,10 +441,12 @@ class _KrsScreenState extends State<KrsScreen> {
               : Container(),
           prov.dataCekKrs.data == false
               ? ButtonTheme(
-                  buttonColor: bgColor,
+                  buttonColor: config.colorBackground,
                   minWidth: MediaQuery.of(context).size.width,
-                  child: RaisedButton(
-                    textColor: Colors.white,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -487,14 +491,13 @@ class _KrsScreenState extends State<KrsScreen> {
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Nama Mata Kuliah',
-                        style: TextStyle(fontSize: 11, color: textPrimary)),
+                    Text('Nama Mata Kuliah', style: TextStyle(fontSize: 11)),
                     Text(
-                      e.nama ?? '-',
+                      e.nama!,
                       style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: textPrimary),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
                     )
                   ],
                 ),
@@ -507,7 +510,7 @@ class _KrsScreenState extends State<KrsScreen> {
                         )),
                     Flexible(
                         child: Text(
-                      e.dSN ?? '-',
+                      e.dSN!,
                       style: TextStyle(
                         fontSize: 11,
                       ),
@@ -529,15 +532,15 @@ class _KrsScreenState extends State<KrsScreen> {
               rows: <DataRow>[
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text(e.mKKode ?? '-')),
-                    DataCell(Text('${e.jM ?? '-'} - ${e.jS ?? '-'}')),
-                    DataCell(Text(e.ruangID ?? '-')),
-                    DataCell(Text(e.sKS.toString() ?? '-')),
+                    DataCell(Text(e.mKKode!)),
+                    DataCell(Text('${e.jM!} - ${e.jS!}')),
+                    DataCell(Text(e.ruangID!)),
+                    DataCell(Text(e.sKS.toString())),
                   ],
                 ),
               ],
             ),
-            isExpanded: e.isExpanded,
+            isExpanded: e.isExpanded!,
           )
         ],
       ),
@@ -549,8 +552,8 @@ class _KrsScreenState extends State<KrsScreen> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: prov.dataKRS.data.map((e) {
-        var index = prov.dataKRS.data.indexOf(e);
+      children: prov.dataKRS.data!.map((e) {
+        var index = prov.dataKRS.data!.indexOf(e);
         if (e.hariID == hari) {
           return expandedBuilder(e, index);
         } else {

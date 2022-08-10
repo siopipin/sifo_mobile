@@ -2,18 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart' show Client;
 import 'package:sisfo_mobile/nilai/nilai_model.dart';
 import 'package:sisfo_mobile/nilai/tahun_khs_model.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class NilaiProvider extends ChangeNotifier {
-  NilaiProvider() {
+  initial() {
     doGetTahunKHS();
   }
+
   Client client = Client();
-  Response response;
 
   bool loading = false, error = false, adaData = false;
   String message = '';
@@ -44,7 +44,7 @@ class NilaiProvider extends ChangeNotifier {
 
   set setTahunKHS(val) {
     tahunKHS = val;
-    setTahun = tahunKHS.data[0].tahunid;
+    setTahun = tahunKHS.data![0].tahunid;
     notifyListeners();
   }
 
@@ -54,7 +54,7 @@ class NilaiProvider extends ChangeNotifier {
   }
 
   setExpanded(int index, bool status) {
-    dataNilai.data[index].isExpanded = status;
+    dataNilai.data![index].isExpanded = status;
     notifyListeners();
   }
 
@@ -67,14 +67,14 @@ class NilaiProvider extends ChangeNotifier {
   //Fungsi Ambil Tahun KHS
   doGetTahunKHS() async {
     setLoading = true;
-    response = await getTahunKHS();
+    final response = await getTahunKHS();
     print(response.statusCode);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
         setTahunKHS = TahunKHS.fromJson(tmp);
         setData = true;
-        await doGetNilai(tahun: dataTahunKHS.data[0].tahunid);
+        await doGetNilai(tahun: dataTahunKHS.data![0].tahunid!);
       } else if (response.statusCode == 401) {
         setMessage = 'Otentikasi tidak berhasil!';
         setError = true;
@@ -88,13 +88,14 @@ class NilaiProvider extends ChangeNotifier {
   }
 
   getTahunKHS() async {
-    var token = await store.token();
+    var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/tahun-khs'),
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/tahun-khs'),
           headers: headerJwt);
       setLoading = false;
       return response;
@@ -131,16 +132,16 @@ class NilaiProvider extends ChangeNotifier {
   NilaiModel nilaiModel = new NilaiModel();
   NilaiModel get dataNilai => nilaiModel;
   set setNilai(NilaiModel val) {
-    val.data.forEach((element) {
+    val.data!.forEach((element) {
       element.isExpanded = false;
     });
     nilaiModel = val;
     notifyListeners();
   }
 
-  doGetNilai({@required String tahun}) async {
+  doGetNilai({required String tahun}) async {
     setLoadingNilai = true;
-    response = await getNilai(tahun: tahun);
+    final response = await getNilai(tahun: tahun);
     print('doGetNilai / statusCode : ${response.statusCode}');
     if (response != null) {
       if (response.statusCode == 200) {
@@ -162,8 +163,8 @@ class NilaiProvider extends ChangeNotifier {
     }
   }
 
-  getNilai({@required String tahun}) async {
-    var token = await store.token();
+  getNilai({required String tahun}) async {
+    var token = await store.showToken();
     var data = json.encode({"tahunid": tahun});
     print(data);
     final header = {
@@ -171,8 +172,10 @@ class NilaiProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/nilai'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/nilai'),
+          headers: header,
+          body: data);
       setLoadingNilai = false;
       return response;
     } catch (e) {

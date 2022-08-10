@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart' show Client;
 import 'package:sisfo_mobile/auth/login_model.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
+import 'package:toast/toast.dart';
 
 class LoginProvider extends ChangeNotifier {
-  Response response;
   Client client = new Client();
 
   bool loading = false,
@@ -15,9 +15,9 @@ class LoginProvider extends ChangeNotifier {
       errorStatus = false,
       seePassword = true;
   String msg = '';
-  LoginModel _loginModel;
+  LoginModel? _loginModel;
 
-  LoginModel get dataMahasiswa => _loginModel;
+  LoginModel get dataMahasiswa => _loginModel!;
   bool get isLoading => loading;
   bool get islogin => loginStatus;
   bool get isError => errorStatus;
@@ -54,24 +54,28 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  doLogin({@required String login, @required String password}) async {
+  doLogin({required String login, required String password}) async {
     setLoading = true;
-    response = await postLogin(login, password);
+    final response = await postLogin(login, password);
 
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
         setDataMhs = LoginModel.fromJson(tmp);
 
-        await store.saveToken(val: _loginModel.token);
-        await store.saveNama(val: _loginModel.nama);
-        await store.saveNPM(val: _loginModel.idmhs);
-        await store.saveProdi(val: _loginModel.prodi);
-        await store.saveProgram(val: _loginModel.program);
-        await store.saveStatus(val: _loginModel.status);
-        await store.saveFoto(val: _loginModel.foto);
-
-        setMessage = 'Selamat Datang ${_loginModel.nama}';
+        await store.saveLoginData(
+          npm: _loginModel!.idmhs!,
+          nama: _loginModel!.nama!,
+          prodi: _loginModel!.prodi!,
+          program: _loginModel!.program!,
+          status: _loginModel!.status!,
+          token: _loginModel!.token!,
+          foto: _loginModel!.foto!,
+        );
+        Toast.show(
+          'Selamat datang ${_loginModel!.nama!}',
+          gravity: Toast.bottom,
+        );
         setLoginStatus = true;
       } else if (response.statusCode == 401) {
         setMessage = 'NIM atau kata sandi salah!';
@@ -85,26 +89,13 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  doLogout() async {
-    await store.destroyToken();
-    await store.destroyNama();
-    await store.destroyNpm();
-    await store.destroyProdi();
-    await store.destroyProgram();
-    await store.destroyStatus();
-    await store.destroyTokenFCM();
-    await store.delFoto();
-
-    setMessage = 'Logout Berhasil, silahkan login ulang!';
-  }
-
   ///Fetch Data from server
   postLogin(String login, password) async {
     var data = json.encode({'login': login, 'password': password});
 
     try {
-      response = await client.post(Uri.parse('$api/auth/login'),
-          headers: header, body: data);
+      final response = await client.post(Uri.parse('${config.api}/auth/login'),
+          headers: config.header, body: data);
       setLoading = false;
       return response;
     } catch (e) {
@@ -117,6 +108,6 @@ class LoginProvider extends ChangeNotifier {
 
   /// Function for SplashScreen
   doWelcome() async {
-    await store.saveSplashAction(val: 'true');
+    await store.saveSplashAction(status: true);
   }
 }

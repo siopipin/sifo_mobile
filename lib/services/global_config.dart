@@ -1,40 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-const bgColor = Color(0xFF3E4095);
-const primaryYellow = Color(0xFFFFEB3B);
-const primaryRed = Color(0xFFCC0000);
-const textWhite = Color(0xFFFFFFFF);
-const textBlack = Color(0xFF000000);
-const textPrimary = Color(0xFF3E4095);
-const grey = Color(0xFFF5F5F7);
-const navigationColor = Color(0xFFCC0000);
-const appbarColor = Color(0xFFCC0000);
+class Config {
+  final colorPrimary = Color(0xFFCC0000);
+  final colorSecondary = Color(0xFFFFEB3B);
+  final colorBackground = Color(0xFF3E4095);
+  final colorGrey = Color(0xFFF5F5F7);
 
-//SplashScreen
-const colorbgSplashScreen = Color(0xFFCC0000);
-const colorButtonSplashScreen = Color(0xFFFFEB3B);
+  final fontPrimary = Color(0xFF3E4095);
+  final fontBlack = Color(0xFF000000);
+  final fontWhite = Color(0xFFFFFFFF);
 
 //Currency
-final rpFormat =
-    new NumberFormat.currency(locale: "id_ID", symbol: "Rp.", decimalDigits: 0);
+  final rpFormat = new NumberFormat.currency(
+      locale: "id_ID", symbol: "Rp.", decimalDigits: 0);
 
-const appTitle = TextStyle(
-    fontSize: 30, fontWeight: FontWeight.bold, height: 1.5, color: textWhite);
+  final appTitle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+    height: 1.5,
+    color: Color(0xFFFFFFFF),
+  );
 
-//TODO Ganti API
-const api = 'http://192.168.40.6:3000/mobile';
-const fotoUrl = 'http://192.168.40.6:3000/images';
+//Development
+  final api = "http://127.0.0.1:3000/mobile";
+  final fotoUrl = "http://localhost:3000/images";
+  final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
+  final imgurl = 'http://103.167.34.22/sisfo';
 
-// const api = 'http://103.167.34.22:3000/mobile';
-const apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
-const imgurl = 'http://103.167.34.22/sisfo';
+//Production
+  // static final api = 'http://192.168.40.6:3000/mobile';
+  // static final fotoUrl = 'http://192.168.40.6:3000/images';
+  // static final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
+  // static final imgurl = 'http://103.167.34.22/sisfo';
 
-final header = {
-  'Content-Type': 'application/json',
-};
+//logo
+  final String logoPath = 'assets/images/logo.png';
+  final String bgPath = 'assets/images/bg-stikes.jpg';
 
-// final headerJwt = {
-//   'Content-Type': 'application/json',
-//   HttpHeaders.authorizationHeader: 'Barer $token'
-// };
+  final header = {
+    'Content-Type': 'application/json',
+  };
+}
+
+final config = Config();

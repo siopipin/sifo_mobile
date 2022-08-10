@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart' show Client;
 import 'package:sisfo_mobile/profile/profile_model.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  Response response;
   Client client = Client();
 
   bool loading = false,
@@ -19,7 +18,7 @@ class ProfileProvider extends ChangeNotifier {
       gantiPassword = false;
 
   String msg = '', status = '', statusAwal = '', program = '';
-  ProfileModel _profileModel;
+  ProfileModel? _profileModel;
 
   ///TextController untuk update password
   TextEditingController _oldPass = TextEditingController();
@@ -30,7 +29,7 @@ class ProfileProvider extends ChangeNotifier {
   TextEditingController get newPass => _newPass;
   TextEditingController get renewPass => _renewPass;
 
-  ProfileModel get dataMahasiswa => _profileModel;
+  ProfileModel get dataMahasiswa => _profileModel!;
   bool get isData => data;
   bool get isObscureText => obsecure;
   bool get isGantiPassword => gantiPassword;
@@ -39,22 +38,18 @@ class ProfileProvider extends ChangeNotifier {
 
   String get statusMahasiswa {
     if (data) {
-      switch (dataMahasiswa.data.statusMhswID) {
+      switch (dataMahasiswa.data!.statusMhswID) {
         case 'A':
           return status = 'Aktif (Active)';
-          break;
+
         case 'C':
           return status = 'Leaves (Cuti)';
-          break;
         case 'D':
           return status = 'Drop Out';
-          break;
         case 'L':
           return status = 'Lulus (Graduated)';
-          break;
         case 'K':
           return status = 'Keluar (Out with Permit)';
-          break;
         default:
           return status = 'default';
       }
@@ -66,19 +61,15 @@ class ProfileProvider extends ChangeNotifier {
 
   String get statusAwalMahasiswa {
     if (data) {
-      switch (dataMahasiswa.data.statusAwalID) {
+      switch (dataMahasiswa.data!.statusAwalID) {
         case 'B':
           return statusAwal = 'Baru (New Studen)';
-          break;
         case 'P':
           return statusAwal = 'Pindahan (Tranfer Student)';
-          break;
         case 'S':
           return statusAwal = 'Beasiswa (Scholarship)';
-          break;
         case 'D':
           return statusAwal = 'Pindahan Prodi (Major Transfer)';
-          break;
         default:
           return status = 'default';
       }
@@ -90,13 +81,11 @@ class ProfileProvider extends ChangeNotifier {
 
   String get programId {
     if (data) {
-      switch (dataMahasiswa.data.programID) {
+      switch (dataMahasiswa.data!.programID) {
         case 'R':
           return statusAwal = 'Reguler';
-          break;
         case 'B':
           return statusAwal = 'Advanced Program';
-          break;
         default:
           return status = 'default';
       }
@@ -164,7 +153,7 @@ class ProfileProvider extends ChangeNotifier {
   ///fungsi get profile
   doGetProfile() async {
     setLoading = true;
-    response = await getProfileMhs();
+    final response = await getProfileMhs();
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -181,13 +170,14 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   getProfileMhs() async {
-    var token = await store.token();
+    var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get(Uri.parse('$api/mahasiswa/profile'),
+      final response = await client.get(
+          Uri.parse('${config.api}/mahasiswa/profile'),
           headers: headerJwt);
       setLoading = false;
       return response;
@@ -201,12 +191,12 @@ class ProfileProvider extends ChangeNotifier {
 
   ///Fungsi edit profile
   doEditProfile(
-      {@required String hp,
-      @required String alamat,
-      @required String email,
-      @required String hportu}) async {
+      {required String hp,
+      required String alamat,
+      required String email,
+      required String hportu}) async {
     setLoading = true;
-    response = await putProfileMhs(
+    final response = await putProfileMhs(
         hp: hp, alamat: alamat, email: email, hportu: hportu);
     if (response != null) {
       if (response.statusCode == 200) {
@@ -224,20 +214,22 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   putProfileMhs(
-      {@required String hp,
-      @required String alamat,
-      @required String email,
-      @required String hportu}) async {
+      {required String hp,
+      required String alamat,
+      required String email,
+      required String hportu}) async {
     var data = json
         .encode({"hp": hp, "alamat": alamat, "email": email, "hportu": hportu});
-    var token = await store.token();
+    var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.put(Uri.parse('$api/mahasiswa/profile-update'),
-          headers: headerJwt, body: data);
+      final response = await client.put(
+          Uri.parse('${config.api}/mahasiswa/profile-update'),
+          headers: headerJwt,
+          body: data);
       setLoading = false;
       return response;
     } catch (e) {
@@ -249,10 +241,12 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   /// Cek-password
-  doCekPassword(
-      {@required String password, @required String newPassword}) async {
+  doCekPassword({
+    required String password,
+    required String newPassword,
+  }) async {
     setLoading = true;
-    response = await postCekPassword(password: password);
+    final response = await postCekPassword(password: password);
     if (response != null) {
       if (response.statusCode == 200) {
         await doUpdatePassword(password: newPassword);
@@ -270,16 +264,18 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  postCekPassword({@required String password}) async {
+  postCekPassword({required String password}) async {
     var data = json.encode({"password": password});
-    var token = await store.token();
+    var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/auth/cek-password'),
-          headers: headerJwt, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/auth/cek-password'),
+          headers: headerJwt,
+          body: data);
       return response;
     } catch (e) {
       print(e.toString());
@@ -290,8 +286,8 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   ///Fungsi Update Password
-  doUpdatePassword({@required String password}) async {
-    response = await putUpdatePassword(password: password);
+  doUpdatePassword({required String password}) async {
+    final response = await putUpdatePassword(password: password);
     if (response != null) {
       if (response.statusCode == 200) {
         setMessage = 'Kata sandi berhasil diubah';
@@ -311,16 +307,18 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  putUpdatePassword({@required String password}) async {
+  putUpdatePassword({required String password}) async {
     var data = json.encode({"pass": password});
-    var token = await store.token();
+    var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.put(Uri.parse('$api/auth/password-update'),
-          headers: headerJwt, body: data);
+      final response = await client.put(
+          Uri.parse('${config.api}/auth/password-update'),
+          headers: headerJwt,
+          body: data);
       setLoading = false;
       return response;
     } catch (e) {

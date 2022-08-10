@@ -1,6 +1,6 @@
 class StatusPengurusanKRSModel {
-  bool status;
-  Data data;
+  bool? status;
+  Data? data;
 
   StatusPengurusanKRSModel({this.status, this.data});
 
@@ -13,16 +13,16 @@ class StatusPengurusanKRSModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  String tgl;
-  String tglKRSOnlineMulai;
-  String tglKRSOnlineSelesai;
+  String? tgl;
+  String? tglKRSOnlineMulai;
+  String? tglKRSOnlineSelesai;
 
   Data({this.tgl, this.tglKRSOnlineMulai, this.tglKRSOnlineSelesai});
 

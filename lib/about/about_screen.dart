@@ -13,7 +13,7 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: appbarColor,
+          backgroundColor: config.colorPrimary,
           title: Text('About'),
         ),
         body: SingleChildScrollView(
@@ -33,7 +33,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     height: 150,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: const AssetImage('assets/images/logo.png'),
+                            image: AssetImage(config.logoPath),
                             fit: BoxFit.fill)),
                   ),
                 ),
@@ -42,10 +42,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
                 Text(
                   "My STIKES GS",
-                  style: TextStyle(
-                      color: textPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 Text(
                   "This is a mobile application for Academic Information System of STIKES Gunung Sari, Makassar\n\nWith My STIKES GS you can access many features anytime and anywhere.",
@@ -146,10 +143,8 @@ class _AboutScreenState extends State<AboutScreen> {
                   children: [
                     Text(
                       "Contact us",
-                      style: TextStyle(
-                          color: textPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     )
                   ],
                 ),

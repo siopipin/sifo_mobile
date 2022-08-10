@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SomeError extends StatelessWidget {
-  const SomeError({Key key}) : super(key: key);
+  const SomeError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class SomeError extends StatelessWidget {
 }
 
 class NotFound extends StatelessWidget {
-  const NotFound({Key key}) : super(key: key);
+  const NotFound({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

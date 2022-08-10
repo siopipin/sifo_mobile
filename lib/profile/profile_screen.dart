@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           label: 'Profile',
         ),
         appBar: AppBar(
-          backgroundColor: appbarColor,
+          backgroundColor: config.colorPrimary,
           leading: Container(
             margin: EdgeInsets.all(6),
             width: 50,
@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Icon(
                             LineIcons.closedCaptioning,
-                            color: textWhite,
+                            color: config.fontWhite,
                             size: 20,
                           ),
                           SizedBox(
@@ -68,7 +68,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text(
                             'Cancel',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: textWhite),
+                              fontWeight: FontWeight.bold,
+                              color: config.fontWhite,
+                            ),
                           ),
                         ],
                       ),
@@ -97,12 +99,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'Save',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: primaryYellow),
+                                    color: config.colorSecondary),
                               ),
                         SizedBox(
                           width: 5,
                         ),
-                        Icon(LineIcons.save, color: primaryYellow)
+                        Icon(LineIcons.save, color: config.colorSecondary)
                       ],
                     ),
                     onTap: () async {
@@ -159,10 +161,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget infoBuilder(BuildContext context) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
-    _alamat.text = prov.dataMahasiswa.data.alamat;
-    _email.text = prov.dataMahasiswa.data.email;
-    _hp.text = prov.dataMahasiswa.data.handphone;
-    _hportu.text = prov.dataMahasiswa.data.handphoneOrtu;
+    _alamat.text = prov.dataMahasiswa.data!.alamat!;
+    _email.text = prov.dataMahasiswa.data!.email!;
+    _hp.text = prov.dataMahasiswa.data!.handphone!;
+    _hportu.text = prov.dataMahasiswa.data!.handphoneOrtu!;
 
     final size = MediaQuery.of(context).size;
     return Stack(
@@ -195,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ? Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: primaryRed,
+                              color: config.colorPrimary,
                             ),
                             child: Padding(
                                 padding: EdgeInsets.all(8),
@@ -220,11 +222,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               prov.isData
                                   ? Text(
-                                      "${prov.dataMahasiswa.data.nama}",
+                                      "${prov.dataMahasiswa.data!.nama}",
                                       style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          color: textPrimary),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     )
                                   : loadingH2,
                               SizedBox(
@@ -232,9 +234,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               prov.isData
                                   ? Text(
-                                      "${prov.dataMahasiswa.data.mhswID}",
+                                      "${prov.dataMahasiswa.data!.mhswID}",
                                       style: TextStyle(
-                                        color: textPrimary,
                                         fontSize: 14,
                                       ),
                                     )
@@ -256,9 +257,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Container(
                               child: prov.data
                                   ? Text(
-                                      "Program : ${prov.dataMahasiswa.data.programID} - ${prov.programId}",
+                                      "Program : ${prov.dataMahasiswa.data!.programID} - ${prov.programId}",
                                       style: TextStyle(
-                                        color: textPrimary,
                                         fontSize: 14,
                                       ),
                                     )
@@ -284,7 +284,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ? Text(
                                       "Program Studi",
                                       style: TextStyle(
-                                        color: textPrimary,
                                         fontSize: 14,
                                       ),
                                     )
@@ -298,11 +297,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.only(left: 30),
                         child: prov.isData
                             ? Text(
-                                "${prov.dataMahasiswa.data.prodiID}",
+                                "${prov.dataMahasiswa.data!.prodiID}",
                                 style: TextStyle(
-                                    color: textPrimary,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900),
+                                    fontSize: 16, fontWeight: FontWeight.w900),
                               )
                             : loadingH1)
                   ],
@@ -335,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     iconEdit: true,
                     no: '1',
                     ket: 'Alamat',
-                    data: prov.dataMahasiswa.data.alamat,
+                    data: prov.dataMahasiswa.data!.alamat!,
                     textCtrl: _alamat),
                 Divider(),
                 detailBuider(
@@ -344,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     no: '2',
                     ket: 'Email',
                     textCtrl: _email,
-                    data: prov.dataMahasiswa.data.email),
+                    data: prov.dataMahasiswa.data!.email!),
                 Divider(),
                 detailBuider(
                     context: context,
@@ -352,7 +349,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     no: '3',
                     ket: 'Handphone',
                     textCtrl: _hp,
-                    data: prov.dataMahasiswa.data.handphone),
+                    data: prov.dataMahasiswa.data!.handphone!),
                 Divider(),
                 detailBuider(
                     context: context,
@@ -360,28 +357,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     no: '4',
                     ket: 'Handphone Orang Tua',
                     textCtrl: _hportu,
-                    data: prov.dataMahasiswa.data.handphoneOrtu),
+                    data: prov.dataMahasiswa.data!.handphoneOrtu!),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '5',
                     ket: 'KTP',
-                    data: prov.dataMahasiswa.data.kTP),
+                    data: prov.dataMahasiswa.data!.kTP!),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '6',
                     ket: 'Agama',
-                    data: prov.dataMahasiswa.data.agama),
+                    data: prov.dataMahasiswa.data!.agama!),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '7',
                     ket: 'Nama Ibu',
-                    data: prov.dataMahasiswa.data.namaIbu),
+                    data: prov.dataMahasiswa.data!.namaIbu!),
                 Divider(),
                 SizedBox(
                   height: 20,
@@ -398,14 +395,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     iconEdit: false,
                     no: '1',
                     ket: 'Nama Kelas',
-                    data: prov.dataMahasiswa.data.namaKelas),
+                    data: prov.dataMahasiswa.data!.namaKelas!),
                 Divider(),
                 detailBuider(
                     context: context,
                     iconEdit: false,
                     no: '2',
                     ket: 'Mentor - PA',
-                    data: prov.dataMahasiswa.data.pA),
+                    data: prov.dataMahasiswa.data!.pA),
                 Divider(),
                 Column(
                   children: [
@@ -482,7 +479,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   margin: EdgeInsets.only(top: 10),
                                   height: 60,
                                   decoration: BoxDecoration(
-                                      color: grey,
+                                      color: config.colorGrey,
                                       borderRadius: BorderRadius.circular(10)),
                                   padding: EdgeInsets.only(top: 7.5, left: 10),
                                   child: TextField(
@@ -539,7 +536,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Container(
         height: 40,
-        child: FlatButton(
+        child: ElevatedButton(
             onPressed: () async {
               if (prov.isGantiPassword) {
                 if (prov.oldPass.text.isEmpty ||
@@ -564,10 +561,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 prov.setGantiPassword = true;
               }
             },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              primary: config.colorPrimary,
             ),
-            color: primaryRed,
             child: prov.isLoading
                 ? Text(
                     'Loading ...',
@@ -584,7 +583,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Container(
       height: 40,
-      child: FlatButton(
+      child: ElevatedButton(
           onPressed: () {
             if (prov.isGantiPassword) {
               prov.setGantiPassword = false;
@@ -592,10 +591,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               prov.setGantiPassword = true;
             }
           },
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            primary: Colors.grey,
           ),
-          color: Colors.grey,
           child: Text(
             'Cancel',
             style: TextStyle(color: Colors.white),
@@ -629,7 +630,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: EdgeInsets.only(top: 10),
             height: 60,
             decoration: BoxDecoration(
-                color: grey, borderRadius: BorderRadius.circular(10)),
+                color: config.colorGrey,
+                borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.only(top: 5),
             child: TextField(
               controller: prov.oldPass,
@@ -662,7 +664,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: EdgeInsets.only(top: 10),
             height: 60,
             decoration: BoxDecoration(
-                color: grey, borderRadius: BorderRadius.circular(10)),
+                color: config.colorGrey,
+                borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.only(top: 5),
             child: Row(
               children: [
@@ -716,7 +719,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: EdgeInsets.only(top: 10),
             height: 60,
             decoration: BoxDecoration(
-                color: grey, borderRadius: BorderRadius.circular(10)),
+                color: config.colorGrey,
+                borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.only(top: 5),
             child: Row(
               children: [

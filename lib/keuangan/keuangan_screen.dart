@@ -9,7 +9,7 @@ import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class KeuanganScreen extends StatefulWidget {
-  KeuanganScreen({Key key}) : super(key: key);
+  KeuanganScreen({Key? key}) : super(key: key);
 
   @override
   _KeuanganScreenState createState() => _KeuanganScreenState();
@@ -33,7 +33,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
         child: Scaffold(
           bottomNavigationBar: bottomTahun(),
           appBar: AppBar(
-            backgroundColor: appbarColor,
+            backgroundColor: config.fontPrimary,
             title: Text('Keuangan'),
             bottom: TabBar(
               tabs: [
@@ -66,16 +66,16 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                             children: [
                               Text('Keuangan Tahun Ajaran : ${prov.isTahun}'),
                               FutureBuilder(
-                                future: store.nama(),
+                                future: store.showNama(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     return Text(
                                       snapshot.data,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: textPrimary),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                      ),
                                     );
                                   } else {
                                     return loadingH2;
@@ -112,16 +112,16 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                               Text(
                                   'Keuangan Detail Tahun Ajaran : ${prov.isTahun}'),
                               FutureBuilder(
-                                future: store.nama(),
+                                future: store.showNama(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     return Text(
                                       snapshot.data,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: textPrimary),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                      ),
                                     );
                                   } else {
                                     return loadingH2;
@@ -228,7 +228,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    primary: bgColor),
+                    primary: config.colorBackground),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -264,7 +264,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 cells: <DataCell>[
                   DataCell(Text("1")),
                   DataCell(Text("Biaya")),
-                  DataCell(Text(rpFormat
+                  DataCell(Text(config.rpFormat
                       .format(prov.dataKeuanganKHSModel.data?.biaya ?? 0))),
                 ],
               ),
@@ -272,7 +272,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 cells: <DataCell>[
                   DataCell(Text("2")),
                   DataCell(Text("Potongan")),
-                  DataCell(Text(rpFormat
+                  DataCell(Text(config.rpFormat
                       .format(prov.dataKeuanganKHSModel.data?.potongan ?? 0))),
                 ],
               ),
@@ -280,7 +280,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 cells: <DataCell>[
                   DataCell(Text("3")),
                   DataCell(Text("Bayar")),
-                  DataCell(Text(rpFormat
+                  DataCell(Text(config.rpFormat
                       .format(prov.dataKeuanganKHSModel.data?.bayar ?? 0))),
                 ],
               ),
@@ -288,7 +288,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 cells: <DataCell>[
                   DataCell(Text("4")),
                   DataCell(Text("Tarik")),
-                  DataCell(Text(rpFormat
+                  DataCell(Text(config.rpFormat
                       .format(prov.dataKeuanganKHSModel.data?.tarik ?? 0))),
                 ],
               ),
@@ -331,7 +331,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    primary: bgColor),
+                    primary: config.colorBackground),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -354,20 +354,22 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: prov.dataKeuanganDetail.data.map((e) {
+        children: prov.dataKeuanganDetail.data!.map((e) {
           return ListTile(
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Divider(),
                 Text('Info Keuangan',
-                    style: TextStyle(fontSize: 12, color: textPrimary)),
+                    style: TextStyle(
+                      fontSize: 12,
+                    )),
                 Text(
-                  e.nama,
+                  e.nama!,
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: textPrimary),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
                 )
               ],
             ),
@@ -385,9 +387,9 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                       e.jumlah.toString(),
                       style: TextStyle(fontSize: 12),
                     )),
-                    DataCell(Text("${rpFormat.format(e.besar ?? 0)}",
+                    DataCell(Text("${config.rpFormat.format(e.besar ?? 0)}",
                         style: TextStyle(fontSize: 12))),
-                    DataCell(Text("${rpFormat.format(e.dibayar ?? 0)}",
+                    DataCell(Text("${config.rpFormat.format(e.dibayar ?? 0)}",
                         style: TextStyle(fontSize: 12))),
                   ],
                 ),
@@ -405,7 +407,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: navigationColor),
+            color: config.fontPrimary),
         child: dropDownBuild());
   }
 
@@ -420,7 +422,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
       return Padding(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: DropdownButtonFormField(
-          items: prov.dataTahunKHS.data.map((e) {
+          items: prov.dataTahunKHS.data!.map((e) {
             return new DropdownMenuItem(
                 value: e.tahunid,
                 child: Row(
@@ -433,7 +435,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                     ),
                     Container(
                       child: Text(
-                        e.tahunid,
+                        e.tahunid!,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
@@ -442,9 +444,9 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 ));
           }).toList(),
           onChanged: (val) async {
-            await prov.doGetKeuanganKHS(tahun: val);
-            await prov.doGetKeuanganDetail(tahun: val);
-            prov.tahun = val;
+            await prov.doGetKeuanganKHS(tahun: val.toString());
+            await prov.doGetKeuanganDetail(tahun: val.toString());
+            prov.tahun = val.toString();
             Toast.show(prov.isMsg, gravity: Toast.top, duration: 3);
           },
           value: prov.isTahun,

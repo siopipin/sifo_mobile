@@ -9,7 +9,7 @@ import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class NilaiScreen extends StatefulWidget {
-  NilaiScreen({Key key}) : super(key: key);
+  NilaiScreen({Key? key}) : super(key: key);
 
   @override
   _NilaiScreenState createState() => _NilaiScreenState();
@@ -17,12 +17,18 @@ class NilaiScreen extends StatefulWidget {
 
 class _NilaiScreenState extends State<NilaiScreen> {
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<NilaiProvider>().initial());
+  }
+
+  @override
   Widget build(BuildContext context) {
     final NilaiProvider prov = Provider.of<NilaiProvider>(context);
     return Scaffold(
       bottomNavigationBar: bottomTahun(),
       appBar: AppBar(
-        backgroundColor: appbarColor,
+        backgroundColor: config.colorPrimary,
         title: Text('Nilai'),
       ),
       body: SafeArea(
@@ -50,16 +56,16 @@ class _NilaiScreenState extends State<NilaiScreen> {
                     children: [
                       Text('Tahun Ajaran : ${prov.isTahun}'),
                       FutureBuilder(
-                        future: store.nama(),
+                        future: store.showNama(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
                             return Text(
                               snapshot.data,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: textPrimary),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             );
                           } else {
                             return loadingH2;
@@ -119,10 +125,11 @@ class _NilaiScreenState extends State<NilaiScreen> {
             SizedBox(
               height: 30,
             ),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              textColor: Colors.blueGrey,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  textStyle: TextStyle(color: Colors.blueGrey)),
               onPressed: () async {
                 await prov.doGetTahunKHS();
 
@@ -145,13 +152,13 @@ class _NilaiScreenState extends State<NilaiScreen> {
     return Container(
       child: ExpansionPanelList(
         expansionCallback: (int index, bool isExpanded) {
-          if (prov.dataNilai.data[index].isExpanded == true) {
+          if (prov.dataNilai.data![index].isExpanded == true) {
             prov.setExpanded(index, false);
-          } else if (prov.dataNilai.data[index].isExpanded == false) {
+          } else if (prov.dataNilai.data![index].isExpanded == false) {
             prov.setExpanded(index, true);
           }
         },
-        children: prov.dataNilai.data.map((item) {
+        children: prov.dataNilai.data!.map((item) {
           return ExpansionPanel(
             canTapOnHeader: true,
             headerBuilder: (BuildContext context, bool isExpanded) {
@@ -160,13 +167,15 @@ class _NilaiScreenState extends State<NilaiScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Nama Mata Kuliah',
-                        style: TextStyle(fontSize: 11, color: textPrimary)),
+                        style: TextStyle(
+                          fontSize: 11,
+                        )),
                     Text(
-                      item.nama,
+                      item.nama!,
                       style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: textPrimary),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
                     )
                   ],
                 ),
@@ -177,11 +186,11 @@ class _NilaiScreenState extends State<NilaiScreen> {
                         style: TextStyle(
                           fontSize: 12,
                         )),
-                    Text(item.mKKode,
+                    Text(item.mKKode!,
                         style: TextStyle(
                           fontSize: 12,
                         )),
-                    Text('   -    ${item.sKS.toString() ?? '-'}',
+                    Text('   -    ${item.sKS.toString()}',
                         style: TextStyle(
                           fontSize: 12,
                         )),
@@ -204,61 +213,61 @@ class _NilaiScreenState extends State<NilaiScreen> {
                   cells: <DataCell>[
                     DataCell(Text("1")),
                     DataCell(Text("Tugas 1")),
-                    DataCell(Text(item.tugas1.toString() ?? '-')),
+                    DataCell(Text(item.tugas1.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("2")),
                     DataCell(Text("Tugas 2")),
-                    DataCell(Text(item.tugas2.toString() ?? '-')),
+                    DataCell(Text(item.tugas2.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("3")),
                     DataCell(Text("Tugas 3")),
-                    DataCell(Text(item.tugas3.toString() ?? '-')),
+                    DataCell(Text(item.tugas3.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("4")),
                     DataCell(Text("Jumlah Absensi")),
-                    DataCell(Text(item.vPresensi.toString() ?? '-')),
+                    DataCell(Text(item.vPresensi.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("5")),
                     DataCell(Text("Nilai Absensi")),
-                    DataCell(Text(item.nPresensi.toString() ?? '-')),
+                    DataCell(Text(item.nPresensi.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("6")),
                     DataCell(Text("UTS")),
-                    DataCell(Text(item.uTS.toString() ?? '-')),
+                    DataCell(Text(item.uTS.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("7")),
                     DataCell(Text("UAS")),
-                    DataCell(Text(item.uAS.toString() ?? '-')),
+                    DataCell(Text(item.uAS.toString())),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text("8")),
                     DataCell(Text("Nilai Akhi")),
-                    DataCell(Text(item.nilaiAkhir.toString() ?? '-')),
+                    DataCell(Text(item.nilaiAkhir.toString())),
                   ],
                 ),
               ],
             ),
-            isExpanded: item.isExpanded,
+            isExpanded: item.isExpanded!,
           );
         }).toList(),
       ),
@@ -271,7 +280,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: navigationColor),
+            color: config.colorPrimary),
         child: dropDownBuild());
   }
 
@@ -286,7 +295,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
       return Padding(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: DropdownButtonFormField(
-          items: prov.dataTahunKHS.data.map((e) {
+          items: prov.dataTahunKHS.data!.map((e) {
             return new DropdownMenuItem(
                 value: e.tahunid,
                 child: Row(
@@ -299,7 +308,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
                     ),
                     Container(
                       child: Text(
-                        e.tahunid,
+                        e.tahunid!,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
@@ -308,8 +317,8 @@ class _NilaiScreenState extends State<NilaiScreen> {
                 ));
           }).toList(),
           onChanged: (val) async {
-            await prov.doGetNilai(tahun: val);
-            prov.tahun = val;
+            await prov.doGetNilai(tahun: val.toString());
+            prov.tahun = val.toString();
             Toast.show(prov.isMsg, gravity: Toast.top, duration: 3);
           },
           value: prov.isTahun,

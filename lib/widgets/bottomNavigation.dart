@@ -9,7 +9,7 @@ import 'package:sisfo_mobile/services/global_config.dart';
 class BottomBar extends StatelessWidget {
   final int tabIndex;
   final String label;
-  const BottomBar({Key key, @required this.tabIndex, @required this.label})
+  const BottomBar({Key? key, required this.tabIndex, required this.label})
       : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class BottomBar extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
         child: Container(
           decoration: BoxDecoration(
-            color: navigationColor,
+            color: config.colorPrimary,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Padding(
@@ -47,22 +47,22 @@ class BottomBar extends StatelessWidget {
                               if (index == tabIndex) {
                                 print('this screen');
                               } else if (index == 0) {
-                                return Navigator.pushReplacement(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => HomeScreen()));
                               } else if (index == 1) {
-                                return Navigator.push(
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => KrsScreen()));
                               } else if (index == 2) {
-                                return Navigator.push(
+                                Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => NilaiScreen()));
                               } else if (index == 3) {
-                                return Navigator.pushReplacement(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => ProfileScreen()));
@@ -71,14 +71,14 @@ class BottomBar extends StatelessWidget {
                             child: Icon(activeTabs[index]['icon'],
                                 size: 25,
                                 color: tabIndex == index
-                                    ? primaryYellow
+                                    ? config.colorSecondary
                                     : Colors.white),
                           ),
                           Text(
                             activeTabs[index]['label'],
                             style: TextStyle(
                                 color: tabIndex == index
-                                    ? primaryYellow
+                                    ? config.colorSecondary
                                     : Colors.white70,
                                 fontSize: 11),
                           )

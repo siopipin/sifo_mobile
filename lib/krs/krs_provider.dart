@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart' show Client;
 import 'package:dio/dio.dart' as dio;
 import 'package:sisfo_mobile/krs/models/cek_krs_model.dart';
 import 'package:sisfo_mobile/krs/models/krs_model.dart';
@@ -18,7 +18,6 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class KrsProvider extends ChangeNotifier {
-  Response response;
   Client client = Client();
 
   String _msg = '';
@@ -57,8 +56,8 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  TahunAjaranAktifModel _tahunAjaranAktifModel;
-  TahunAjaranAktifModel get dataTahunAktif => _tahunAjaranAktifModel;
+  TahunAjaranAktifModel? _tahunAjaranAktifModel;
+  TahunAjaranAktifModel get dataTahunAktif => _tahunAjaranAktifModel!;
   set setTahunAjaranAktif(val) {
     _tahunAjaranAktifModel = val;
     notifyListeners();
@@ -67,18 +66,18 @@ class KrsProvider extends ChangeNotifier {
   doGetTahunAjaranAktif() async {
     print('DOGETTAHUNAJARANAKTIF()');
     //Ambil Nim dari store
-    var tmp = await store.npm();
+    var tmp = await store.showNPM();
     setNim = tmp;
 
     setLoadingTahun = true;
-    response = await getTahunAjaranAktif();
+    final response = await getTahunAjaranAktif();
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
         setTahunAjaranAktif = TahunAjaranAktifModel.fromJson(tmp);
         setDataTAaktif = true;
         //Cek status KRS dulu
-        await doGetStatusKRS(tahunid: dataTahunAktif.data.tahunTA);
+        await doGetStatusKRS(tahunid: dataTahunAktif.data!.tahunTA!);
 
         //Ambil status pengurusan KRS
         await doGetStatusPengurusanKRS();
@@ -102,14 +101,15 @@ class KrsProvider extends ChangeNotifier {
   }
 
   getTahunAjaranAktif() async {
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client
-          .get(Uri.parse('$api/mahasiswa/tahun-ajaran-aktif'), headers: header);
+      final response = await client.get(
+          Uri.parse('${config.api}/mahasiswa/tahun-ajaran-aktif'),
+          headers: header);
       setLoadingTahun = false;
       return response;
     } catch (e) {
@@ -137,11 +137,11 @@ class KrsProvider extends ChangeNotifier {
   cekStatusKepengurusanKRS() {
     String nowDate = formatter.format(now);
     print(nowDate);
-    print(dataTahunAktif.data.tglKRSMulai);
-    print(dataTahunAktif.data.tglKRSSelesai);
+    print(dataTahunAktif.data!.tglKRSMulai);
+    print(dataTahunAktif.data!.tglKRSSelesai);
 
-    DateTime mulai = DateTime.parse(dataTahunAktif.data.tglKRSMulai);
-    DateTime selesai = DateTime.parse(dataTahunAktif.data.tglKRSSelesai);
+    DateTime mulai = DateTime.parse(dataTahunAktif.data!.tglKRSMulai!);
+    DateTime selesai = DateTime.parse(dataTahunAktif.data!.tglKRSSelesai!);
 
     if (now.isBefore(mulai) && now.isBefore(selesai)) {
       setStatusPengurusanKRS = true;
@@ -171,9 +171,9 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  StatusPengurusanKRSModel _statusPengurusanKRSModel;
+  StatusPengurusanKRSModel? _statusPengurusanKRSModel;
   StatusPengurusanKRSModel get dataStatusPengurusanKRS =>
-      _statusPengurusanKRSModel;
+      _statusPengurusanKRSModel!;
   set setDataStatusPengurusanKRS(val) {
     _statusPengurusanKRSModel = val;
     notifyListeners();
@@ -181,8 +181,8 @@ class KrsProvider extends ChangeNotifier {
 
   doGetStatusPengurusanKRS() async {
     setLoadingStatusPengurusanKRS = true;
-    response =
-        await getStatusPengurusanKRS(tahunid: dataTahunAktif.data.tahunTA);
+    final response =
+        await getStatusPengurusanKRS(tahunid: dataTahunAktif.data!.tahunTA!);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -211,17 +211,17 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  getStatusPengurusanKRS({@required String tahunid}) async {
+  getStatusPengurusanKRS({required String tahunid}) async {
     var data = json.encode({'tahunid': tahunid});
 
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(
-          Uri.parse('$api/mahasiswa/status-pengurusan-krs'),
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/status-pengurusan-krs'),
           headers: header,
           body: data);
       setLoadingStatusPengurusanKRS = false;
@@ -256,17 +256,17 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  PaketKRSModel _paketKRSModel;
-  PaketKRSModel get dataPaketKRS => _paketKRSModel;
+  PaketKRSModel? _paketKRSModel;
+  PaketKRSModel get dataPaketKRS => _paketKRSModel!;
   set setDataPaketKRS(val) {
     _paketKRSModel = val;
-    print(_paketKRSModel.data.length);
+    print(_paketKRSModel!.data!.length);
     notifyListeners();
   }
 
   doGetPaketKRS() async {
     setLoadingPaketKRS = true;
-    response = await getPaketKRS();
+    final response = await getPaketKRS();
     print(response.statusCode);
     if (response != null) {
       if (response.statusCode == 200) {
@@ -290,15 +290,17 @@ class KrsProvider extends ChangeNotifier {
   }
 
   getPaketKRS() async {
-    var data = json.encode({'tahunid': dataTahunAktif.data.tahunTA});
-    var token = await store.token();
+    var data = json.encode({'tahunid': dataTahunAktif.data!.tahunTA});
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/krs-paket'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/krs-paket'),
+          headers: header,
+          body: data);
       setLoadingPaketKRS = false;
       return response;
     } catch (e) {
@@ -331,16 +333,16 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  StatusKRSModel _statusKRSModel;
-  StatusKRSModel get dataStatusKRS => _statusKRSModel;
+  StatusKRSModel? _statusKRSModel;
+  StatusKRSModel get dataStatusKRS => _statusKRSModel!;
   set setDataStatusKRS(val) {
     _statusKRSModel = val;
     notifyListeners();
   }
 
-  doGetStatusKRS({@required String tahunid}) async {
+  doGetStatusKRS({required String tahunid}) async {
     setLoadingStatusKRS = true;
-    response = await getStatusKRS(tahunid: tahunid);
+    final response = await getStatusKRS(tahunid: tahunid);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -348,7 +350,7 @@ class KrsProvider extends ChangeNotifier {
         setAdaDataStatusKRS = true;
 
         //Ambil KRS ketika ada khsid
-        await doGetKRS(khsid: dataStatusKRS.data.kHSID);
+        await doGetKRS(khsid: dataStatusKRS.data!.kHSID!);
 
         setMessage = 'Status KRS ditemukan';
       } else if (response.statusCode == 400) {
@@ -366,16 +368,18 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  getStatusKRS({@required String tahunid}) async {
+  getStatusKRS({required String tahunid}) async {
     var data = json.encode({'tahunid': tahunid});
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/status-krs'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/status-krs'),
+          headers: header,
+          body: data);
       print(response.statusCode);
       setLoadingStatusKRS = false;
       return response;
@@ -409,16 +413,16 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  CekKRSModel _cekKrsModel;
-  CekKRSModel get dataCekKrs => _cekKrsModel;
+  CekKRSModel? _cekKrsModel;
+  CekKRSModel get dataCekKrs => _cekKrsModel!;
   set setDataCekKrs(val) {
     _cekKrsModel = val;
     notifyListeners();
   }
 
-  doGetCekKrs({@required String tahunid}) async {
+  doGetCekKrs({required String tahunid}) async {
     setLoadingCekKrs = true;
-    response = await getCekKrs(tahunid: tahunid);
+    final response = await getCekKrs(tahunid: tahunid);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -440,16 +444,18 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  getCekKrs({@required String tahunid}) async {
+  getCekKrs({required String tahunid}) async {
     var data = json.encode({'tahunid': tahunid});
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/cek-krs'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/cek-krs'),
+          headers: header,
+          body: data);
       print(response.statusCode);
       setLoadingCekKrs = false;
       return response;
@@ -486,10 +492,10 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  KrsModel _krsModel;
-  KrsModel get dataKRS => _krsModel;
+  KrsModel? _krsModel;
+  KrsModel get dataKRS => _krsModel!;
   set setDataKRS(KrsModel val) {
-    val.data.forEach((element) {
+    val.data!.forEach((element) {
       element.isExpanded = false;
     });
     _krsModel = val;
@@ -498,7 +504,7 @@ class KrsProvider extends ChangeNotifier {
   }
 
   setExpanded(int index, bool status) {
-    dataKRS.data[index].isExpanded = status;
+    dataKRS.data![index].isExpanded = status;
     notifyListeners();
   }
 
@@ -517,7 +523,7 @@ class KrsProvider extends ChangeNotifier {
   bool get isSabtu => sabtu;
 
   setHari() {
-    dataKRS.data.forEach((element) {
+    dataKRS.data!.forEach((element) {
       if (element.hariID == 1) {
         senin = true;
         notifyListeners();
@@ -542,9 +548,9 @@ class KrsProvider extends ChangeNotifier {
     });
   }
 
-  doGetKRS({@required int khsid}) async {
+  doGetKRS({required int khsid}) async {
     setLoadingKRS = true;
-    response = await getKRS(khsid: khsid);
+    final response = await getKRS(khsid: khsid);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -554,7 +560,7 @@ class KrsProvider extends ChangeNotifier {
         setMessage = 'KRS ditemukan';
 
         //cek KRS
-        await doGetCekKrs(tahunid: dataTahunAktif.data.tahunTA);
+        await doGetCekKrs(tahunid: dataTahunAktif.data!.tahunTA!);
       } else if (response.statusCode == 400) {
         setAdaDataKRS = false;
         setMessage = 'Data tidak ditemukan';
@@ -574,16 +580,18 @@ class KrsProvider extends ChangeNotifier {
     }
   }
 
-  getKRS({@required int khsid}) async {
+  getKRS({required int khsid}) async {
     var data = json.encode({'khsid': khsid});
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/krs-mahasiswa'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/krs-mahasiswa'),
+          headers: header,
+          body: data);
       setLoadingKRS = false;
       return response;
     } catch (e) {
@@ -623,17 +631,18 @@ class KrsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  KRSPaketTerpilihModel _krsPaketTerpilihModel;
-  KRSPaketTerpilihModel get dataKRSPaketTerpilih => _krsPaketTerpilihModel;
+  KRSPaketTerpilihModel? _krsPaketTerpilihModel;
+  KRSPaketTerpilihModel get dataKRSPaketTerpilih => _krsPaketTerpilihModel!;
   set setDataKRSPaketTerpilih(val) {
     _krsPaketTerpilihModel = val;
     notifyListeners();
   }
 
   doGetKRSPaketTerpilih(
-      {@required String tahunid, @required String paketid}) async {
+      {required String tahunid, required String paketid}) async {
     setLoadingKRSPaketTerpilih = true;
-    response = await getKRSPaketTerpilih(tahunid: tahunid, paketid: paketid);
+    final response =
+        await getKRSPaketTerpilih(tahunid: tahunid, paketid: paketid);
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -656,16 +665,18 @@ class KrsProvider extends ChangeNotifier {
   }
 
   getKRSPaketTerpilih(
-      {@required String tahunid, @required String paketid}) async {
+      {required String tahunid, required String paketid}) async {
     var data = json.encode({'tahunid': tahunid, 'paketid': paketid});
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/krs-paket-pilih'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/krs-paket-pilih'),
+          headers: header,
+          body: data);
       print(response.statusCode);
       setLoadingKRSPaketTerpilih = false;
       return response;
@@ -701,7 +712,7 @@ class KrsProvider extends ChangeNotifier {
 
   doGetSimpanKRS() async {
     setLoadingSimpanKRS = true;
-    response = await getSimpanKRS();
+    final response = await getSimpanKRS();
     if (response != null) {
       if (response.statusCode == 200) {
         setAdaDataSimpanKRS = true;
@@ -723,20 +734,22 @@ class KrsProvider extends ChangeNotifier {
 
   getSimpanKRS() async {
     var data = json.encode({
-      'kodeid': dataTahunAktif.data.kodeID,
-      'khsid': dataStatusKRS.data.kHSID,
-      'tahunid': dataTahunAktif.data.tahunTA,
+      'kodeid': dataTahunAktif.data!.kodeID,
+      'khsid': dataStatusKRS.data!.kHSID,
+      'tahunid': dataTahunAktif.data!.tahunTA,
       'data': dataKRSPaketTerpilih.data
     });
     print(data);
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.post(Uri.parse('$api/mahasiswa/simpan-krs'),
-          headers: header, body: data);
+      final response = await client.post(
+          Uri.parse('${config.api}/mahasiswa/simpan-krs'),
+          headers: header,
+          body: data);
       print(response.statusCode);
       setLoadingSimpanKRS = false;
       return response;
@@ -780,7 +793,7 @@ class KrsProvider extends ChangeNotifier {
     setLoadingPdfKRS = true;
     var data = await createFileKRSPdf();
     setPdfPath = data;
-    if ((pDFpath != null || pDFpath.isNotEmpty)) {
+    if ((pDFpath.isNotEmpty || pDFpath.isNotEmpty)) {
       setDataPDF = true;
       print('Path pdf : $pDFpath');
     } else {
@@ -792,7 +805,7 @@ class KrsProvider extends ChangeNotifier {
     try {
       print("Start download file from internet!");
 
-      final url = "$apiPdf${dataStatusKRS.data.kHSID}";
+      final url = "${config.apiPdf}${dataStatusKRS.data!.kHSID}";
       print(url);
       final filename = url.substring(url.lastIndexOf("=") + 1);
       // var request = await HttpClient().getUrl(Uri.parse(url));
@@ -804,7 +817,7 @@ class KrsProvider extends ChangeNotifier {
 
       // var knockDir =
       //     await new Directory('${dir.path}/KRS').create(recursive: true);
-      await dio.Dio().download(url, '${dir[0].path}/$filename.pdf');
+      await dio.Dio().download(url, '${dir![0].path}/$filename.pdf');
 
       var newdir = "${dir[0].path}/$filename.pdf";
       // File file =

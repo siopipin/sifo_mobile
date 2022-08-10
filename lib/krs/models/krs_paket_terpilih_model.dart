@@ -1,13 +1,13 @@
 class KRSPaketTerpilihModel {
-  List<Data> data;
+  List<Data>? data;
 
   KRSPaketTerpilihModel({this.data});
 
   KRSPaketTerpilihModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -15,28 +15,28 @@ class KRSPaketTerpilihModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  int mKPaketIsiID;
-  int mKID;
-  String mKKode;
-  String namaMK;
-  int sKS;
-  var jadwalID;
-  var jM;
-  var jS;
-  var namaKelas;
-  var hR;
-  var adaResponsi;
-  var dSN;
-  var gelar;
-  var nNamaJenisJadwal;
-  var tambahan;
+  int? mKPaketIsiID;
+  int? mKID;
+  String? mKKode;
+  String? namaMK;
+  int? sKS;
+  int? jadwalID;
+  String? jM;
+  String? jS;
+  dynamic namaKelas;
+  String? hR;
+  String? adaResponsi;
+  String? dSN;
+  String? gelar;
+  String? sNamaJenisJadwal;
+  String? tambahan;
 
   Data(
       {this.mKPaketIsiID,
@@ -52,7 +52,7 @@ class Data {
       this.adaResponsi,
       this.dSN,
       this.gelar,
-      this.nNamaJenisJadwal,
+      this.sNamaJenisJadwal,
       this.tambahan});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -69,7 +69,7 @@ class Data {
     adaResponsi = json['AdaResponsi'];
     dSN = json['DSN'];
     gelar = json['Gelar'];
-    nNamaJenisJadwal = json['_NamaJenisJadwal'];
+    sNamaJenisJadwal = json['_NamaJenisJadwal'];
     tambahan = json['Tambahan'];
   }
 
@@ -88,7 +88,7 @@ class Data {
     data['AdaResponsi'] = this.adaResponsi;
     data['DSN'] = this.dSN;
     data['Gelar'] = this.gelar;
-    data['_NamaJenisJadwal'] = this.nNamaJenisJadwal;
+    data['_NamaJenisJadwal'] = this.sNamaJenisJadwal;
     data['Tambahan'] = this.tambahan;
     return data;
   }

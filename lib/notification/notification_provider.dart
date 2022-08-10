@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart' show Client;
 import 'package:intl/intl.dart';
 import 'package:sisfo_mobile/notification/inbox_model.dart';
 import 'package:sisfo_mobile/notification/notification_model.dart';
@@ -11,7 +11,7 @@ import 'package:sisfo_mobile/services/storage.dart';
 
 class NotificationProvider extends ChangeNotifier {
   Client client = Client();
-  Response response;
+
   String _msg = '';
   String get isMessage => _msg;
   set setMessage(val) {
@@ -41,8 +41,8 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  NotificationModel _notificationModel;
-  NotificationModel get dataNotification => _notificationModel;
+  NotificationModel? _notificationModel;
+  NotificationModel get dataNotification => _notificationModel!;
   set setDataNotification(val) {
     _notificationModel = val;
     notifyListeners();
@@ -50,7 +50,7 @@ class NotificationProvider extends ChangeNotifier {
 
   doGetNotification() async {
     setLoadingNotification = true;
-    response = await getNotification();
+    final response = await getNotification();
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -76,13 +76,14 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   getNotification() async {
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get(Uri.parse('$api/notification/notification'),
+      final response = await client.get(
+          Uri.parse('${config.api}/notification/notification'),
           headers: header);
       print(response.statusCode);
       setLoadingNotification = false;
@@ -117,8 +118,8 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  InboxModel _inboxModel;
-  InboxModel get dataInbox => _inboxModel;
+  InboxModel? _inboxModel;
+  InboxModel get dataInbox => _inboxModel!;
   set setDataInbox(val) {
     _inboxModel = val;
     notifyListeners();
@@ -126,7 +127,7 @@ class NotificationProvider extends ChangeNotifier {
 
   doGetInbox() async {
     setLoadingInbox = true;
-    response = await getInbox();
+    final response = await getInbox();
     if (response != null) {
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -152,14 +153,14 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   getInbox() async {
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.get(
-          Uri.parse('$api/notification/notification-mhs'),
+      final response = await client.get(
+          Uri.parse('${config.api}/notification/notification-mhs'),
           headers: header);
       print(response.statusCode);
       setLoadingInbox = false;
@@ -194,9 +195,9 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  doGetInboxUpdate({@required int id}) async {
+  doGetInboxUpdate({required int id}) async {
     setLoadingInboxUpdate = true;
-    response = await getInboxUpdate(id: id);
+    final response = await getInboxUpdate(id: id);
     if (response != null) {
       if (response.statusCode == 200) {
         setAdaDataInboxUpdate = true;
@@ -216,20 +217,20 @@ class NotificationProvider extends ChangeNotifier {
     }
   }
 
-  getInboxUpdate({@required int id}) async {
+  getInboxUpdate({required int id}) async {
     DateTime tgl = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     final String formatted = formatter.format(tgl);
 
     var data = json.encode({'notificationid': id, 'tgl': formatted});
-    var token = await store.token();
+    var token = await store.showToken();
     final header = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      response = await client.put(
-          Uri.parse('$api/notification/notification-mhs-update'),
+      final response = await client.put(
+          Uri.parse('${config.api}/notification/notification-mhs-update'),
           headers: header,
           body: data);
       print(response.statusCode);

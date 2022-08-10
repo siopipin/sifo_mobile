@@ -6,7 +6,7 @@ import 'package:sisfo_mobile/services/global_config.dart';
 
 class KRSPdfViewer extends StatefulWidget {
   final String path;
-  KRSPdfViewer({Key key, @required this.path}) : super(key: key);
+  KRSPdfViewer({Key? key, required this.path}) : super(key: key);
 
   @override
   _KRSPdfViewerState createState() => _KRSPdfViewerState();
@@ -24,7 +24,7 @@ class _KRSPdfViewerState extends State<KRSPdfViewer> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Dokumen KRS"),
-        backgroundColor: appbarColor,
+        backgroundColor: config.colorPrimary,
       ),
       body: Stack(
         children: <Widget>[
@@ -41,7 +41,7 @@ class _KRSPdfViewerState extends State<KRSPdfViewer> {
                 false, // if set to true the link is handled in flutter
             onRender: (_pages) {
               setState(() {
-                pages = _pages;
+                pages = _pages!;
                 isReady = true;
               });
             },
@@ -60,13 +60,13 @@ class _KRSPdfViewerState extends State<KRSPdfViewer> {
             onViewCreated: (PDFViewController pdfViewController) {
               _controller.complete(pdfViewController);
             },
-            onLinkHandler: (String uri) {
+            onLinkHandler: (String? uri) {
               print('goto uri: $uri');
             },
-            onPageChanged: (int page, int total) {
+            onPageChanged: (int? page, int? total) {
               print('page change: $page/$total');
               setState(() {
-                currentPage = page;
+                currentPage = page!;
               });
             },
           ),

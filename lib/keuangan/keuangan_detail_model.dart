@@ -1,16 +1,21 @@
-class KeuanganKHSModel {
-  Data? data;
+class KeuanganDetailModel {
+  List<Data>? data;
 
-  KeuanganKHSModel({this.data});
+  KeuanganDetailModel({this.data});
 
-  KeuanganKHSModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  KeuanganDetailModel.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -18,45 +23,28 @@ class KeuanganKHSModel {
 
 class Data {
   String? tahunid;
-  int? sesi;
-  int? sks;
-  int? ips;
-  int? biaya;
-  int? potongan;
-  int? bayar;
-  int? tarik;
+  String? nama;
+  int? jumlah;
+  int? besar;
+  int? dibayar;
 
-  Data(
-      {this.tahunid,
-      this.sesi,
-      this.sks,
-      this.ips,
-      this.biaya,
-      this.potongan,
-      this.bayar,
-      this.tarik});
+  Data({this.tahunid, this.nama, this.jumlah, this.besar, this.dibayar});
 
   Data.fromJson(Map<String, dynamic> json) {
     tahunid = json['tahunid'];
-    sesi = json['sesi'];
-    sks = json['sks'];
-    ips = json['ips'];
-    biaya = json['biaya'];
-    potongan = json['potongan'];
-    bayar = json['bayar'];
-    tarik = json['tarik'];
+    nama = json['nama'];
+    jumlah = json['jumlah'];
+    besar = json['besar'];
+    dibayar = json['dibayar'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['tahunid'] = this.tahunid;
-    data['sesi'] = this.sesi;
-    data['sks'] = this.sks;
-    data['ips'] = this.ips;
-    data['biaya'] = this.biaya;
-    data['potongan'] = this.potongan;
-    data['bayar'] = this.bayar;
-    data['tarik'] = this.tarik;
+    data['nama'] = this.nama;
+    data['jumlah'] = this.jumlah;
+    data['besar'] = this.besar;
+    data['dibayar'] = this.dibayar;
     return data;
   }
 }

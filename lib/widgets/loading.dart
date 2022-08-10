@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 final loadingH1 = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(
@@ -15,8 +15,8 @@ final loadingH1 = Shimmer.fromColors(
     ));
 
 final loadingH2 = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(
@@ -28,8 +28,8 @@ final loadingH2 = Shimmer.fromColors(
     ));
 
 final loadingH3 = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(
@@ -41,8 +41,8 @@ final loadingH3 = Shimmer.fromColors(
     ));
 
 final loadingH4 = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(
@@ -54,8 +54,8 @@ final loadingH4 = Shimmer.fromColors(
     ));
 
 final loadingProgramStudi = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(
@@ -67,8 +67,8 @@ final loadingProgramStudi = Shimmer.fromColors(
     ));
 
 final loadingList = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       margin: EdgeInsets.only(bottom: 10),
@@ -81,8 +81,8 @@ final loadingList = Shimmer.fromColors(
     ));
 
 final loadingTable = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Column(
       children: [
@@ -146,8 +146,8 @@ final loadingTable = Shimmer.fromColors(
     ));
 
 final loadingDropDown = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(
@@ -159,8 +159,8 @@ final loadingDropDown = Shimmer.fromColors(
     ));
 
 final loadingFoto = Shimmer.fromColors(
-    baseColor: Colors.grey[300],
-    highlightColor: Colors.grey[100],
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
     enabled: true,
     child: Container(
       decoration: BoxDecoration(

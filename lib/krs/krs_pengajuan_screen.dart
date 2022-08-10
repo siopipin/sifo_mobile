@@ -12,7 +12,7 @@ import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:toast/toast.dart';
 
 class KrsPengajuanScreen extends StatefulWidget {
-  KrsPengajuanScreen({Key key}) : super(key: key);
+  KrsPengajuanScreen({Key? key}) : super(key: key);
 
   @override
   _KrsPengajuanScreenState createState() => _KrsPengajuanScreenState();
@@ -23,7 +23,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: appbarColor,
+          backgroundColor: config.colorPrimary,
           title: Text('Pengajuan KRS'),
         ),
         body: SafeArea(
@@ -59,16 +59,14 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                       children: [
                         cekTahunKRS(),
                         FutureBuilder(
-                          future: store.nama(),
+                          future: store.showNama(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
                               return Text(
                                 snapshot.data,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: textPrimary),
+                                    fontWeight: FontWeight.w700, fontSize: 16),
                               );
                             } else {
                               return loadingH2;
@@ -76,16 +74,16 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                           },
                         ),
                         FutureBuilder(
-                          future: store.npm(),
+                          future: store.showNPM(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
                               return Text(
                                 snapshot.data,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    color: textPrimary),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                ),
                               );
                             } else {
                               return loadingH3;
@@ -132,7 +130,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)),
-                                primary: bgColor),
+                                primary: config.colorBackground),
                             onPressed: () async {
                               await prov.doGetSimpanKRS();
                               if (prov.isAdaDataSimpanKRS) {
@@ -194,7 +192,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                     borderRadius: BorderRadius.circular(10)),
                 primary: Colors.blueGrey),
             onPressed: () async {
-              await prov.doGetKRS(khsid: prov.dataStatusKRS.data.kHSID);
+              await prov.doGetKRS(khsid: prov.dataStatusKRS.data!.kHSID!);
               Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
             },
             child: Text('Reload'),
@@ -267,7 +265,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
     } else if (prov.isAdaDataPaketKRS) {
       return Container(
         child: DropdownButtonFormField(
-          items: prov.dataPaketKRS.data.map((e) {
+          items: prov.dataPaketKRS.data!.map((e) {
             return new DropdownMenuItem(
                 value: e.mkpaketid,
                 child: Row(
@@ -279,7 +277,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                     ),
                     Container(
                       child: Text(
-                        e.namapaket,
+                        e.namapaket!,
                       ),
                     )
                   ],
@@ -288,7 +286,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
           onChanged: (val) async {
             prov.setPilihPaket = true;
             await prov.doGetKRSPaketTerpilih(
-                tahunid: prov.dataTahunAktif.data.tahunTA,
+                tahunid: prov.dataTahunAktif.data!.tahunTA!,
                 paketid: val.toString());
             Toast.show(prov.isMessage, gravity: Toast.top, duration: 3);
           },
@@ -333,12 +331,12 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
           padding: EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: primaryRed,
+            color: config.colorPrimary,
           ),
           child: Padding(
               padding: EdgeInsets.all(5),
               child: Text(
-                "${prov.dataStatusKRS?.data?.statuskrs ?? '-'}",
+                "${prov.dataStatusKRS.data!.statuskrs}",
                 style: TextStyle(color: Colors.white, fontSize: 12),
               )));
     } else {
@@ -356,7 +354,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
     } else if (!prov.isDataTAaktif) {
       return Text('Tahun Ajaran Aktif tidak ada!');
     } else if (prov.isDataTAaktif) {
-      return Text(prov.dataTahunAktif?.data?.namaTA ?? '-');
+      return Text(prov.dataTahunAktif.data!.namaTA!);
     } else {
       return Container();
     }
@@ -381,10 +379,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
               ),
               Text(
                 'Masa pengurusan KRS!\nSilahkan pilih paket KRS semeseter ini.',
-                style: TextStyle(
-                    color: textPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 textAlign: TextAlign.center,
               )
             ],

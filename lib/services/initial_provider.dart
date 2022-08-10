@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class InitialProvider extends ChangeNotifier {
-  String initialPage;
+  initial() {
+    setInitialPage = 'SPLASH';
+    cekInitialPage();
+  }
 
+  String initialPage = 'SPLASH';
   String get getInitialPage => initialPage;
-
   set setInitialPage(val) {
     initialPage = val;
     notifyListeners();
   }
 
   cekInitialPage() async {
-    String splash = await store.splash();
-    String token = await store.token();
+    dynamic splash = await store.showSplash();
+    dynamic token = await store.showToken();
 
     if (splash == null) {
       setInitialPage = 'SPLASH';

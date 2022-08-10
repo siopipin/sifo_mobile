@@ -33,6 +33,7 @@ class Data {
   int? uTS;
   int? uAS;
   int? nilaiAkhir;
+  bool? isExpanded;
 
   Data(
       {this.mKKode,
@@ -45,6 +46,7 @@ class Data {
       this.nPresensi,
       this.uTS,
       this.uAS,
+      this.isExpanded,
       this.nilaiAkhir});
 
   Data.fromJson(Map<String, dynamic> json) {

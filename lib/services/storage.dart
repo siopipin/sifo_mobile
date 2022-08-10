@@ -1,154 +1,127 @@
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
- 
- saveLogin(
-      {required String id, required String nama, required String token}) async {
+
+  saveLoginData({
+    required String token,
+    required String npm,
+    required String nama,
+    required String prodi,
+    required String program,
+    required String status,
+    required String foto,
+  }) async {
     final SharedPreferences prefs = await _prefs;
-    await prefs.setString('id', id);
-    await prefs.setString('nama', nama);
-    await prefs.setString('token', token);
-  }
- 
-  tokenFCM() async {
-    await storage.read(key: 'tokenfcm');
-  }
 
-  destroyTokenFCM() async {
-    await storage.delete(key: 'tokenfcm');
-  }
-
-  saveToken({@required String val}) async {
-    await storage.write(key: 'token', value: val);
-  }
-
-  saveNama({@required String val}) async {
-    await storage.write(key: 'nama', value: val);
-  }
-
-  saveNPM({@required String val}) async {
-    await storage.write(key: 'npm', value: val);
-  }
-
-  saveProdi({@required String val}) async {
-    await storage.write(key: 'prodi', value: val);
-  }
-
-  saveProgram({@required String val}) async {
-    String program = '';
-    switch (val) {
+    String _program = '';
+    String _status = '';
+    switch (program) {
       case 'R':
-        program = 'Reguler';
+        _program = 'Reguler';
         break;
       case 'B':
-        program = 'Advanced Program';
+        _program = 'Advanced Program';
         break;
       default:
-        program = '';
+        _program = '';
         break;
     }
-    await storage.write(key: 'program', value: program);
-  }
 
-  saveStatus({@required String val}) async {
-    String status = '';
-    switch (val) {
+    switch (status) {
       case 'B':
-        status = 'Baru';
+        _status = 'Baru';
         break;
       case 'P':
-        status = 'Pindahan';
+        _status = 'Pindahan';
         break;
       case 'S':
-        status = 'Beasiswa';
+        _status = 'Beasiswa';
         break;
       case 'D':
-        status = 'Pindah Prodi';
+        _status = 'Pindah Prodi';
         break;
       case 'J':
-        status = 'Alih Jenjang';
+        _status = 'Alih Jenjang';
         break;
       default:
-        status = '';
+        _status = '';
         break;
     }
-    await storage.write(key: 'status', value: status);
+
+    await prefs.setString('npm', npm);
+    await prefs.setString('nama', nama);
+    await prefs.setString('token', token);
+    await prefs.setString('prodi', prodi);
+    await prefs.setString('foto', foto);
+    await prefs.setString('program', _program);
+    await prefs.setString('status', _status);
   }
 
-  saveSplashAction({@required String val}) async {
-    /// value splash : true // false
-    await storage.write(key: 'splash', value: val);
+  Future<bool> removeLoginData() async {
+    final SharedPreferences prefs = await _prefs;
+    bool success;
+    try {
+      await prefs.remove('npm');
+      await prefs.remove('nama');
+      await prefs.remove('token');
+      await prefs.remove('prodi');
+      await prefs.remove('program');
+      await prefs.remove('status');
+      await prefs.remove('splash');
+      await prefs.remove('foto');
+      success = true;
+    } catch (e) {
+      success = false;
+    }
+    return success;
+  }
 
-    print('berhasil simpan $val');
+  saveSplashAction({required bool status}) async {
+    // value splash : true // false
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setBool('splash', status);
   }
 
   //Read
-  token() async {
-    return await storage.read(key: 'token');
+  Future<dynamic> showNPM() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('npm');
   }
 
-  splash() async {
-    return await storage.read(key: 'splash');
+  Future<dynamic> showNama() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('nama');
   }
 
-  nama() async {
-    return await storage.read(key: 'nama');
+  Future<dynamic> showToken() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('token');
   }
 
-  npm() async {
-    return await storage.read(key: 'npm');
+  Future<dynamic> showProdi() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('prodi');
   }
 
-  prodi() async {
-    return await storage.read(key: 'prodi');
+  Future<dynamic> showProgram() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('program');
   }
 
-  program() async {
-    return await storage.read(key: 'program');
+  Future<dynamic> showStatus() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('status');
   }
 
-  status() async {
-    return await storage.read(key: 'status');
+  Future<dynamic> showFoto() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('foto');
   }
 
-  //Destroy
-  destroyToken() async {
-    await storage.delete(key: 'token');
-  }
-
-  destroyNama() async {
-    await storage.delete(key: 'nama');
-  }
-
-  destroyNpm() async {
-    await storage.delete(key: 'npm');
-  }
-
-  destroyProdi() async {
-    await storage.delete(key: 'prodi');
-  }
-
-  destroyProgram() async {
-    await storage.delete(key: 'program');
-  }
-
-  destroyStatus() async {
-    await storage.delete(key: 'status');
-  }
-
-  //Foto
-  saveFoto({@required String val}) async {
-    await storage.write(key: 'foto', value: val);
-  }
-
-  foto() async {
-    return await storage.read(key: 'foto');
-  }
-
-  delFoto() async {
-    await storage.delete(key: 'foto');
+  Future<dynamic> showSplash() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getBool('splash');
   }
 }
 
