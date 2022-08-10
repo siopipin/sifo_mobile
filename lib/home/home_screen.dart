@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
@@ -15,7 +16,6 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
-import 'package:toast/toast.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -128,8 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () async {
                       await store.removeLoginData().then((value) {
                         if (value) {
-                          Toast.show('Logout berhasil, silahkan login!',
-                              gravity: Toast.top, duration: 3);
+                          Fluttertoast.showToast(
+                              msg: 'Logout berhasil, silahkan login!');
                           Phoenix.rebirth(context);
                         }
                       });

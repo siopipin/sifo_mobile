@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/widgets/button_custom.dart';
+import 'package:sisfo_mobile/widgets/logo.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -17,26 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
     final LoginProvider prov = Provider.of<LoginProvider>(context);
     return Scaffold(
       backgroundColor: config.colorPrimary,
-      body: SafeArea(
-          child: Padding(
+      body: Center(
+          child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 50),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 152,
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(config.logoPath),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
+            LogoWidget(),
             Column(
               children: <Widget>[
                 Text(
-                  "STIKES Gunung Sari",
+                  config.textTitle,
                   style: config.appTitle,
                   textAlign: TextAlign.center,
                 ),
@@ -44,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 20,
                 ),
                 Text(
-                  "Sekolah Tinggi Ilmu Kesehatan Gunung Sari \n V.1.0",
+                  config.textDescription,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.8),
                     fontSize: 13,
@@ -54,30 +47,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ],
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  primary: config.colorPrimary,
-                ),
-                onPressed: () async {
-                  await prov.doWelcome();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()));
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 45,
-                  child: Center(
-                    child: Text(
-                      "Mulai Gunakan!",
-                      style: TextStyle(color: config.fontWhite),
-                    ),
-                  ),
-                )),
           ],
         ),
       )),
+      bottomSheet: ButtonCustom(
+        text: "Mulai Gunakan!",
+        height: 55,
+        function: () async {
+          await prov.doWelcome();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        },
+        useBorderRadius: false,
+      ),
     );
   }
 }

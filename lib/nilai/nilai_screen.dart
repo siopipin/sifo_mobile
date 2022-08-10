@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/nilai/nilai_provider.dart';
@@ -6,7 +7,6 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
-import 'package:toast/toast.dart';
 
 class NilaiScreen extends StatefulWidget {
   NilaiScreen({Key? key}) : super(key: key);
@@ -133,7 +133,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
               onPressed: () async {
                 await prov.doGetTahunKHS();
 
-                Toast.show(prov.message, duration: 3, gravity: Toast.top);
+                Fluttertoast.showToast(msg: prov.message);
               },
               child: Text('Reload'),
             )
@@ -319,7 +319,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
           onChanged: (val) async {
             await prov.doGetNilai(tahun: val.toString());
             prov.tahun = val.toString();
-            Toast.show(prov.isMsg, gravity: Toast.top, duration: 3);
+            Fluttertoast.showToast(msg: prov.isMsg);
           },
           value: prov.isTahun,
           decoration: InputDecoration(

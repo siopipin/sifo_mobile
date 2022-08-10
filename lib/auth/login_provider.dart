@@ -1,108 +1,82 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' show Client;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sisfo_mobile/auth/login_model.dart';
-import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/services/api_base_helper.dart';
+import 'package:sisfo_mobile/services/app_exceptions.dart';
 import 'package:sisfo_mobile/services/storage.dart';
-import 'package:toast/toast.dart';
+
+enum StateLogin { initial, loading, loaded, nulldata, error }
 
 class LoginProvider extends ChangeNotifier {
-  Client client = new Client();
+  initial() {
+    ctrlNPM.clear();
+    ctrlPassword.clear();
+    setIsObscureText = true;
+  }
 
-  bool loading = false,
-      loginStatus = false,
-      errorStatus = false,
-      seePassword = true;
-  String msg = '';
-  LoginModel? _loginModel;
+  TextEditingController ctrlNPM = TextEditingController();
+  TextEditingController ctrlPassword = TextEditingController();
 
-  LoginModel get dataMahasiswa => _loginModel!;
-  bool get isLoading => loading;
-  bool get islogin => loginStatus;
-  bool get isError => errorStatus;
-  bool get isObscureText => seePassword;
-  String get isMsg => msg;
-
-  set setLoading(val) {
-    loading = val;
+  StateLogin _stateLogin = StateLogin.initial;
+  StateLogin get stateLogin => _stateLogin;
+  set setStateLogin(val) {
+    _stateLogin = val;
     notifyListeners();
   }
 
-  set setMessage(val) {
-    msg = val;
-    notifyListeners();
-  }
-
-  set setLoginStatus(val) {
-    loginStatus = val;
-    notifyListeners();
-  }
-
-  set setError(val) {
-    errorStatus = val;
-    notifyListeners();
-  }
-
-  set setDataMhs(val) {
+  LoginModel _loginModel = LoginModel();
+  LoginModel get dataLogin => _loginModel;
+  set setLoginModel(val) {
     _loginModel = val;
     notifyListeners();
   }
 
-  set setShowPassword(val) {
-    seePassword = val;
+  bool _isObscureText = true;
+  bool get isObscureText => _isObscureText;
+  set setIsObscureText(val) {
+    _isObscureText = val;
     notifyListeners();
   }
 
-  doLogin({required String login, required String password}) async {
-    setLoading = true;
-    final response = await postLogin(login, password);
+  final ApiBaseHelper _helper = ApiBaseHelper();
 
-    if (response != null) {
-      if (response.statusCode == 200) {
-        var tmp = json.decode(response.body);
-        setDataMhs = LoginModel.fromJson(tmp);
+  Future<void> doLogin({required String login, password}) async {
+    setStateLogin = StateLogin.loading;
+    var data = {'login': login, 'password': password};
+    final response = await _helper.post(url: '/auth/login', data: data);
+    switch (response[0]) {
+      case null:
+        setStateLogin = StateLogin.error;
+        Fluttertoast.showToast(
+          msg: "Error During Communication",
+        );
+        throw BadRequestException('Error During Communication');
+      case 200:
+        setStateLogin = StateLogin.loaded;
+        setLoginModel = LoginModel.fromJson(json.decode(response[1]));
 
         await store.saveLoginData(
-          npm: _loginModel!.idmhs!,
-          nama: _loginModel!.nama!,
-          prodi: _loginModel!.prodi!,
-          program: _loginModel!.program!,
-          status: _loginModel!.status!,
-          token: _loginModel!.token!,
-          foto: _loginModel!.foto!,
+          npm: dataLogin.idmhs!,
+          nama: dataLogin.nama!,
+          prodi: dataLogin.prodi!,
+          program: dataLogin.program!,
+          status: dataLogin.status!,
+          token: dataLogin.token!,
+          foto: dataLogin.foto!,
         );
-        Toast.show(
-          'Selamat datang ${_loginModel!.nama!}',
-          gravity: Toast.bottom,
-        );
-        setLoginStatus = true;
-      } else if (response.statusCode == 401) {
-        setMessage = 'NIM atau kata sandi salah!';
-        setLoginStatus = false;
-      } else {
-        setMessage = 'Silahkan coba lagi!';
-        setLoginStatus = false;
-      }
-    } else {
-      print('Response tidak ditemukan');
-    }
-  }
 
-  ///Fetch Data from server
-  postLogin(String login, password) async {
-    var data = json.encode({'login': login, 'password': password});
-
-    try {
-      final response = await client.post(Uri.parse('${config.api}/auth/login'),
-          headers: config.header, body: data);
-      setLoading = false;
-      return response;
-    } catch (e) {
-      print(e.toString());
-      setError = true;
-      setLoading = false;
-      setMessage = 'Coba Lagi, tidak dapat menghubungkan';
+        Fluttertoast.showToast(msg: 'Selamat datang ${dataLogin.nama!}');
+        break;
+      case 401:
+        setStateLogin = StateLogin.error;
+        Fluttertoast.showToast(msg: "NPM atau kata sandi salah, coba lagi!");
+        throw UnauthorisedException('Unauthorised');
+      default:
+        setStateLogin = StateLogin.error;
+        Fluttertoast.showToast(msg: "Invalid Request");
+        throw BadRequestException('Invalid Request');
     }
   }
 

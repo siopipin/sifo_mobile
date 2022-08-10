@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
-import 'package:toast/toast.dart';
 
 class ProfilePageScreen extends StatefulWidget {
   ProfilePageScreen({Key? key}) : super(key: key);
@@ -96,8 +96,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
                           _hp.text.isEmpty ||
                           _hportu.text.isEmpty ||
                           _email.text.isEmpty) {
-                        Toast.show('Data tidak boleh kosong!',
-                            duration: 3, gravity: Toast.top);
+                        Fluttertoast.showToast(msg: 'Data tidak boleh kosong!');
                       } else {
                         await prov.doEditProfile(
                             hp: _hp.text,
@@ -105,7 +104,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
                             email: _email.text,
                             hportu: _hportu.text);
                         await prov.doGetProfile();
-                        Toast.show(prov.msg, duration: 4, gravity: Toast.top);
+                        Fluttertoast.showToast(msg: prov.msg);
                       }
                     },
                   )
@@ -530,20 +529,18 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
                 if (prov.oldPass.text.isEmpty ||
                     prov.newPass.text.isEmpty ||
                     prov.renewPass.text.isEmpty) {
-                  Toast.show('Kata sandi tidak boleh kosong!',
-                      duration: 3, gravity: Toast.top);
+                  Fluttertoast.showToast(msg: 'Kata sandi tidak boleh kosong!');
                 } else if (prov.newPass.text.length < 6 ||
                     prov.renewPass.text.length < 6) {
-                  Toast.show('Kata sandi baru minimal 6 karakter!',
-                      duration: 3, gravity: Toast.top);
+                  Fluttertoast.showToast(
+                      msg: 'Kata sandi baru minimal 6 karakter!');
                 } else if (prov.newPass.text != prov.renewPass.text) {
-                  Toast.show('Kata sandi baru tidak sama!',
-                      duration: 3, gravity: Toast.top);
+                  Fluttertoast.showToast(msg: 'Kata sandi baru tidak sama!');
                 } else {
                   await prov.doCekPassword(
                       password: prov.oldPass.text,
                       newPassword: prov.newPass.text);
-                  Toast.show(prov.msg, duration: 3, gravity: Toast.top);
+                  Fluttertoast.showToast(msg: prov.msg);
                 }
               } else {
                 prov.setGantiPassword = true;

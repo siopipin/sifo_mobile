@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
-// import 'package:permissions_plugin/permissions_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/krs/krs_pdf_viewer.dart';
 import 'package:sisfo_mobile/krs/krs_pengajuan_screen.dart';
@@ -11,7 +11,6 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
-import 'package:toast/toast.dart';
 
 class KrsScreen extends StatefulWidget {
   KrsScreen({Key? key}) : super(key: key);
@@ -164,9 +163,9 @@ class _KrsScreenState extends State<KrsScreen> {
                           builder: (_) => KRSPdfViewer(
                                 path: prov.pDFpath,
                               )));
-                  Toast.show(prov.isMessage, gravity: Toast.top, duration: 3);
+                  Fluttertoast.showToast(msg: prov.isMessage);
                 } else {
-                  Toast.show(prov.isMessage, gravity: Toast.top, duration: 3);
+                  Fluttertoast.showToast(msg: prov.isMessage);
                 }
               },
             )
@@ -239,7 +238,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 textStyle: TextStyle(color: Colors.blueGrey)),
             onPressed: () async {
               await prov.doGetTahunAjaranAktif();
-              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
+              Fluttertoast.showToast(msg: prov.isMessage);
             },
             child: Text('Reload'),
           )
@@ -271,7 +270,7 @@ class _KrsScreenState extends State<KrsScreen> {
                 textStyle: TextStyle(color: Colors.blueGrey)),
             onPressed: () async {
               await prov.doGetTahunAjaranAktif();
-              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
+              Fluttertoast.showToast(msg: prov.isMessage);
             },
             child: Text('Reload'),
           )
@@ -302,7 +301,7 @@ class _KrsScreenState extends State<KrsScreen> {
             ),
             onPressed: () async {
               await prov.doGetKRS(khsid: prov.dataStatusKRS.data!.kHSID!);
-              Toast.show(prov.isMessage, duration: 3, gravity: Toast.top);
+              Fluttertoast.showToast(msg: prov.isMessage);
             },
             child: Text('Reload'),
           )
@@ -441,7 +440,7 @@ class _KrsScreenState extends State<KrsScreen> {
               : Container(),
           prov.dataCekKrs.data == false
               ? ButtonTheme(
-                  buttonColor: config.colorBackground,
+                  buttonColor: config.colorBlueDark,
                   minWidth: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(

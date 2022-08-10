@@ -26,4 +26,31 @@ class InitialProvider extends ChangeNotifier {
       setInitialPage = 'HOME';
     }
   }
+
+  //Storage
+  Storage data = Storage();
+
+  Future<String> getID() async {
+    String val = '';
+    await data.showNPM().then((value) {
+      if (value == null) {
+        val = '';
+      } else {
+        val = value;
+      }
+    });
+    return val;
+  }
+
+  Future<String> getToken() async {
+    String val = '';
+    await data.showToken().then((value) {
+      if (value == null) {
+        val = '';
+      } else {
+        val = value;
+      }
+    });
+    return val;
+  }
 }

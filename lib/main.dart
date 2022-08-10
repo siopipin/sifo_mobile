@@ -14,6 +14,7 @@ import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/nilai/nilai_provider.dart';
 import 'package:sisfo_mobile/notification/notification_provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
+import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/initial_provider.dart';
 
 void main() {
@@ -59,7 +60,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sisfo Mobile',
-      theme: ThemeData(fontFamily: 'Roboto', primarySwatch: Colors.blue),
+      theme: ThemeData(
+        fontFamily: 'Roboto',
+        colorScheme:
+            ColorScheme.fromSwatch().copyWith(primary: config.colorPrimary),
+        scaffoldBackgroundColor: config.colorBackgroundWhite,
+      ),
       home: watchInitial.initialPage == 'SPLASH'
           ? SplashScreen()
           : watchInitial.initialPage == 'LOGIN'

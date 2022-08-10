@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_provider.dart';
@@ -6,7 +7,6 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
-import 'package:toast/toast.dart';
 
 class KeuanganScreen extends StatefulWidget {
   KeuanganScreen({Key? key}) : super(key: key);
@@ -228,7 +228,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    primary: config.colorBackground),
+                    primary: config.colorBlueDark),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -331,7 +331,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    primary: config.colorBackground),
+                    primary: config.colorBlueDark),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -447,7 +447,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
             await prov.doGetKeuanganKHS(tahun: val.toString());
             await prov.doGetKeuanganDetail(tahun: val.toString());
             prov.tahun = val.toString();
-            Toast.show(prov.isMsg, gravity: Toast.top, duration: 3);
+            Fluttertoast.showToast(msg: prov.isMsg);
           },
           value: prov.isTahun,
           decoration: InputDecoration(
