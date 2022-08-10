@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class HomeProvider extends ChangeNotifier {
+  initial() {
+    getDataAwal();
+  }
+
   set setUpdateInfo(val) {
     notifyListeners();
   }
@@ -48,47 +52,54 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Storage data = Storage();
+
   getDataAwal() async {
-    String tmp = await store.showNama();
-    if (tmp.isEmpty) {
-      setNama = tmp;
-    } else {
-      setNama = 'User';
-    }
+    data.showNama().then((value) {
+      if (value == null) {
+        setNama = '';
+      } else {
+        setNama = value;
+      }
+    });
 
-    String tmp2 = await store.showNPM();
-    if (tmp2.isEmpty) {
-      setNim = tmp2;
-    } else {
-      setNim = '-';
-    }
+    data.showNPM().then((value) {
+      if (value == null) {
+        setNim = '';
+      } else {
+        setNim = value;
+      }
+    });
+    data.showProdi().then((value) {
+      if (value == null) {
+        setProdi = '';
+      } else {
+        setProdi = value;
+      }
+    });
 
-    String tmp3 = await store.showProdi();
-    if (tmp3.isEmpty) {
-      setProdi = tmp3;
-    } else {
-      setProdi = '-';
-    }
+    data.showProgram().then((value) {
+      if (value == null) {
+        setProgram = '';
+      } else {
+        setProgram = value;
+      }
+    });
 
-    String tmp4 = await store.showProgram();
-    if (tmp4.isEmpty) {
-      setProgram = tmp4;
-    } else {
-      setProgram = '-';
-    }
+    data.showStatus().then((value) {
+      if (value == null) {
+        setStatus = '';
+      } else {
+        setStatus = value;
+      }
+    });
 
-    String tmp5 = await store.showStatus();
-    if (tmp5.isEmpty) {
-      setStatus = tmp5;
-    } else {
-      setStatus = '-';
-    }
-
-    String tmp6 = await store.showFoto();
-    if (tmp6.isEmpty) {
-      setFoto = tmp6;
-    } else {
-      setFoto = '-';
-    }
+    data.showFoto().then((value) {
+      if (value == null) {
+        setFoto = '';
+      } else {
+        setFoto = value;
+      }
+    });
   }
 }
