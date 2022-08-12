@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
+import 'package:sisfo_mobile/widgets/foto_profile.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 
 class InfoBannerWidget extends StatelessWidget {
@@ -25,42 +26,7 @@ class InfoBannerWidget extends StatelessWidget {
           Positioned(
             top: 8,
             left: 10,
-            child: Container(
-              height: 100,
-              child: FutureBuilder(
-                future: store.showFoto(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data != null || snapshot.data.isNotEmpty) {
-                      return CachedNetworkImage(
-                        imageUrl: '${config.imgurl}/${snapshot.data}',
-                        imageBuilder: (context, imageProvider) => Container(
-                          width: 82.0,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover),
-                          ),
-                        ),
-                        placeholder: (context, url) => loadingFoto,
-                        errorWidget: (context, url, error) => Image.asset(
-                          "assets/images/logo.png",
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    } else {
-                      return Image.asset(
-                        "assets/images/logo.png",
-                        fit: BoxFit.cover,
-                      );
-                    }
-                  } else {
-                    return loadingFoto;
-                  }
-                },
-              ),
-            ),
+            child: FotoProfile(),
           ),
           Positioned.fill(
             left: 110,

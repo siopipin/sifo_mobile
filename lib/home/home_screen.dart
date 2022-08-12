@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/home/dashboard_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/home/widgets/fitur_home_widget.dart';
 import 'package:sisfo_mobile/home/widgets/info_banner_widget.dart';
 import 'package:sisfo_mobile/home/widgets/welcome_header.dart';
+import 'package:sisfo_mobile/krs/krs_screen.dart';
+import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/notification/notification_screen.dart';
+import 'package:sisfo_mobile/profile/profile_screen.dart';
 
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
@@ -18,6 +22,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List currentHome = [
+    DashboardScreen(),
+    KrsScreen(),
+    NilaiScreen(),
+    ProfileScreen()
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -26,8 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final watchHome = context.watch<HomeProvider>();
     return Scaffold(
-      bottomNavigationBar: BottomBar(tabIndex: 0, label: 'Home'),
+      bottomNavigationBar: BottomBar(),
       appBar: AppBar(
         backgroundColor: config.colorPrimary,
         leading: Container(
@@ -64,25 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              SizedBox(height: 30),
-              //Welcome Text
-              WelcomeHeader(),
-              SizedBox(height: 30),
-              //InfoBanner
-              InfoBannerWidget(),
-              SizedBox(height: 30),
-              //Menu
-              FiturHomeWidget()
-            ],
-          ),
-        ),
-      )),
+      body: currentHome[watchHome.index],
     );
   }
 }

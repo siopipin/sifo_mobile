@@ -18,7 +18,6 @@ class ProfileProvider extends ChangeNotifier {
       gantiPassword = false;
 
   String msg = '', status = '', statusAwal = '', program = '';
-  ProfileModel? _profileModel;
 
   ///TextController untuk update password
   TextEditingController _oldPass = TextEditingController();
@@ -29,6 +28,7 @@ class ProfileProvider extends ChangeNotifier {
   TextEditingController get newPass => _newPass;
   TextEditingController get renewPass => _renewPass;
 
+  ProfileModel? _profileModel;
   ProfileModel get dataMahasiswa => _profileModel!;
   bool get isData => data;
   bool get isObscureText => obsecure;

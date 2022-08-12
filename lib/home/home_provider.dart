@@ -4,9 +4,13 @@ import 'package:sisfo_mobile/services/storage.dart';
 class HomeProvider extends ChangeNotifier {
   initial() {
     getDataAwal();
+    setIndex = 0;
   }
 
-  set setUpdateInfo(val) {
+  int _index = 0;
+  int get index => _index;
+  set setIndex(val) {
+    _index = val;
     notifyListeners();
   }
 

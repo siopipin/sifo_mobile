@@ -3,6 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
 import 'package:sisfo_mobile/home/widgets/card_fitur_home_widget.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
+import 'package:sisfo_mobile/khs/khs_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/notification/notification_screen.dart';
@@ -38,7 +39,7 @@ class FiturHomeWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => KrsScreen())),
+                          MaterialPageRoute(builder: (_) => KhsScreen())),
                       child: CardMenu(
                         icon: LineIcons.bookmark,
                         label: "KRS",

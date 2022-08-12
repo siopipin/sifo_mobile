@@ -34,133 +34,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
-    return Scaffold(
-        bottomNavigationBar: BottomBar(
-          tabIndex: 3,
-          label: 'Profile',
+    return SafeArea(
+        child: SingleChildScrollView(
+      child: Container(
+        child: Column(
+          children: [infoBuilder(context)],
         ),
-        appBar: AppBar(
-          backgroundColor: config.colorPrimary,
-          leading: Container(
-            margin: EdgeInsets.all(6),
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: const AssetImage('assets/images/logo.png'),
-                    fit: BoxFit.fill)),
-          ),
-          actions: [
-            prov.isEdit
-                ? GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Row(
-                        children: [
-                          Icon(
-                            LineIcons.closedCaptioning,
-                            color: config.fontWhite,
-                            size: 20,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'Cancel',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: config.fontWhite,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      if (prov.isEdit == false) {
-                        prov.setEdit = true;
-                      } else {
-                        prov.setEdit = false;
-                      }
-                    },
-                  )
-                : Container(),
-            prov.isEdit
-                ? GestureDetector(
-                    child: Row(
-                      children: [
-                        prov.isLoading
-                            ? Text(
-                                'Loading',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                              )
-                            : Text(
-                                'Save',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: config.colorSecondary),
-                              ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(LineIcons.save, color: config.colorSecondary)
-                      ],
-                    ),
-                    onTap: () async {
-                      if (_alamat.text.isEmpty ||
-                          _hp.text.isEmpty ||
-                          _hportu.text.isEmpty ||
-                          _email.text.isEmpty) {
-                        Fluttertoast.showToast(msg: 'Data tidak boleh kosong!');
-                      } else {
-                        await prov.doEditProfile(
-                            hp: _hp.text,
-                            alamat: _alamat.text,
-                            email: _email.text,
-                            hportu: _hportu.text);
-                        await prov.doGetProfile();
-                        Fluttertoast.showToast(msg: prov.msg);
-                      }
-                    },
-                  )
-                : GestureDetector(
-                    child: Row(
-                      children: [
-                        Text('Edit'),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(LineIcons.edit)
-                      ],
-                    ),
-                    onTap: () {
-                      if (prov.isEdit == false) {
-                        prov.setEdit = true;
-                      } else {
-                        prov.setEdit = false;
-                      }
-                    },
-                  ),
-          ],
-          title: Text(
-            'Profile',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [infoBuilder(context)],
-            ),
-          ),
-        )));
+      ),
+    ));
   }
 
   Widget infoBuilder(BuildContext context) {
     final ProfileProvider prov = Provider.of<ProfileProvider>(context);
-    _alamat.text = prov.dataMahasiswa.data!.alamat!;
+    _alamat.text = prov.dataMahasiswa.data!.alamat ?? '-';
     _email.text = prov.dataMahasiswa.data!.email!;
     _hp.text = prov.dataMahasiswa.data!.handphone!;
     _hportu.text = prov.dataMahasiswa.data!.handphoneOrtu!;

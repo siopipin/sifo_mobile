@@ -6,7 +6,7 @@ import 'package:sisfo_mobile/krs/krs_pdf_viewer.dart';
 import 'package:sisfo_mobile/krs/krs_pengajuan_screen.dart';
 import 'package:sisfo_mobile/krs/models/krs_model.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
-import 'package:sisfo_mobile/krs/widgets/info_widget.dart';
+import 'package:sisfo_mobile/widgets/message_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/error_widget.dart';
@@ -252,7 +252,7 @@ class _KrsScreenState extends State<KrsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InfoWidget(
+                  MessageWidget(
                     info:
                         'Belum memenuhi syarat ambil KRS. Silahkan hubungi Administrasi',
                   ),
@@ -311,7 +311,7 @@ class _KrsScreenState extends State<KrsScreen> {
       print('masuk sini');
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
-        child: InfoWidget(
+        child: MessageWidget(
             info:
                 'Belum pernah melakukan pengisian KRS. Harap menghubungi bagian Akademik'),
       );
@@ -430,12 +430,12 @@ class _KrsScreenState extends State<KrsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           prov.dataCekKrs.data == true
-              ? InfoWidget(
+              ? MessageWidget(
                   info:
                       "Batas pengambilan / pengubahan KRS sudah selesai. KRS tidak dapat diubah.")
               : Container(),
           prov.dataCekKrs.data == false
-              ? InfoWidget(
+              ? MessageWidget(
                   info: "Silahkan klik 'Ambil KRS' untuk memilih paket KRS.")
               : Container(),
           prov.dataCekKrs.data == false

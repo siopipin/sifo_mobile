@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/home/home_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
@@ -7,10 +9,7 @@ import 'package:sisfo_mobile/profile/profile_screen.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
 class BottomBar extends StatelessWidget {
-  final int tabIndex;
-  final String label;
-  const BottomBar({Key? key, required this.tabIndex, required this.label})
-      : super(key: key);
+  const BottomBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +19,8 @@ class BottomBar extends StatelessWidget {
       {'icon': LineIcons.graduationCap, 'label': 'Nilai'},
       {'icon': LineIcons.user, 'label': 'Profile'},
     ];
+    final watchHome = context.watch<HomeProvider>();
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -44,40 +45,26 @@ class BottomBar extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               print(index);
-                              if (index == tabIndex) {
-                                print('this screen');
-                              } else if (index == 0) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => HomeScreen()));
+                              if (index == 0) {
+                                watchHome.setIndex = 0;
                               } else if (index == 1) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => KrsScreen()));
+                                watchHome.setIndex = 1;
                               } else if (index == 2) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => NilaiScreen()));
+                                watchHome.setIndex = 2;
                               } else if (index == 3) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => ProfileScreen()));
+                                watchHome.setIndex = 3;
                               }
                             },
                             child: Icon(activeTabs[index]['icon'],
                                 size: 25,
-                                color: tabIndex == index
+                                color: watchHome.index == index
                                     ? config.colorSecondary
                                     : Colors.white),
                           ),
                           Text(
                             activeTabs[index]['label'],
                             style: TextStyle(
-                                color: tabIndex == index
+                                color: watchHome.index == index
                                     ? config.colorSecondary
                                     : Colors.white70,
                                 fontSize: 11),

@@ -4,7 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/home/home_screen.dart';
 import 'package:sisfo_mobile/krs/krs_provider.dart';
-import 'package:sisfo_mobile/krs/widgets/info_widget.dart';
+import 'package:sisfo_mobile/widgets/message_widget.dart';
 import 'package:sisfo_mobile/krs/widgets/krs_terpilih_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
@@ -176,7 +176,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
           ],
         );
       } else {
-        return InfoWidget(
+        return MessageWidget(
             info: 'Jadwal KRS telah selesai. Hubungi Administrasi');
       }
     } else {
