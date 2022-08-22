@@ -37,7 +37,7 @@ class MessageWidget extends StatelessWidget {
             info,
             style: TextStyle(
                 color: status == InfoWidgetStatus.warning
-                    ? Colors.black
+                    ? Colors.black54
                     : Colors.white,
                 fontSize: config.fontSizeH3),
           ))

@@ -4,7 +4,6 @@ import 'package:sisfo_mobile/about/about_screen.dart';
 import 'package:sisfo_mobile/home/widgets/card_fitur_home_widget.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/khs/khs_screen.dart';
-import 'package:sisfo_mobile/krs/krs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/notification/notification_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';

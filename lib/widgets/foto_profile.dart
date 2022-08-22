@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
-import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +20,6 @@ class FotoProfile extends StatelessWidget {
                 fit: BoxFit.cover,
               )
             : CachedNetworkImage(
-                //TODO cek foto ketika ambil dari server.
                 imageUrl: '${config.imgurl}/${watchHome.dataFoto}',
                 imageBuilder: (context, imageProvider) {
                   return Container(

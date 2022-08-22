@@ -12,6 +12,7 @@ enum StateTahunAjaranAktif { initial, loading, loaded, nulldata, error }
 class TahunAjaranAktifProvider extends ChangeNotifier {
   initial() async {
     setStateTahunAjaranAktif = StateTahunAjaranAktif.initial;
+    setStatusPengurusanKRS = false;
     await fetchTahunAjaranAktif();
   }
 
@@ -27,6 +28,38 @@ class TahunAjaranAktifProvider extends ChangeNotifier {
   set setTahunAjaranAktif(val) {
     _tahunAjaranAktifModel = val;
     notifyListeners();
+  }
+
+  bool? _statusPengurusanKRS = false;
+  bool get statusPengurusanKRS => _statusPengurusanKRS!;
+  set setStatusPengurusanKRS(val) {
+    _statusPengurusanKRS = val;
+    notifyListeners();
+  }
+
+  cekPengurusanKRS(tahunid) async {
+    await fetchCekKRS(tahunid).then((value) async {
+      if (value[0] == 200) {
+        var statusCekKrs = json.decode(value[1]);
+        if (statusCekKrs['data'] == false) {
+          await fetchStatusPengurusanKRS(tahunid).then((value) {
+            if (value[0] == 200) {
+              var statusPengurusanKrs = json.decode(value[1]);
+              if (statusPengurusanKrs['status'] == true) {
+                //set boleh mengurus KRS
+                setStatusPengurusanKRS = true;
+                //Berikutnya Ambil paket krs.
+              } else {
+                print('Jadwal KRS telah selesai. Hubungi Administrasi');
+              }
+            }
+          });
+        } else {
+          print(
+              "Batas pengambilan / pengubahan KRS telah selesai. KRS tidak dapat diubah");
+        }
+      }
+    });
   }
 
   final ApiBaseHelper _helper = ApiBaseHelper();
@@ -48,6 +81,7 @@ class TahunAjaranAktifProvider extends ChangeNotifier {
         setStateTahunAjaranAktif = StateTahunAjaranAktif.loaded;
         setTahunAjaranAktif =
             TahunAjaranAktifModel.fromJson(json.decode(response[1]));
+        await cekPengurusanKRS(dataTahunAjaranAktif.data!.tahunTA!);
         break;
       case 404:
         setStateTahunAjaranAktif = StateTahunAjaranAktif.nulldata;
@@ -62,5 +96,23 @@ class TahunAjaranAktifProvider extends ChangeNotifier {
         Fluttertoast.showToast(msg: 'Invalid Request');
         throw BadRequestException('Invalid Request');
     }
+  }
+
+  Future<dynamic> fetchCekKRS(tahunid) async {
+    var _token = await store.showToken();
+
+    final response = await _helper.get(
+        url: '/mahasiswa/cek-krs/$tahunid', needToken: true, token: _token);
+    return response;
+  }
+
+  Future<dynamic> fetchStatusPengurusanKRS(tahunid) async {
+    var _token = await store.showToken();
+
+    final response = await _helper.get(
+        url: '/mahasiswa/status-pengurusan-krs/$tahunid',
+        needToken: true,
+        token: _token);
+    return response;
   }
 }

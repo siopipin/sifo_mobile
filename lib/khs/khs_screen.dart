@@ -55,63 +55,64 @@ class _KhsScreenState extends State<KhsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final watchTahunAjaranAktif = context.watch<TahunAjaranAktifProvider>();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: config.colorPrimary,
-        title: Text('Informasi KRS'),
-        actions: [
+      appBar: config.appBar(
+        title: 'Informasi KRS',
+        action: [
           //TODO tambahkan cekTOShowDownloadKRS()
         ],
       ),
       body: Scrollbar(
-          child: RefreshIndicator(
-              onRefresh: () async {},
-              child: ListView(
-                children: [
-                  //header
-                  KhsHeaderWidget(),
+        child: RefreshIndicator(
+          onRefresh: () async {},
+          child: ListView(
+            children: [
+              //header
+              KhsHeaderWidget(),
+              //body
+              bodyKhs(context)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                  //body
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: config.padding),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //Pilih tahun.
-                          TahunKhsWidget(),
-                          SizedBox(height: config.padding / 2),
-                          //cek jika krs aktif
-                          if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
-                              StateTahunAjaranAktif.loading)
-                            Column(
-                              children: [
-                                loading.shimmerCustom(height: 50),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(top: config.padding / 2),
-                                  child: loading.shimmerCustom(height: 50),
-                                )
-                              ],
-                            )
-                          else if (watchTahunAjaranAktif
-                                  .stateTahunAjaranAktif ==
-                              StateTahunAjaranAktif.nulldata)
-                            MessageWidget(
-                              info: 'Tahun ajaran aktif tidak ditemukan',
-                              status: InfoWidgetStatus.warning,
-                              needBorderRadius: false,
-                            )
-                          else if (watchTahunAjaranAktif
-                                  .stateTahunAjaranAktif ==
-                              StateTahunAjaranAktif.loaded)
-                            KhsDetailWidget()
-                          else
-                            Container(),
-                        ]),
-                  )
-                ],
-              ))),
+  bodyKhs(BuildContext context) {
+    final watchTahunAjaranAktif = context.watch<TahunAjaranAktifProvider>();
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: config.padding),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        //Pilih tahun.
+        SizedBox(height: config.padding / 2),
+        TahunKhsWidget(),
+        SizedBox(height: config.padding / 2),
+        //cek jika krs aktif
+        if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
+            StateTahunAjaranAktif.loading)
+          Column(
+            children: [
+              loading.shimmerCustom(height: 50),
+              Padding(
+                padding: EdgeInsets.only(top: config.padding / 2),
+                child: loading.shimmerCustom(height: 50),
+              )
+            ],
+          )
+        else if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
+            StateTahunAjaranAktif.nulldata)
+          MessageWidget(
+            info: 'Tahun ajaran aktif tidak ditemukan',
+            status: InfoWidgetStatus.warning,
+            needBorderRadius: false,
+          )
+        else if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
+            StateTahunAjaranAktif.loaded)
+          KhsDetailWidget()
+        else
+          Container(),
+      ]),
     );
   }
 }

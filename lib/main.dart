@@ -11,6 +11,8 @@ import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/home/home_screen.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_provider.dart';
 import 'package:sisfo_mobile/khs/providers/krs_mhs_provider.dart';
+import 'package:sisfo_mobile/khs/providers/krs_paket_provider.dart';
+import 'package:sisfo_mobile/khs/providers/krs_paket_terpilih_provider.dart';
 import 'package:sisfo_mobile/khs/providers/status_khs_provider.dart';
 import 'package:sisfo_mobile/khs/providers/tahun_ajaran_aktif_provider.dart';
 import 'package:sisfo_mobile/khs/providers/tahun_khs_provider.dart';
@@ -42,6 +44,8 @@ void main() {
           ChangeNotifierProvider(create: (_) => StatusKhsProvider()),
           ChangeNotifierProvider(create: (_) => TahunKhsProvider()),
           ChangeNotifierProvider(create: (_) => KrsMhsProvider()),
+          ChangeNotifierProvider(create: (_) => KrsPaketProvider()),
+          ChangeNotifierProvider(create: (_) => KrsPaketTerpilihProvider()),
         ],
         child: MyApp(),
       ),

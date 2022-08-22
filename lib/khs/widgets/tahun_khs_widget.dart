@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/khs/providers/krs_mhs_provider.dart';
 import 'package:sisfo_mobile/khs/providers/status_khs_provider.dart';
-import 'package:sisfo_mobile/khs/providers/tahun_ajaran_aktif_provider.dart';
 import 'package:sisfo_mobile/khs/providers/tahun_khs_provider.dart';
-import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/khs/widgets/khs_info_tahun_ajaran_aktif_widget.dart';
 import 'package:sisfo_mobile/widgets/shimmer_widget.dart';
 
 class TahunKhsWidget extends StatelessWidget {
@@ -25,36 +23,31 @@ class TahunKhsWidget extends StatelessWidget {
         if (watchTahunKhs.dataTahunKhs.data!.length == 0) {
           return Container();
         } else {
-          return Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20)),
-                  color: config.colorPrimary),
+          return Row(children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Tahun Ajaran',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, letterSpacing: 2.0),
+                ),
+                KhsInfoTahunAjaranAktifWidget(),
+              ],
+            ),
+            Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 20),
                 child: DropdownButtonFormField(
-                  hint: Text('Pilih Tahun'),
+                  hint: Text('Lihat KRS TA Lainnya'),
                   items: watchTahunKhs.dataTahunKhs.data!.map((e) {
                     return new DropdownMenuItem(
-                        value: e.tahunid,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(LineIcons.calendar),
-                            Text('Tahun Ajaran'),
-                            SizedBox(
-                              width: 100,
-                            ),
-                            Container(
-                              child: Text(
-                                e.tahunid!,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                            )
-                          ],
-                        ));
+                      value: e.tahunid,
+                      child: Text(
+                        e.tahunid!,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
                   }).toList(),
                   onChanged: (val) async {
                     print('tahun dikirim: ${val.toString()}');
@@ -72,13 +65,10 @@ class TahunKhsWidget extends StatelessWidget {
                     }
                     watchTahunKhs.setTahun = val.toString();
                   },
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                  ),
                 ),
-              ));
+              ),
+            )
+          ]);
         }
       default:
         return Container();

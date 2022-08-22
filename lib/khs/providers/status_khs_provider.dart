@@ -54,11 +54,13 @@ class StatusKhsProvider extends ChangeNotifier {
       case 404:
         setStateStatusKhs = StateStatusKhs.nulldata;
         Fluttertoast.showToast(msg: 'KRS tidak ditemukan');
-        throw UnauthorisedException('KRS tidak ditemukan');
+        print(FetchDataException('KRS tidak ditemukan'));
+        break;
       case 401:
         setStateStatusKhs = StateStatusKhs.error;
         Fluttertoast.showToast(msg: 'NPM atau kata sandi salah, coba lagi!');
-        throw UnauthorisedException('Unauthorised');
+        print(UnauthorisedException('Unauthorised'));
+        break;
       default:
         setStateStatusKhs = StateStatusKhs.error;
         Fluttertoast.showToast(msg: 'Invalid Request');

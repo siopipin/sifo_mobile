@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
 import 'package:sisfo_mobile/profile/widgets/foto_profile_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
-import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -33,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileProvider prov = Provider.of<ProfileProvider>(context);
     return SafeArea(
         child: SingleChildScrollView(
       child: Container(

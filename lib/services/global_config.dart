@@ -36,6 +36,7 @@ class Config {
   final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
   final imgurl = 'http://103.167.34.22/sisfo';
 
+//TODO ganti url ketika mau publish
 //Production
   // static final api = 'http://192.168.40.6:3000/mobile';
   // static final fotoUrl = 'http://192.168.40.6:3000/images';
@@ -55,6 +56,14 @@ class Config {
   final textDescription = "Sekolah Tinggi Ilmu Kesehatan Gunung Sari \n V.1.0";
 
   final shimmerColor = const Color(0xffe0e0e0);
+
+  appBar({required String title, List<Widget> action = const []}) {
+    return AppBar(
+      backgroundColor: config.colorPrimary,
+      title: Text(title),
+      actions: action,
+    );
+  }
 }
 
 final config = Config();
