@@ -27,6 +27,7 @@ class Data {
   String? prodiID;
   String? namaKelas;
   dynamic pA;
+  dynamic foto;
   String? agama;
   dynamic alamat;
   String? kTP;
@@ -46,6 +47,7 @@ class Data {
       this.prodiID,
       this.namaKelas,
       this.pA,
+      this.foto,
       this.agama,
       this.alamat,
       this.kTP,
@@ -65,6 +67,7 @@ class Data {
     prodiID = json['ProdiID'];
     namaKelas = json['NamaKelas'];
     pA = json['PA'];
+    foto = json['Foto'];
     agama = json['Agama'];
     alamat = json['Alamat'];
     kTP = json['KTP'];
@@ -86,6 +89,7 @@ class Data {
     data['ProdiID'] = this.prodiID;
     data['NamaKelas'] = this.namaKelas;
     data['PA'] = this.pA;
+    data['Foto'] = this.foto;
     data['Agama'] = this.agama;
     data['Alamat'] = this.alamat;
     data['KTP'] = this.kTP;

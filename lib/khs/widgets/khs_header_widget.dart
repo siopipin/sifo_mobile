@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
+import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/services/initial_provider.dart';
+import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/foto_profile.dart';
 
 class KhsHeaderWidget extends StatelessWidget {
-  const KhsHeaderWidget({Key? key}) : super(key: key);
+  final bool isHome;
+  const KhsHeaderWidget({Key? key, this.isHome = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final watchUser = context.watch<HomeProvider>();
+    final watchProfile = context.watch<ProfileMhsProvider>();
+
+    final watcInitial = context.watch<InitialProvider>();
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -21,10 +30,92 @@ class KhsHeaderWidget extends StatelessWidget {
       child: Row(
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               //foto
-              FotoProfile()
+              FotoProfile(),
+              if (isHome == true)
+                TextButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Ganti Foto'),
+                            content:
+                                Text('Pilih Gambar dari galery atau kamera'),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  var tmp = await watcInitial.picker
+                                      .pickImage(source: ImageSource.gallery);
+                                  if (tmp != null) {
+                                    watcInitial.setFile = tmp;
+
+                                    //simpan foto dan reload homeprovider
+                                    watcInitial
+                                        .updateFoto()
+                                        .then((value) async {
+                                      if (value == true) {
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                'Foto profile berhasil diganti');
+                                        Navigator.pop(context);
+                                        await context
+                                            .read<ProfileMhsProvider>()
+                                            .initial();
+                                        await store.saveFoto(watchProfile
+                                            .dataProfileMhs.data!.foto!);
+                                        await context
+                                            .read<HomeProvider>()
+                                            .initial();
+                                      }
+                                    });
+                                  }
+                                },
+                                child: Text('Galery'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  var tmp = await watcInitial.picker
+                                      .pickImage(source: ImageSource.camera);
+                                  if (tmp != null) {
+                                    watcInitial.setFile = tmp;
+
+                                    //simpan foto dan reload homeprovider
+                                    watcInitial
+                                        .updateFoto()
+                                        .then((value) async {
+                                      if (value == true) {
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                'Foto profile berhasil diganti');
+                                        Navigator.pop(context);
+                                        await context
+                                            .read<ProfileMhsProvider>()
+                                            .initial();
+                                        await store.saveFoto(watchProfile
+                                            .dataProfileMhs.data!.foto!);
+                                        await context
+                                            .read<HomeProvider>()
+                                            .initial();
+                                      }
+                                    });
+                                  }
+                                },
+                                child: Text('Camera'),
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.change_circle),
+                        Text('Ganti'),
+                      ],
+                    ))
             ],
           ),
           SizedBox(

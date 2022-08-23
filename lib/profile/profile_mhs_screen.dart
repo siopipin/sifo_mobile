@@ -45,7 +45,7 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
                 child: ListView(
                   children: [
                     //header
-                    KhsHeaderWidget(),
+                    KhsHeaderWidget(isHome: true),
 
                     //body
                     if (prov.stateProfileMhs == StateProfileMhs.loading)
