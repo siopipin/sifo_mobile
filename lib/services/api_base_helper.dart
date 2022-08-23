@@ -51,4 +51,27 @@ class ApiBaseHelper {
     }
     return responseJson;
   }
+
+  Future<dynamic> put({
+    required String url,
+    bool needToken = false,
+    String token = '',
+    required var data,
+  }) async {
+    var responseJson;
+    try {
+      final response = await http.put(Uri.parse(config.api + url),
+          body: data,
+          headers: needToken
+              ? {
+                  'Content-Type': 'application/json',
+                  HttpHeaders.authorizationHeader: 'Barer $token'
+                }
+              : null);
+      responseJson = [response.statusCode, response.body];
+    } on SocketException {
+      responseJson = [null, null];
+    }
+    return responseJson;
+  }
 }

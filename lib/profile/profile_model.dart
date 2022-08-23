@@ -28,12 +28,12 @@ class Data {
   String? namaKelas;
   dynamic pA;
   String? agama;
-  String? alamat;
+  dynamic alamat;
   String? kTP;
   String? handphone;
-  String? email;
-  String? namaIbu;
-  String? handphoneOrtu;
+  dynamic email;
+  dynamic namaIbu;
+  dynamic handphoneOrtu;
 
   Data(
       {this.mhswID,

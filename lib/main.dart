@@ -22,6 +22,7 @@ import 'package:sisfo_mobile/krs/krs_provider.dart';
 import 'package:sisfo_mobile/nilai/nilai_provider.dart';
 import 'package:sisfo_mobile/notification/notification_provider.dart';
 import 'package:sisfo_mobile/profile/profile_provider.dart';
+import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/initial_provider.dart';
 
@@ -52,6 +53,9 @@ void main() {
           //Keuangan
           ChangeNotifierProvider(create: (_) => KeuanganMhsProvider()),
           ChangeNotifierProvider(create: (_) => KeuanganDetailProvider()),
+
+          //Profile
+          ChangeNotifierProvider(create: (_) => ProfileMhsProvider()),
         ],
         child: MyApp(),
       ),

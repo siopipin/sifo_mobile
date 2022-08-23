@@ -3,10 +3,12 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/home/dashboard_screen.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
+import 'package:sisfo_mobile/keuangan/keuangan_mhs_screen.dart';
+import 'package:sisfo_mobile/khs/khs_screen.dart';
 import 'package:sisfo_mobile/krs/krs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/notification/notification_screen.dart';
-import 'package:sisfo_mobile/profile/profile_screen.dart';
+import 'package:sisfo_mobile/profile/profile_mhs_screen.dart';
 
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/bottomNavigation.dart';
@@ -21,9 +23,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List currentHome = [
     DashboardScreen(),
-    KrsScreen(),
-    NilaiScreen(),
-    ProfileScreen()
+    KeuanganMhsScreen(needAppbar: false),
+    NilaiScreen(needAppbar: false),
+    ProfileMhsScreen(needAppbar: false)
   ];
 
   @override

@@ -20,8 +20,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController _email = TextEditingController();
   TextEditingController _hportu = TextEditingController();
 
-  PageController controller = PageController();
-
   @override
   void initState() {
     super.initState();

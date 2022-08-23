@@ -11,7 +11,8 @@ import 'package:sisfo_mobile/widgets/message_widget.dart';
 import 'package:sisfo_mobile/widgets/shimmer_widget.dart';
 
 class KeuanganMhsScreen extends StatefulWidget {
-  KeuanganMhsScreen({Key? key}) : super(key: key);
+  final bool needAppbar;
+  KeuanganMhsScreen({Key? key, this.needAppbar = true}) : super(key: key);
 
   @override
   State<KeuanganMhsScreen> createState() => _KeuanganMhsScreenState();
@@ -27,24 +28,27 @@ class _KeuanganMhsScreenState extends State<KeuanganMhsScreen> {
     });
   }
 
+  TabBar get _tabbar => TabBar(
+        tabs: [
+          Tab(
+            icon: Icon(Icons.monetization_on),
+            text: 'Keuangan KHS',
+          ),
+          Tab(icon: Icon(Icons.library_books), text: 'Keuangan Detail'),
+        ],
+      );
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: config.colorPrimary,
-            title: Text('Informasi Keuangan'),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.monetization_on),
-                  text: 'Keuangan KHS',
+          appBar: widget.needAppbar == true
+              ? config.appBar(title: 'Informasi keuangan')
+              : PreferredSize(
+                  preferredSize: _tabbar.preferredSize,
+                  child: ColoredBox(color: config.colorPrimary, child: _tabbar),
                 ),
-                Tab(icon: Icon(Icons.library_books), text: 'Keuangan Detail'),
-              ],
-            ),
-          ),
           body: TabBarView(children: [
             //Keuangan mhs
             KeuanganMhsWidget(),

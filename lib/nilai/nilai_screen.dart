@@ -9,7 +9,8 @@ import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 
 class NilaiScreen extends StatefulWidget {
-  NilaiScreen({Key? key}) : super(key: key);
+  final bool needAppbar;
+  NilaiScreen({Key? key, this.needAppbar = true}) : super(key: key);
 
   @override
   _NilaiScreenState createState() => _NilaiScreenState();
@@ -27,10 +28,12 @@ class _NilaiScreenState extends State<NilaiScreen> {
     final NilaiProvider prov = Provider.of<NilaiProvider>(context);
     return Scaffold(
       bottomNavigationBar: bottomTahun(),
-      appBar: AppBar(
-        backgroundColor: config.colorPrimary,
-        title: Text('Nilai'),
-      ),
+      appBar: widget.needAppbar == true
+          ? AppBar(
+              backgroundColor: config.colorPrimary,
+              title: Text('Nilai'),
+            )
+          : null,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -276,11 +279,10 @@ class _NilaiScreenState extends State<NilaiScreen> {
 
   Widget bottomTahun() {
     return Container(
-        height: 90,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: config.colorPrimary),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
         child: dropDownBuild());
   }
 
@@ -293,7 +295,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
       );
     } else if (prov.isData) {
       return Padding(
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(left: 0, right: 0),
         child: DropdownButtonFormField(
           items: prov.dataTahunKHS.data!.map((e) {
             return new DropdownMenuItem(

@@ -11,7 +11,7 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     List activeTabs = [
       {'icon': LineIcons.home, 'label': 'home'},
-      {'icon': LineIcons.bookmark, 'label': 'KRS'},
+      {'icon': LineIcons.moneyCheck, 'label': 'Keuangan'},
       {'icon': LineIcons.graduationCap, 'label': 'Nilai'},
       {'icon': LineIcons.user, 'label': 'Profile'},
     ];

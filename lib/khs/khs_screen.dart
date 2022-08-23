@@ -13,7 +13,12 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/shimmer_widget.dart';
 
 class KhsScreen extends StatefulWidget {
-  KhsScreen({Key? key}) : super(key: key);
+  final bool needAppbar;
+
+  KhsScreen({
+    Key? key,
+    this.needAppbar = true,
+  }) : super(key: key);
 
   @override
   State<KhsScreen> createState() => _KhsScreenState();
@@ -54,14 +59,22 @@ class _KhsScreenState extends State<KhsScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: config.appBar(
-        title: 'Informasi KRS',
-        action: [
-          //TODO tambahkan cekTOShowDownloadKRS()
-        ],
-      ),
+      appBar: widget.needAppbar == true
+          ? AppBar(
+              backgroundColor: config.colorPrimary,
+              title: Text('Profile'),
+              actions: [
+                // download
+              ],
+            )
+          : null,
       body: Scrollbar(
         child: RefreshIndicator(
           onRefresh: () async {},
