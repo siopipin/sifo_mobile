@@ -147,7 +147,7 @@ class KeuanganProvider extends ChangeNotifier {
       HttpHeaders.authorizationHeader: 'Barer $token'
     };
     try {
-      final response = await client.post(
+      final response = await client.get(
           Uri.parse('${config.api}/mahasiswa/tahun-khs'),
           headers: headerJwt);
       setLoading = false;

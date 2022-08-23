@@ -24,15 +24,15 @@ class NilaiModel {
 class Data {
   String? mKKode;
   String? nama;
-  int? sKS;
-  int? tugas1;
-  int? tugas2;
-  int? tugas3;
-  int? vPresensi;
-  int? nPresensi;
-  int? uTS;
-  int? uAS;
-  int? nilaiAkhir;
+  dynamic sKS;
+  dynamic tugas1;
+  dynamic tugas2;
+  dynamic tugas3;
+  dynamic vPresensi;
+  dynamic nPresensi;
+  dynamic uTS;
+  dynamic uAS;
+  dynamic nilaiAkhir;
   bool? isExpanded;
 
   Data(

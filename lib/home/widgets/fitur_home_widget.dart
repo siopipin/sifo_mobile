@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
 import 'package:sisfo_mobile/home/widgets/card_fitur_home_widget.dart';
+import 'package:sisfo_mobile/keuangan/keuangan_mhs_screen.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/khs/khs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
@@ -63,8 +64,10 @@ class FiturHomeWidget extends StatelessWidget {
                         icon: LineIcons.moneyBill,
                         label: "Keuangan",
                       ),
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => KeuanganScreen())),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => KeuanganMhsScreen())),
                     )
                   ],
                 ),

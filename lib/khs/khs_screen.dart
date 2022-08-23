@@ -91,14 +91,17 @@ class _KhsScreenState extends State<KhsScreen> {
         //cek jika krs aktif
         if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
             StateTahunAjaranAktif.loading)
-          Column(
-            children: [
-              loading.shimmerCustom(height: 50),
-              Padding(
-                padding: EdgeInsets.only(top: config.padding / 2),
-                child: loading.shimmerCustom(height: 50),
-              )
-            ],
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: config.padding),
+            child: Column(
+              children: [
+                loading.shimmerCustom(height: 50),
+                Padding(
+                  padding: EdgeInsets.only(top: config.padding / 2),
+                  child: loading.shimmerCustom(height: 50),
+                )
+              ],
+            ),
           )
         else if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
             StateTahunAjaranAktif.nulldata)
