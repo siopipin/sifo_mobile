@@ -7,6 +7,7 @@ import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/khs/khs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/notification/notification_screen.dart';
+import 'package:sisfo_mobile/profile/profile_mhs_screen.dart';
 import 'package:sisfo_mobile/profile/profile_page_screen.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
@@ -94,7 +95,7 @@ class FiturHomeWidget extends StatelessWidget {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => ProfilePageScreen())),
+                              builder: (_) => ProfileMhsScreen())),
                       child: CardMenu(
                         icon: LineIcons.user,
                         label: "Profile",
