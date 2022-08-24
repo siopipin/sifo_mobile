@@ -36,8 +36,8 @@ class KhsHeaderWidget extends StatelessWidget {
               FotoProfile(),
               if (isHome == true)
                 TextButton(
-                    onPressed: () {
-                      showDialog(
+                    onPressed: () async {
+                      await showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
@@ -61,14 +61,6 @@ class KhsHeaderWidget extends StatelessWidget {
                                             msg:
                                                 'Foto profile berhasil diganti');
                                         Navigator.pop(context);
-                                        await context
-                                            .read<ProfileMhsProvider>()
-                                            .initial();
-                                        await store.saveFoto(watchProfile
-                                            .dataProfileMhs.data!.foto!);
-                                        await context
-                                            .read<HomeProvider>()
-                                            .initial();
                                       }
                                     });
                                   }
@@ -90,15 +82,23 @@ class KhsHeaderWidget extends StatelessWidget {
                                         Fluttertoast.showToast(
                                             msg:
                                                 'Foto profile berhasil diganti');
-                                        Navigator.pop(context);
+                                        print('akan simpan foto');
                                         await context
                                             .read<ProfileMhsProvider>()
                                             .initial();
+                                        print(watchProfile.stateProfileMhs
+                                            .toString());
+
+                                        print('simpan foto');
+                                        print(
+                                            'foto baru: ${watchProfile.dataProfileMhs.data!.foto!}');
                                         await store.saveFoto(watchProfile
                                             .dataProfileMhs.data!.foto!);
                                         await context
                                             .read<HomeProvider>()
                                             .initial();
+
+                                        Navigator.pop(context);
                                       }
                                     });
                                   }

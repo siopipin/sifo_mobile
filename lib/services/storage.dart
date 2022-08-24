@@ -63,6 +63,11 @@ class Storage {
     await prefs.setString('foto', val);
   }
 
+  removeFoto() async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.remove('foto');
+  }
+
   Future<bool> removeLoginData() async {
     final SharedPreferences prefs = await _prefs;
     bool success;

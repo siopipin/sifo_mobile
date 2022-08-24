@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/khs/widgets/khs_header_widget.dart';
 import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
+import 'package:sisfo_mobile/profile/widgets/foto_profile_widget.dart';
 import 'package:sisfo_mobile/profile/widgets/text_button_simpan.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
     super.initState();
     Future.microtask(() {
       context.read<ProfileMhsProvider>().initial();
+      context.read<HomeProvider>().getDataAwal();
     });
   }
 
@@ -45,7 +47,8 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
                 child: ListView(
                   children: [
                     //header
-                    KhsHeaderWidget(isHome: true),
+
+                    FotoProfileWidget(),
 
                     //body
                     if (prov.stateProfileMhs == StateProfileMhs.loading)
@@ -54,6 +57,7 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
                             EdgeInsets.symmetric(horizontal: config.padding),
                         child: Column(
                           children: [
+                            SizedBox(height: config.padding),
                             loading.shimmerCustom(height: 50),
                             Padding(
                               padding: EdgeInsets.only(top: config.padding / 2),

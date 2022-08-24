@@ -37,6 +37,7 @@ class KeuanganDetailWidget extends StatelessWidget {
             child: Column(
               children: [
                 loading.shimmerCustom(height: 50),
+                SizedBox(height: config.padding / 2),
                 loading.shimmerCustom(height: 50),
               ],
             ),

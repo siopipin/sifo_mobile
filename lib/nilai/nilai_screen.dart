@@ -7,6 +7,7 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 import 'package:sisfo_mobile/widgets/error_widget.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
+import 'package:sisfo_mobile/widgets/shimmer_widget.dart';
 
 class NilaiScreen extends StatefulWidget {
   final bool needAppbar;
@@ -35,55 +36,49 @@ class _NilaiScreenState extends State<NilaiScreen> {
             )
           : null,
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      colorFilter: new ColorFilter.mode(
-                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                      image: AssetImage('assets/images/bg-stikes.jpg'),
-                      fit: BoxFit.cover)),
-              padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.user,
-                    color: Colors.black.withOpacity(0.4),
-                    size: 40,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Tahun Ajaran : ${prov.isTahun}'),
-                      FutureBuilder(
-                        future: store.showNama(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                              ),
-                            );
-                          } else {
-                            return loadingH2;
-                          }
-                        },
-                      ),
-                    ],
-                  )
-                ],
+          child: ListView(children: [
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  colorFilter: new ColorFilter.mode(
+                      Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                  image: AssetImage('assets/images/bg-stikes.jpg'),
+                  fit: BoxFit.cover)),
+          padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+          child: Row(
+            children: [
+              Icon(
+                LineIcons.user,
+                color: Colors.black.withOpacity(0.4),
+                size: 40,
               ),
-            ),
-            checkBuilder()
-          ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Tahun Ajaran : ${prov.isTahun}'),
+                  FutureBuilder(
+                    future: store.showNama(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        );
+                      } else {
+                        return loadingH2;
+                      }
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-      )),
+        checkBuilder()
+      ])),
     );
   }
 
@@ -91,24 +86,15 @@ class _NilaiScreenState extends State<NilaiScreen> {
     final NilaiProvider prov = Provider.of<NilaiProvider>(context);
 
     if (prov.isLoading) {
-      return Center(
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: config.padding),
         child: Column(
           children: [
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Column(
-                    children: List.generate(3, (index) => loadingList),
-                  ),
-                )
-              ],
+            SizedBox(height: config.padding),
+            loading.shimmerCustom(height: 50),
+            Padding(
+              padding: EdgeInsets.only(top: config.padding / 2),
+              child: loading.shimmerCustom(height: 50),
             )
           ],
         ),

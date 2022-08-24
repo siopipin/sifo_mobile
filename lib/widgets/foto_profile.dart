@@ -11,7 +11,7 @@ class FotoProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final watchHome = context.watch<HomeProvider>();
-
+    print('foto pada cachednetwork images: ${watchHome.dataFoto}');
     return Container(
         height: 100,
         child: watchHome.dataFoto.isEmpty
@@ -20,6 +20,8 @@ class FotoProfile extends StatelessWidget {
                 fit: BoxFit.cover,
               )
             : CachedNetworkImage(
+                cacheKey:
+                    '${config.imgurl}/${watchHome.dataFoto}${DateTime.now().hour.toString()}',
                 imageUrl: '${config.imgurl}/${watchHome.dataFoto}',
                 imageBuilder: (context, imageProvider) {
                   return Container(

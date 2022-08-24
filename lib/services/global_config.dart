@@ -38,10 +38,10 @@ class Config {
 
 //TODO ganti url ketika mau publish
 //Production
-  final api = 'http://192.168.40.6:3000/mobile';
-  final fotoUrl = 'http://192.168.40.6:3000/images';
+  final api = 'http://103.167.34.22:3000/mobile';
+  final fotoUrl = 'http://103.167.34.22:3000/images';
   final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
-  final imgurl = 'http://192.168.40.6:3000/images';
+  final imgurl = 'http://103.167.34.22:3000/images';
 
 //logo
   final String logoPath = 'assets/images/logo.png';

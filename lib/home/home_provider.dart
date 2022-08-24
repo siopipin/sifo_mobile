@@ -59,7 +59,7 @@ class HomeProvider extends ChangeNotifier {
   Storage data = Storage();
 
   getDataAwal() async {
-    data.showNama().then((value) {
+    await data.showNama().then((value) {
       if (value == null) {
         setNama = '';
       } else {
@@ -67,14 +67,14 @@ class HomeProvider extends ChangeNotifier {
       }
     });
 
-    data.showNPM().then((value) {
+    await data.showNPM().then((value) {
       if (value == null) {
         setNim = '';
       } else {
         setNim = value;
       }
     });
-    data.showProdi().then((value) {
+    await data.showProdi().then((value) {
       if (value == null) {
         setProdi = '';
       } else {
@@ -82,7 +82,7 @@ class HomeProvider extends ChangeNotifier {
       }
     });
 
-    data.showProgram().then((value) {
+    await data.showProgram().then((value) {
       if (value == null) {
         setProgram = '';
       } else {
@@ -90,7 +90,7 @@ class HomeProvider extends ChangeNotifier {
       }
     });
 
-    data.showStatus().then((value) {
+    await data.showStatus().then((value) {
       if (value == null) {
         setStatus = '';
       } else {
@@ -98,10 +98,11 @@ class HomeProvider extends ChangeNotifier {
       }
     });
 
-    data.showFoto().then((value) {
+    await data.showFoto().then((value) {
       if (value == null) {
         setFoto = '';
       } else {
+        print('foto pada storage:${value.toString()}');
         setFoto = value;
       }
     });
