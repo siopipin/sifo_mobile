@@ -39,7 +39,7 @@ class TahunKhsWidget extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: DropdownButtonFormField(
-                  hint: Text('Lihat KRS TA Lainnya'),
+                  hint: Text('KRS TA Lainnya'),
                   items: watchTahunKhs.dataTahunKhs.data!.map((e) {
                     return new DropdownMenuItem(
                       value: e.tahunid,

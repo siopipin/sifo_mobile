@@ -33,6 +33,7 @@ class KeuanganMhsWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: config.padding),
             child: Column(
               children: [
+                SizedBox(height: config.padding),
                 loading.shimmerCustom(height: 50),
                 SizedBox(height: config.padding / 2),
                 loading.shimmerCustom(height: 50),
@@ -103,14 +104,14 @@ class KeuanganMhsWidget extends StatelessWidget {
                                                 fontWeight: FontWeight.bold))
                                       ],
                                     ),
+                                    SizedBox(height: config.padding)
                                   ],
                                 ),
                               ),
 
                               //copy VA
                               GestureDetector(
-                                  child: Expanded(
-                                      child: Row(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Column(
@@ -131,7 +132,7 @@ class KeuanganMhsWidget extends StatelessWidget {
                                       SizedBox(width: config.padding / 2),
                                       Icon(Icons.copy)
                                     ],
-                                  )),
+                                  ),
                                   onTap: (() {
                                     Clipboard.setData(
                                       ClipboardData(text: item.kodeVA ?? '-'),

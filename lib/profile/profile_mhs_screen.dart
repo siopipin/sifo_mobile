@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/khs/widgets/khs_header_widget.dart';
@@ -7,6 +8,8 @@ import 'package:sisfo_mobile/profile/widgets/foto_profile_widget.dart';
 import 'package:sisfo_mobile/profile/widgets/text_button_simpan.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/widgets/button_custom.dart';
+import 'package:sisfo_mobile/widgets/input_custom.dart';
 import 'package:sisfo_mobile/widgets/message_widget.dart';
 import 'package:sisfo_mobile/widgets/shimmer_widget.dart';
 
@@ -97,7 +100,7 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
                                 ),
                                 prov.isEdit == true
                                     ? TextButtonSimpan()
-                                    : Container()
+                                    : gantiKataSandi(context)
                               ],
                             ),
                             SizedBox(
@@ -327,5 +330,64 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
             style: TextStyle(color: Colors.white),
           )),
     );
+  }
+
+  gantiKataSandi(BuildContext context) {
+    final prov = context.watch<ProfileMhsProvider>();
+
+    return TextButton(
+        onPressed: () async {
+          await showDialog(
+              context: context,
+              builder: ((context) {
+                return AlertDialog(
+                  title: Text('Ganti Kata sandi'),
+                  content: Container(
+                      height: 220,
+                      padding: EdgeInsets.all(config.padding / 3),
+                      child: Column(
+                        children: [
+                          InputCustom(
+                              ctrl: prov.ctrlPass,
+                              hind: 'Password Baru',
+                              icon: Icons.password),
+                          SizedBox(height: config.padding / 2),
+                          InputCustom(
+                              ctrl: prov.ctrlRePass,
+                              hind: 'Ulangi Password',
+                              icon: Icons.password),
+                          SizedBox(height: config.padding / 2),
+                          ButtonCustom(
+                              function: () async {
+                                if (prov.ctrlPass.text !=
+                                    prov.ctrlRePass.text) {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Kata sandi tidak sama, ulangi lagi.');
+                                } else {
+                                  await prov
+                                      .updateKataSandi(pass: prov.ctrlPass.text)
+                                      .then((value) {
+                                    if (value == true) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Kata sandi berhasil diganti.');
+                                      Navigator.pop(context);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'Gagal mengganti kata sandi');
+                                      Navigator.pop(context);
+                                    }
+                                  });
+                                }
+                              },
+                              isPrimary: true,
+                              color: config.colorPrimary,
+                              text: 'Simpan')
+                        ],
+                      )),
+                );
+              }));
+        },
+        child: Text('Ganti Password'));
   }
 }

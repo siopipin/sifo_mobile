@@ -28,9 +28,9 @@ class _KeuanganMhsScreenState extends State<KeuanganMhsScreen> {
         tabs: [
           Tab(
             icon: Icon(Icons.monetization_on),
-            text: 'Keuangan KHS',
+            text: 'Tagihan',
           ),
-          Tab(icon: Icon(Icons.library_books), text: 'Keuangan Detail'),
+          Tab(icon: Icon(Icons.library_books), text: 'Info Bayar'),
         ],
       );
 
@@ -40,7 +40,13 @@ class _KeuanganMhsScreenState extends State<KeuanganMhsScreen> {
         length: 2,
         child: Scaffold(
           appBar: widget.needAppbar == true
-              ? config.appBar(title: 'Informasi keuangan')
+              ? AppBar(
+                  title: Text(
+                    'Informasi keuangan',
+                  ),
+                  backgroundColor: config.colorPrimary,
+                  bottom: _tabbar,
+                )
               : PreferredSize(
                   preferredSize: _tabbar.preferredSize,
                   child: ColoredBox(color: config.colorPrimary, child: _tabbar),

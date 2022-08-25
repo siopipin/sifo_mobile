@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
-class TextFieldNPMWidget extends StatelessWidget {
+class InputCustom extends StatelessWidget {
   final TextEditingController ctrl;
-  const TextFieldNPMWidget({Key? key, required this.ctrl}) : super(key: key);
+  final String hind;
+  final IconData icon;
+  const InputCustom({
+    Key? key,
+    required this.ctrl,
+    required this.hind,
+    required this.icon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +23,15 @@ class TextFieldNPMWidget extends StatelessWidget {
       child: TextField(
         controller: ctrl,
         cursorColor: Colors.black,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.text,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: 'Nomor Pokok Mahasiswa',
+            hintText: hind,
             hintStyle: TextStyle(
               color: Colors.black.withOpacity(0.4),
             ),
             prefixIcon: Icon(
-              LineIcons.user,
+              icon,
               color: Colors.black.withOpacity(0.8),
             )),
       ),

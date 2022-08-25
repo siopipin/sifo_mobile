@@ -69,7 +69,7 @@ class _KhsScreenState extends State<KhsScreen> {
       appBar: widget.needAppbar == true
           ? AppBar(
               backgroundColor: config.colorPrimary,
-              title: Text('Profile'),
+              title: Text('Info KRS'),
               actions: [
                 // download
               ],
@@ -104,17 +104,14 @@ class _KhsScreenState extends State<KhsScreen> {
         //cek jika krs aktif
         if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
             StateTahunAjaranAktif.loading)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: config.padding),
-            child: Column(
-              children: [
-                loading.shimmerCustom(height: 50),
-                Padding(
-                  padding: EdgeInsets.only(top: config.padding / 2),
-                  child: loading.shimmerCustom(height: 50),
-                )
-              ],
-            ),
+          Column(
+            children: [
+              loading.shimmerCustom(height: 50),
+              Padding(
+                padding: EdgeInsets.only(top: config.padding / 2),
+                child: loading.shimmerCustom(height: 50),
+              )
+            ],
           )
         else if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
             StateTahunAjaranAktif.nulldata)

@@ -19,6 +19,9 @@ class ProfileMhsProvider extends ChangeNotifier {
     ctrlHP.clear();
     ctrlHPOrtu.clear();
 
+    ctrlPass.clear();
+    ctrlRePass.clear();
+
     //set status ganti passwd
     setGantiPassword = false;
     setEdit = false;
@@ -30,6 +33,10 @@ class ProfileMhsProvider extends ChangeNotifier {
   TextEditingController ctrlHP = TextEditingController();
   TextEditingController ctrlEmail = TextEditingController();
   TextEditingController ctrlHPOrtu = TextEditingController();
+
+  //pass
+  TextEditingController ctrlPass = TextEditingController();
+  TextEditingController ctrlRePass = TextEditingController();
 
   StateProfileMhs _stateProfileMhs = StateProfileMhs.initial;
   StateProfileMhs get stateProfileMhs => _stateProfileMhs;
@@ -137,6 +144,52 @@ class ProfileMhsProvider extends ChangeNotifier {
         throw BadRequestException('Error During Communication');
       case 200:
         Fluttertoast.showToast(msg: 'Profile berhasil disimpan');
+        _status = true;
+        break;
+      case 404:
+        _status = false;
+        Fluttertoast.showToast(msg: 'Gagal menyimpan profile');
+        print(UnauthorisedException('Gagal menyimpan profile'));
+        break;
+      case 401:
+        _status = false;
+        Fluttertoast.showToast(msg: 'NPM atau kata sandi salah, coba lagi!');
+        throw UnauthorisedException('Unauthorised');
+      default:
+        _status = false;
+        Fluttertoast.showToast(msg: 'Invalid Request');
+        throw BadRequestException('Invalid Request');
+    }
+
+    return _status;
+  }
+
+  Future<bool> updateKataSandi({
+    required String pass,
+  }) async {
+    var _status;
+    var _token = await store.showToken();
+
+    var data = json.encode({
+      'pass': pass,
+    });
+
+    final response = await _helper.put(
+      url: '/auth/password-update',
+      needToken: true,
+      token: _token,
+      data: data,
+    );
+
+    switch (response[0]) {
+      case null:
+        Fluttertoast.showToast(
+          msg: "Error During Communication",
+        );
+        _status = false;
+        throw BadRequestException('Error During Communication');
+      case 200:
+        Fluttertoast.showToast(msg: 'Kata ganti disimpan');
         _status = true;
         break;
       case 404:

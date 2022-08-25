@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sisfo_mobile/khs/providers/status_khs_provider.dart';
 import 'package:sisfo_mobile/khs/providers/tahun_ajaran_aktif_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
@@ -9,6 +10,7 @@ class KhsInfoTahunAjaranAktifWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final watchTahunAjaranAktif = context.watch<TahunAjaranAktifProvider>();
+    final watchStatusKrs = context.watch<StatusKhsProvider>();
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: config.padding / 2),
@@ -30,9 +32,9 @@ class KhsInfoTahunAjaranAktifWidget extends StatelessWidget {
               Icons.key,
               size: 15,
             ),
-            Text(' Kode ID: '),
+            Text(' Status KRS: '),
             Text(
-              watchTahunAjaranAktif.dataTahunAjaranAktif.data!.kodeID!,
+              watchStatusKrs.dataStatusKrs.data!.statuskrs ?? '-',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
