@@ -20,9 +20,9 @@ class KhsInfoTahunAjaranAktifWidget extends StatelessWidget {
             Icons.date_range_sharp,
             size: 15,
           ),
-          Text(' TA Aktif Saat Ini: '),
+          Text(' TA Aktif: '),
           Text(
-            watchTahunAjaranAktif.dataTahunAjaranAktif.data!.namaTA!,
+            watchTahunAjaranAktif.dataTahunAjaranAktif.data?.namaTA ?? "-",
             style: TextStyle(fontWeight: FontWeight.bold),
           )
         ]),
@@ -34,7 +34,7 @@ class KhsInfoTahunAjaranAktifWidget extends StatelessWidget {
             ),
             Text(' Status KRS: '),
             Text(
-              watchStatusKrs.dataStatusKrs.data!.statuskrs ?? '-',
+              watchStatusKrs.dataStatusKrs.data?.statuskrs ?? '-',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],

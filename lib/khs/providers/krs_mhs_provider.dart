@@ -12,6 +12,7 @@ enum StateKRSMhs { initial, loading, loaded, nulldata, error }
 class KrsMhsProvider extends ChangeNotifier {
   initial({required String khsid}) async {
     setStateKrsMhs = StateKRSMhs.initial;
+    print('ambil data');
     await fetchKrsMhs(khsid: khsid);
   }
 

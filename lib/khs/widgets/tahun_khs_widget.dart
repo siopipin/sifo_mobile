@@ -50,7 +50,6 @@ class TahunKhsWidget extends StatelessWidget {
                     );
                   }).toList(),
                   onChanged: (val) async {
-                    print('tahun dikirim: ${val.toString()}');
                     await context
                         .read<StatusKhsProvider>()
                         .initial(tahunid: val.toString());
@@ -62,6 +61,9 @@ class TahunKhsWidget extends StatelessWidget {
                             khsid: watchStatusKhs.dataStatusKrs.data!.kHSID
                                 .toString());
                       }
+                    } else {
+                      watchStatusKhs.setStateStatusKhs =
+                          StateStatusKhs.nulldata;
                     }
                     watchTahunKhs.setTahun = val.toString();
                   },
