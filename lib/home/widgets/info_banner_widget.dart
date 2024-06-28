@@ -13,7 +13,7 @@ class InfoBannerWidget extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: 120,
+      height: 140,
       decoration: BoxDecoration(
         color: config.colorSecondary,
         borderRadius: BorderRadius.circular(20),

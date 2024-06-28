@@ -70,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               )
             ]),
-          )
+          ),
+          SizedBox(width: 5)
         ],
         title: Text(
           'STIKES Gunung Sari',

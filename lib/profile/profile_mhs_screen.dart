@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
-import 'package:sisfo_mobile/khs/widgets/khs_header_widget.dart';
 import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
 import 'package:sisfo_mobile/profile/widgets/foto_profile_widget.dart';
 import 'package:sisfo_mobile/profile/widgets/text_button_simpan.dart';
@@ -222,62 +221,69 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  children: [
-                    Text(
-                      no,
-                      style: TextStyle(
-                          fontSize: 30, color: Colors.black.withOpacity(0.3)),
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            ket,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black.withOpacity(0.5),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          prov.isEdit && iconEdit
-                              ? Container(
-                                  width:
-                                      MediaQuery.of(context).size.width - 120,
-                                  margin: EdgeInsets.only(top: 10),
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      color: config.colorGrey,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  padding: EdgeInsets.only(top: 7.5, left: 10),
-                                  child: TextField(
-                                    controller: textCtrl,
-                                    cursorColor: Colors.black,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Tidak boleh kosong !',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black.withOpacity(0.4),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Text(
-                                  data,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                  ),
-                                )
-                        ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      Text(
+                        no,
+                        style: TextStyle(
+                            fontSize: 30, color: Colors.black.withOpacity(0.3)),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                ket,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              prov.isEdit && iconEdit
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          120,
+                                      margin: EdgeInsets.only(top: 10),
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                          color: config.colorGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      padding:
+                                          EdgeInsets.only(top: 7.5, left: 10),
+                                      child: TextField(
+                                        controller: textCtrl,
+                                        cursorColor: Colors.black,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Tidak boleh kosong !',
+                                          hintStyle: TextStyle(
+                                            color:
+                                                Colors.black.withOpacity(0.4),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      data,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 iconEdit
                     ? prov.isEdit == false
@@ -323,7 +329,7 @@ class _ProfileMhsScreenState extends State<ProfileMhsScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            primary: Colors.grey,
+            backgroundColor: Colors.grey,
           ),
           child: Text(
             'Cancel',

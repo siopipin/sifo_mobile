@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
 class CardMenu extends StatelessWidget {
-  final IconData icon;
+  final String iconPath;
   final String label;
-  const CardMenu({Key? key, required this.icon, required this.label})
-      : super(key: key);
+  const CardMenu({
+    Key? key,
+    required this.iconPath,
+    required this.label,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +24,9 @@ class CardMenu extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Icon(
-              icon,
-              size: 35,
+            Image.asset(
+              iconPath,
+              width: 40,
             ),
             Text(
               label,

@@ -38,7 +38,7 @@ class ButtonCustom extends StatelessWidget {
               ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
               : null,
           maximumSize: Size(width, height),
-          primary: color,
+          backgroundColor: color,
           elevation: useElevation ? 0 : null),
     );
   }

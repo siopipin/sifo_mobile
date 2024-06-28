@@ -86,8 +86,14 @@ class _MyAppState extends State<MyApp> {
       title: 'Sisfo Mobile',
       theme: ThemeData(
         fontFamily: 'Roboto',
-        colorScheme:
-            ColorScheme.fromSwatch().copyWith(primary: config.colorPrimary),
+        appBarTheme: AppBarTheme(
+            titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+            iconTheme: IconThemeData(
+              color: Colors.white,
+            )),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: config.colorPrimary,
+        ),
         scaffoldBackgroundColor: config.colorBackgroundWhite,
       ),
       home: watchInitial.initialPage == 'SPLASH'

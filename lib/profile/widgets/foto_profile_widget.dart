@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,6 @@ import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/initial_provider.dart';
 import 'package:sisfo_mobile/services/storage.dart';
-import 'package:sisfo_mobile/widgets/foto_profile.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
 
 class FotoProfileWidget extends StatefulWidget {

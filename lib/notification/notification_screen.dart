@@ -33,6 +33,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
             backgroundColor: config.colorPrimary,
             title: Text('Notifikasi'),
             bottom: TabBar(
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white70,
               tabs: [
                 Tab(
                   icon: Icon(Icons.inbox),

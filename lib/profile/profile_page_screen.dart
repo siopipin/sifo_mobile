@@ -550,7 +550,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              primary: config.colorPrimary,
+              backgroundColor: config.colorPrimary,
             ),
             child: prov.isLoading
                 ? Text(
@@ -580,7 +580,7 @@ class ProfilePageScreenState extends State<ProfilePageScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            primary: Colors.grey,
+            backgroundColor: Colors.grey,
           ),
           child: Text(
             'Cancel',

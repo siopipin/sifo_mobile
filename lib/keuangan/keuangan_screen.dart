@@ -228,7 +228,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    primary: config.colorBlueDark),
+                    backgroundColor: config.colorBlueDark),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },
@@ -331,7 +331,7 @@ class _KeuanganScreenState extends State<KeuanganScreen> {
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    primary: config.colorBlueDark),
+                    backgroundColor: config.colorBlueDark),
                 onPressed: () async {
                   await prov.doGetTahunKHS();
                 },

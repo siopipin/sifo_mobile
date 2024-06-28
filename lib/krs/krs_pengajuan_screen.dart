@@ -130,7 +130,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)),
-                                primary: config.colorBlueDark),
+                                backgroundColor: config.colorBlueDark),
                             onPressed: () async {
                               await prov.doGetSimpanKRS();
                               if (prov.isAdaDataSimpanKRS) {
@@ -188,7 +188,7 @@ class _KrsPengajuanScreenState extends State<KrsPengajuanScreen> {
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                primary: Colors.blueGrey),
+                backgroundColor: Colors.blueGrey),
             onPressed: () async {
               await prov.doGetKRS(khsid: prov.dataStatusKRS.data!.kHSID!);
               Fluttertoast.showToast(msg: prov.isMessage);

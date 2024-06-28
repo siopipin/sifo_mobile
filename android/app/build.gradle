@@ -32,7 +32,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
+    ndkVersion "25.1.8937393"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -40,25 +41,27 @@ android {
 
     defaultConfig {
         applicationId "com.stikesgunungsari.sisfo_mobile"
-        minSdkVersion 20
-        targetSdkVersion 30
+        minSdkVersion 24
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     signingConfigs {
        release {
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
-           storeFile file(keystoreProperties['storeFile'])
+           // storeFile file(keystoreProperties['storeFile'])
+           storeFile file("key.jks")
            storePassword keystoreProperties['storePassword']
         }
     }
     
     buildTypes {
         release {
-            signingConfig signingConfigs.release
             minifyEnabled true
+            signingConfig signingConfigs.release
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -71,5 +74,6 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.multidex:multidex:2.0.1"
 }

@@ -3,12 +3,10 @@ import 'package:line_icons/line_icons.dart';
 import 'package:sisfo_mobile/about/about_screen.dart';
 import 'package:sisfo_mobile/home/widgets/card_fitur_home_widget.dart';
 import 'package:sisfo_mobile/keuangan/keuangan_mhs_screen.dart';
-import 'package:sisfo_mobile/keuangan/keuangan_screen.dart';
 import 'package:sisfo_mobile/khs/khs_screen.dart';
 import 'package:sisfo_mobile/nilai/nilai_screen.dart';
 import 'package:sisfo_mobile/notification/notification_screen.dart';
 import 'package:sisfo_mobile/profile/profile_mhs_screen.dart';
-import 'package:sisfo_mobile/profile/profile_page_screen.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
 class FiturHomeWidget extends StatelessWidget {
@@ -42,7 +40,7 @@ class FiturHomeWidget extends StatelessWidget {
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (_) => KhsScreen())),
                       child: CardMenu(
-                        icon: LineIcons.bookmark,
+                        iconPath: 'assets/images/krs.png',
                         label: "KRS",
                       ),
                     ),
@@ -53,7 +51,7 @@ class FiturHomeWidget extends StatelessWidget {
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (_) => NilaiScreen())),
                       child: CardMenu(
-                        icon: LineIcons.graduationCap,
+                        iconPath: 'assets/images/nilai.png',
                         label: "Nilai",
                       ),
                     ),
@@ -62,7 +60,7 @@ class FiturHomeWidget extends StatelessWidget {
                     ),
                     GestureDetector(
                       child: CardMenu(
-                        icon: LineIcons.moneyBill,
+                        iconPath: 'assets/images/keuangan.png',
                         label: "Keuangan",
                       ),
                       onTap: () => Navigator.push(
@@ -80,7 +78,7 @@ class FiturHomeWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       child: CardMenu(
-                        icon: LineIcons.newspaper,
+                        iconPath: 'assets/images/pesan.png',
                         label: "Inbox",
                       ),
                       onTap: () => Navigator.push(
@@ -97,7 +95,7 @@ class FiturHomeWidget extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (_) => ProfileMhsScreen())),
                       child: CardMenu(
-                        icon: LineIcons.user,
+                        iconPath: 'assets/images/profil.png',
                         label: "Profile",
                       ),
                     ),
@@ -108,7 +106,7 @@ class FiturHomeWidget extends StatelessWidget {
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (_) => AboutScreen())),
                       child: CardMenu(
-                        icon: LineIcons.dotCircle,
+                        iconPath: 'assets/images/about.png',
                         label: "About",
                       ),
                     )

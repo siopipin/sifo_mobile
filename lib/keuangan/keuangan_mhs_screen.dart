@@ -25,9 +25,13 @@ class _KeuanganMhsScreenState extends State<KeuanganMhsScreen> {
   }
 
   TabBar get _tabbar => TabBar(
+        labelColor: Colors.white,
+        unselectedLabelStyle: TextStyle(color: Colors.white70),
         tabs: [
           Tab(
-            icon: Icon(Icons.monetization_on),
+            icon: Icon(
+              Icons.monetization_on,
+            ),
             text: 'Tagihan',
           ),
           Tab(icon: Icon(Icons.library_books), text: 'Info Bayar'),
