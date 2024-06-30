@@ -36,7 +36,6 @@ class Config {
   // final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
   // final imgurl = 'http://10.0.2.2:3000/images';
 
-//TODO ganti url ketika mau publish
 //Production
   final api = 'http://mystikes.gunungsari.id:3000/mobile';
   final fotoUrl = 'http://mystikes.gunungsari.id:3000/images';
