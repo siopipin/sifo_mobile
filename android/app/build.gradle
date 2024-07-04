@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.stikesgunungsari.sisfo_mobile"
+        applicationId "com.stikesgs.app"
         minSdkVersion 24
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
@@ -52,7 +52,7 @@ android {
        release {
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
-           // storeFile file(keystoreProperties['storeFile'])
+//           storeFile file(keystoreProperties['storeFile'])
            storeFile file("key.jks")
            storePassword keystoreProperties['storePassword']
         }
