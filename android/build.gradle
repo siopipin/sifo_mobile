@@ -2,12 +2,12 @@ buildscript {
     ext.kotlin_version = '1.9.22'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:8.1.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
         classpath 'com.google.gms:google-services:4.4.0'
         
     }
@@ -15,8 +15,41 @@ buildscript {
 
 allprojects {
     repositories {
+        // Local Maven repository for cached dependencies
+        mavenLocal()
+        
+        // Google and Maven Central with cache configuration
         google()
-        jcenter()
+        mavenCentral()
+        
+        // Additional cache-friendly repositories
+        maven {
+            url 'https://maven.google.com'
+            content {
+                includeGroupByRegex "com\\.android.*"
+                includeGroupByRegex "android\\..*"
+                includeGroupByRegex "androidx\\..*"
+            }
+        }
+        
+        maven {
+            url 'https://repo1.maven.org/maven2/'
+            content {
+                excludeGroupByRegex "com\\.android.*"
+                excludeGroupByRegex "android\\..*"
+                excludeGroupByRegex "androidx\\..*"
+            }
+        }
+    }
+    
+    // Configure dependency resolution strategy
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+            cacheDynamicVersionsFor 0, 'seconds'
+            force 'androidx.core:core-ktx:1.12.0'
+            force 'androidx.appcompat:appcompat:1.6.1'
+        }
     }
 }
 
