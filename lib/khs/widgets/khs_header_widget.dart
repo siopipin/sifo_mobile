@@ -83,7 +83,7 @@ class KhsHeaderWidget extends StatelessWidget {
                                             msg:
                                                 'Foto profile berhasil diganti');
                                         print('akan simpan foto');
-                                        await context
+                                        context
                                             .read<ProfileMhsProvider>()
                                             .initial();
                                         print(watchProfile.stateProfileMhs
@@ -94,7 +94,7 @@ class KhsHeaderWidget extends StatelessWidget {
                                             'foto baru: ${watchProfile.dataProfileMhs.data!.foto!}');
                                         await store.saveFoto(watchProfile
                                             .dataProfileMhs.data!.foto!);
-                                        await context
+                                        context
                                             .read<HomeProvider>()
                                             .initial();
 

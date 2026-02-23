@@ -2,7 +2,6 @@
 // import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/auth/login_provider.dart';
 import 'package:sisfo_mobile/auth/login_screen.dart';
@@ -26,45 +25,44 @@ import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/initial_provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    return runApp(Phoenix(
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => InitialProvider()),
-          ChangeNotifierProvider(create: (_) => LoginProvider()),
-          ChangeNotifierProvider(create: (_) => HomeProvider()),
-          ChangeNotifierProvider(create: (_) => ProfileProvider()),
-          ChangeNotifierProvider(create: (_) => NilaiProvider()),
-          ChangeNotifierProvider(create: (_) => KeuanganProvider()),
-          ChangeNotifierProvider(create: (_) => KrsProvider()),
-          ChangeNotifierProvider(create: (_) => NotificationProvider()),
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-          //KRS
-          ChangeNotifierProvider(create: (_) => TahunAjaranAktifProvider()),
-          ChangeNotifierProvider(create: (_) => StatusKhsProvider()),
-          ChangeNotifierProvider(create: (_) => TahunKhsProvider()),
-          ChangeNotifierProvider(create: (_) => KrsMhsProvider()),
-          ChangeNotifierProvider(create: (_) => KrsPaketProvider()),
-          ChangeNotifierProvider(create: (_) => KrsPaketTerpilihProvider()),
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => InitialProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => NilaiProvider()),
+        ChangeNotifierProvider(create: (_) => KeuanganProvider()),
+        ChangeNotifierProvider(create: (_) => KrsProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
 
-          //Keuangan
-          ChangeNotifierProvider(create: (_) => KeuanganMhsProvider()),
-          ChangeNotifierProvider(create: (_) => KeuanganDetailProvider()),
+        // KRS
+        ChangeNotifierProvider(create: (_) => TahunAjaranAktifProvider()),
+        ChangeNotifierProvider(create: (_) => StatusKhsProvider()),
+        ChangeNotifierProvider(create: (_) => TahunKhsProvider()),
+        ChangeNotifierProvider(create: (_) => KrsMhsProvider()),
+        ChangeNotifierProvider(create: (_) => KrsPaketProvider()),
+        ChangeNotifierProvider(create: (_) => KrsPaketTerpilihProvider()),
 
-          //Profile
-          ChangeNotifierProvider(create: (_) => ProfileMhsProvider()),
-        ],
-        child: MyApp(),
-      ),
-    ));
-  });
+        // Keuangan
+        ChangeNotifierProvider(create: (_) => KeuanganMhsProvider()),
+        ChangeNotifierProvider(create: (_) => KeuanganDetailProvider()),
+
+        // Profile
+        ChangeNotifierProvider(create: (_) => ProfileMhsProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();

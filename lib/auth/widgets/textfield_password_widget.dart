@@ -15,7 +15,6 @@ class TextFieldPasswordWidget extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(top: 10),
-      height: 60,
       decoration: BoxDecoration(
           color: config.colorGrey, borderRadius: BorderRadius.circular(10)),
       padding: EdgeInsets.only(top: 5),

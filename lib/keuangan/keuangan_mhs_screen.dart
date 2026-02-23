@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class KeuanganMhsScreen extends StatefulWidget {
   final bool needAppbar;
-  KeuanganMhsScreen({Key? key, this.needAppbar = true}) : super(key: key);
+  const KeuanganMhsScreen({Key? key, this.needAppbar = true}) : super(key: key);
 
   @override
   State<KeuanganMhsScreen> createState() => _KeuanganMhsScreenState();

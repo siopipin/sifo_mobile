@@ -18,7 +18,7 @@ class ApiBaseHelper {
           headers: needToken
               ? {
                   'Content-Type': 'application/json',
-                  HttpHeaders.authorizationHeader: 'Barer $token'
+                  HttpHeaders.authorizationHeader: 'Bearer $token'
                 }
               : null);
       responseJson = [response.statusCode, response.body];
@@ -42,7 +42,7 @@ class ApiBaseHelper {
           headers: needToken
               ? {
                   'Content-Type': 'application/json',
-                  HttpHeaders.authorizationHeader: 'Barer $token'
+                  HttpHeaders.authorizationHeader: 'Bearer $token'
                 }
               : null);
       responseJson = [response.statusCode, response.body];
@@ -65,7 +65,7 @@ class ApiBaseHelper {
           headers: needToken
               ? {
                   'Content-Type': 'application/json',
-                  HttpHeaders.authorizationHeader: 'Barer $token'
+                  HttpHeaders.authorizationHeader: 'Bearer $token'
                 }
               : null);
       responseJson = [response.statusCode, response.body];

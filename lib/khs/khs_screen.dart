@@ -8,14 +8,14 @@ import 'package:sisfo_mobile/khs/providers/tahun_khs_provider.dart';
 import 'package:sisfo_mobile/khs/widgets/khs_detail_widget.dart';
 import 'package:sisfo_mobile/khs/widgets/khs_header_widget.dart';
 import 'package:sisfo_mobile/khs/widgets/tahun_khs_widget.dart';
-import 'package:sisfo_mobile/widgets/message_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
+import 'package:sisfo_mobile/widgets/message_widget.dart';
 import 'package:sisfo_mobile/widgets/shimmer_widget.dart';
 
 class KhsScreen extends StatefulWidget {
   final bool needAppbar;
 
-  KhsScreen({
+  const KhsScreen({
     Key? key,
     this.needAppbar = true,
   }) : super(key: key);
@@ -25,107 +25,105 @@ class KhsScreen extends StatefulWidget {
 }
 
 class _KhsScreenState extends State<KhsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() async {
-      context.read<HomeProvider>().initial();
-      context.read<TahunKhsProvider>().initial();
+  Future<void> _loadData() async {
+    context.read<HomeProvider>().initial();
+    await context.read<TahunKhsProvider>().initial();
+    await context.read<TahunAjaranAktifProvider>().initial();
 
-      await context.read<TahunAjaranAktifProvider>().initial();
-      final watchTahunAjaranAktif = context.read<TahunAjaranAktifProvider>();
-      final watchStatusKhs = context.read<StatusKhsProvider>();
+    final tahunProv = context.read<TahunAjaranAktifProvider>();
+    if (tahunProv.stateTahunAjaranAktif != StateTahunAjaranAktif.loaded ||
+        tahunProv.dataTahunAjaranAktif.status != true) {
+      return;
+    }
 
-      if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
-          StateTahunAjaranAktif.loaded) {
-        if (watchTahunAjaranAktif.dataTahunAjaranAktif.status == true) {
-          //Ambil Status Khs
-          await context.read<StatusKhsProvider>().initial(
-              tahunid:
-                  watchTahunAjaranAktif.dataTahunAjaranAktif.data!.tahunTA!);
+    final tahunTA = tahunProv.dataTahunAjaranAktif.data?.tahunTA;
+    if (tahunTA == null) return;
 
-          //Cek Status Krs
+    await context.read<StatusKhsProvider>().initial(tahunid: tahunTA);
 
-          if (watchStatusKhs.stateStatusKhs == StateStatusKhs.loaded) {
-            if (watchStatusKhs.dataStatusKrs.status == true) {
-              //Ambil krs mahasiswa.
-              await context.read<KrsMhsProvider>().initial(
-                  khsid: watchStatusKhs.dataStatusKrs.data!.kHSID.toString());
-            }
-          }
-        }
+    final statusProv = context.read<StatusKhsProvider>();
+    if (statusProv.stateStatusKhs == StateStatusKhs.loaded &&
+        statusProv.dataStatusKrs.status == true) {
+      final khsid = statusProv.dataStatusKrs.data?.kHSID?.toString();
+      if (khsid != null) {
+        await context.read<KrsMhsProvider>().initial(khsid: khsid);
       }
-    });
+    }
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    super.initState();
+    Future.microtask(_loadData);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.needAppbar == true
+      appBar: widget.needAppbar
           ? AppBar(
               backgroundColor: config.colorPrimary,
-              title: Text('Info KRS'),
-              actions: [
-                // download
-              ],
+              title: const Text('Info KRS'),
             )
           : null,
-      body: Scrollbar(
-        child: RefreshIndicator(
-          onRefresh: () async {},
-          child: ListView(
-            children: [
-              //header
-              KhsHeaderWidget(),
-              //body
-              bodyKhs(context)
-            ],
-          ),
+      body: RefreshIndicator(
+        onRefresh: _loadData,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            const KhsHeaderWidget(),
+            _buildBody(),
+          ],
         ),
       ),
     );
   }
 
-  bodyKhs(BuildContext context) {
-    final watchTahunAjaranAktif = context.watch<TahunAjaranAktifProvider>();
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: config.padding),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        //Pilih tahun.
-        SizedBox(height: config.padding / 2),
-        TahunKhsWidget(),
-        SizedBox(height: config.padding / 2),
-        //cek jika krs aktif
-        if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
-            StateTahunAjaranAktif.loading)
-          Column(
-            children: [
-              loading.shimmerCustom(height: 50),
-              Padding(
-                padding: EdgeInsets.only(top: config.padding / 2),
-                child: loading.shimmerCustom(height: 50),
-              )
-            ],
-          )
-        else if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
-            StateTahunAjaranAktif.nulldata)
-          MessageWidget(
+  Widget _buildBody() {
+    return Consumer<TahunAjaranAktifProvider>(
+      builder: (_, prov, __) {
+        if (prov.stateTahunAjaranAktif == StateTahunAjaranAktif.loading) {
+          return _buildLoading();
+        }
+        if (prov.stateTahunAjaranAktif == StateTahunAjaranAktif.nulldata) {
+          return MessageWidget(
             info: 'Tahun ajaran aktif tidak ditemukan',
             status: InfoWidgetStatus.warning,
             needBorderRadius: false,
-          )
-        else if (watchTahunAjaranAktif.stateTahunAjaranAktif ==
-            StateTahunAjaranAktif.loaded)
-          KhsDetailWidget()
-        else
-          Container(),
-      ]),
+          );
+        }
+        if (prov.stateTahunAjaranAktif == StateTahunAjaranAktif.loaded) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                TahunKhsWidget(),
+                SizedBox(height: 16),
+                KhsDetailWidget(),
+              ],
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildLoading() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          loading.shimmerCustom(height: 50),
+          const SizedBox(height: 8),
+          loading.shimmerCustom(height: 50),
+          const SizedBox(height: 16),
+          loading.shimmerCustom(height: 120),
+        ],
+      ),
     );
   }
 }

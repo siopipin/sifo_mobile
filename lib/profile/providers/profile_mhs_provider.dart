@@ -10,23 +10,31 @@ import 'package:sisfo_mobile/services/storage.dart';
 enum StateProfileMhs { initial, loading, loaded, nulldata, error }
 
 class ProfileMhsProvider extends ChangeNotifier {
-  initial() {
-    setStateProfileMhs = StateProfileMhs.initial;
-
-    //clear data
+  void initial() {
+    _stateProfileMhs = StateProfileMhs.initial;
     ctrlAlamat.clear();
     ctrlEmail.clear();
     ctrlHP.clear();
     ctrlHPOrtu.clear();
-
     ctrlPass.clear();
     ctrlRePass.clear();
-
-    //set status ganti passwd
-    setGantiPassword = false;
-    setEdit = false;
-
+    _isGantiPassword = false;
+    _edit = false;
     fetchProfile();
+  }
+
+  Future<void> refresh() async {
+    _stateProfileMhs = StateProfileMhs.initial;
+    ctrlAlamat.clear();
+    ctrlEmail.clear();
+    ctrlHP.clear();
+    ctrlHPOrtu.clear();
+    ctrlPass.clear();
+    ctrlRePass.clear();
+    _isGantiPassword = false;
+    _edit = false;
+    notifyListeners();
+    await fetchProfile();
   }
 
   TextEditingController ctrlAlamat = TextEditingController();
@@ -98,8 +106,7 @@ class ProfileMhsProvider extends ChangeNotifier {
         break;
       case 404:
         setStateProfileMhs = StateProfileMhs.nulldata;
-        Fluttertoast.showToast(msg: 'Krs Paket tidak ditemukan');
-        print(UnauthorisedException('Krs Paket tidak ditemukan'));
+        Fluttertoast.showToast(msg: 'Profile tidak ditemukan');
         break;
       case 401:
         setStateProfileMhs = StateProfileMhs.error;
@@ -149,7 +156,6 @@ class ProfileMhsProvider extends ChangeNotifier {
       case 404:
         _status = false;
         Fluttertoast.showToast(msg: 'Gagal menyimpan profile');
-        print(UnauthorisedException('Gagal menyimpan profile'));
         break;
       case 401:
         _status = false;
@@ -195,7 +201,6 @@ class ProfileMhsProvider extends ChangeNotifier {
       case 404:
         _status = false;
         Fluttertoast.showToast(msg: 'Gagal menyimpan profile');
-        print(UnauthorisedException('Gagal menyimpan profile'));
         break;
       case 401:
         _status = false;

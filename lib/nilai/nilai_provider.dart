@@ -9,180 +9,139 @@ import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/services/storage.dart';
 
 class NilaiProvider extends ChangeNotifier {
-  initial() {
+  void initial() {
     doGetTahunKHS();
   }
 
-  Client client = Client();
+  final Client _client = Client();
 
-  bool loading = false, error = false, adaData = false;
-  String message = '';
-  String tahun = '';
-  TahunKHS tahunKHS = new TahunKHS();
+  bool _loading = false;
+  bool _error = false;
+  bool _adaData = false;
+  String _message = '';
+  String _tahun = '';
+  TahunKHS _tahunKHS = TahunKHS();
 
-  bool get isLoading => loading;
-  bool get isError => error;
-  bool get isData => adaData;
+  bool get isLoading => _loading;
+  bool get isError => _error;
+  bool get isData => _adaData;
+  String get isMsg => _message;
+  TahunKHS get dataTahunKHS => _tahunKHS;
+  String get isTahun => _tahun;
 
-  String get isMsg => message;
-  TahunKHS get dataTahunKHS => tahunKHS;
+  bool _loadingNilai = false;
+  bool _errorNilai = false;
+  bool _adaDataNilai = false;
+  NilaiModel _nilaiModel = NilaiModel();
 
-  set setLoading(val) {
-    loading = val;
+  bool get isLoadingNilai => _loadingNilai;
+  bool get isErrorNilai => _errorNilai;
+  bool get isDataNilai => _adaDataNilai;
+  NilaiModel get dataNilai => _nilaiModel;
+
+  void setExpanded(int index, bool status) {
+    if (_nilaiModel.data == null || index >= _nilaiModel.data!.length) return;
+    _nilaiModel.data![index].isExpanded = status;
     notifyListeners();
   }
 
-  set setError(val) {
-    error = val;
+  Future<void> doGetTahunKHS() async {
+    _loading = true;
+    _error = false;
     notifyListeners();
-  }
 
-  set setMessage(val) {
-    message = val;
-    notifyListeners();
-  }
+    final response = await _getTahunKHS();
+    _loading = false;
 
-  set setTahunKHS(val) {
-    tahunKHS = val;
-    setTahun = tahunKHS.data![0].tahunid;
-    notifyListeners();
-  }
+    if (response == null) {
+      _error = true;
+      _message = 'Tidak dapat menghubungkan server';
+      notifyListeners();
+      return;
+    }
 
-  set setData(val) {
-    adaData = val;
-    notifyListeners();
-  }
-
-  setExpanded(int index, bool status) {
-    dataNilai.data![index].isExpanded = status;
-    notifyListeners();
-  }
-
-  String get isTahun => tahun;
-  set setTahun(val) {
-    tahun = val;
-    notifyListeners();
-  }
-
-  //Fungsi Ambil Tahun KHS
-  doGetTahunKHS() async {
-    setLoading = true;
-    final response = await getTahunKHS();
-    print(response.statusCode);
-    if (response != null) {
-      if (response.statusCode == 200) {
-        var tmp = json.decode(response.body);
-        setTahunKHS = TahunKHS.fromJson(tmp);
-        setData = true;
-        await doGetNilai(tahun: dataTahunKHS.data![0].tahunid!);
-      } else if (response.statusCode == 401) {
-        setMessage = 'Otentikasi tidak berhasil!';
-        setError = true;
-      } else {
-        setMessage = 'Silahkan coba lagi!';
-        setError = true;
+    if (response.statusCode == 200) {
+      final tmp = json.decode(response.body);
+      _tahunKHS = TahunKHS.fromJson(tmp);
+      _adaData = _tahunKHS.data != null && _tahunKHS.data!.isNotEmpty;
+      if (_adaData) {
+        _tahun = _tahunKHS.data!.first.tahunid ?? '';
+        await doGetNilai(tahun: _tahun);
       }
+    } else if (response.statusCode == 401) {
+      _error = true;
+      _message = 'Otentikasi tidak berhasil';
     } else {
-      print('Response tidak ditemukan');
+      _error = true;
+      _message = 'Silahkan coba lagi';
     }
+    notifyListeners();
   }
 
-  getTahunKHS() async {
-    var token = await store.showToken();
-    final headerJwt = {
-      'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: 'Barer $token'
-    };
+  Future<dynamic> _getTahunKHS() async {
+    final token = await store.showToken();
     try {
-      final response = await client.get(
-          Uri.parse('${config.api}/mahasiswa/tahun-khs'),
-          headers: headerJwt);
-      setLoading = false;
-      return response;
-    } catch (e) {
-      print(e.toString());
-      setLoading = false;
-      setError = true;
-      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+      return await _client.get(
+        Uri.parse('${config.api}/mahasiswa/tahun-khs'),
+        headers: {
+          'Content-Type': 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      );
+    } catch (_) {
+      return null;
     }
   }
 
-  //Fungsi ambil nilai
-  bool loadingNilai = false;
-  bool get isLoadingNilai => loadingNilai;
-  set setLoadingNilai(val) {
-    loading = val;
+  Future<void> doGetNilai({required String tahun}) async {
+    _loadingNilai = true;
+    _errorNilai = false;
+    _tahun = tahun;
     notifyListeners();
-  }
 
-  bool errorNilai = false;
-  bool get isErrorNilai => errorNilai;
-  set setErrorNilai(val) {
-    errorNilai = val;
-    notifyListeners();
-  }
+    final response = await _getNilai(tahun: tahun);
+    _loadingNilai = false;
 
-  bool adaDataNilai = false;
-  bool get isDataNilai => adaDataNilai;
-  set setDataNilai(val) {
-    adaDataNilai = val;
-    notifyListeners();
-  }
+    if (response == null) {
+      _errorNilai = true;
+      _message = 'Tidak dapat menghubungkan server';
+      notifyListeners();
+      return;
+    }
 
-  NilaiModel nilaiModel = new NilaiModel();
-  NilaiModel get dataNilai => nilaiModel;
-  set setNilai(NilaiModel val) {
-    val.data!.forEach((element) {
-      element.isExpanded = false;
-    });
-    nilaiModel = val;
-    notifyListeners();
-  }
-
-  doGetNilai({required String tahun}) async {
-    setLoadingNilai = true;
-    final response = await getNilai(tahun: tahun);
-    print('doGetNilai / statusCode : ${response.statusCode}');
-    if (response != null) {
-      if (response.statusCode == 200) {
-        var tmp = json.decode(response.body);
-        setNilai = NilaiModel.fromJson(tmp);
-        setDataNilai = true;
-        setMessage = 'Data Nilai Berhasil direquest';
-      } else if (response.statusCode == 401) {
-        setMessage = 'Otentikasi tidak berhasil!';
-        setErrorNilai = true;
-        setDataNilai = false;
-      } else {
-        print('doGetNilai / ELSE: else');
-        setErrorNilai = true;
-        setMessage = 'Silahkan coba lagi!';
+    if (response.statusCode == 200) {
+      final tmp = json.decode(response.body);
+      final model = NilaiModel.fromJson(tmp);
+      for (var e in model.data ?? []) {
+        e.isExpanded = false;
       }
+      _nilaiModel = model;
+      _adaDataNilai = true;
+      _message = 'Data nilai berhasil dimuat';
+    } else if (response.statusCode == 401) {
+      _errorNilai = true;
+      _message = 'Otentikasi tidak berhasil';
+      _adaDataNilai = false;
     } else {
-      print('Response tidak ditemukan');
+      _errorNilai = true;
+      _message = 'Silahkan coba lagi';
     }
+    notifyListeners();
   }
 
-  getNilai({required String tahun}) async {
-    var token = await store.showToken();
-    var data = json.encode({"tahunid": tahun});
-    print(data);
-    final header = {
-      'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: 'Barer $token'
-    };
+  Future<dynamic> _getNilai({required String tahun}) async {
+    final token = await store.showToken();
     try {
-      final response = await client.post(
-          Uri.parse('${config.api}/mahasiswa/nilai'),
-          headers: header,
-          body: data);
-      setLoadingNilai = false;
-      return response;
-    } catch (e) {
-      print(e.toString());
-      setLoading = false;
-      setErrorNilai = true;
-      setMessage = 'Coba lagi, tidak dapat menghubungkan';
+      return await _client.post(
+        Uri.parse('${config.api}/mahasiswa/nilai'),
+        headers: {
+          'Content-Type': 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+        body: json.encode({'tahunid': tahun}),
+      );
+    } catch (_) {
+      return null;
     }
   }
 }

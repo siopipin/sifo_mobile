@@ -1,3 +1,10 @@
+int? _parseInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is String) return int.tryParse(value);
+  return null;
+}
+
 class StatusKrsModel {
   bool? status;
   String? message;
@@ -29,8 +36,8 @@ class Data {
   Data({this.kHSID, this.statuskrs});
 
   Data.fromJson(Map<String, dynamic> json) {
-    kHSID = json['KHSID'];
-    statuskrs = json['statuskrs'];
+    kHSID = _parseInt(json['KHSID']);
+    statuskrs = json['statuskrs']?.toString();
   }
 
   Map<String, dynamic> toJson() {

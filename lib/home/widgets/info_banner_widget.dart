@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sisfo_mobile/home/home_provider.dart';
-import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/foto_profile.dart';
 
 class InfoBannerWidget extends StatelessWidget {
@@ -13,109 +12,67 @@ class InfoBannerWidget extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: 140,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: config.colorSecondary,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 8,
-            left: 10,
-            child: FotoProfile(),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
           ),
-          Positioned.fill(
-            left: 110,
-            top: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Program Studi',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 12),
-                                ),
-                                Container(
-                                  width: 140,
-                                  child: Text(
-                                    prov.isProdi,
-                                    style: TextStyle(
-                                        color: config.fontPrimary,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Program',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 10),
-                                ),
-                                Text(
-                                  prov.isProgram,
-                                  style: TextStyle(
-                                      color: config.fontPrimary,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Status',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 10),
-                                ),
-                                Text(
-                                  prov.isStatus,
-                                  style: TextStyle(
-                                      color: config.fontPrimary,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
         ],
       ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FotoProfile(),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildInfoRow('Program Studi', prov.isProdi),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildInfoRow('Program', prov.isProgram),
+                    _buildInfoRow('Status', prov.isStatus),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.grey.shade600,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value.isEmpty ? '-' : value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 }

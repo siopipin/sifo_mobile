@@ -10,14 +10,13 @@ class TextFieldNPMWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 10),
-      height: 55,
       decoration: BoxDecoration(
           color: config.colorGrey, borderRadius: BorderRadius.circular(10)),
       padding: EdgeInsets.only(top: 10),
       child: TextField(
         controller: ctrl,
         cursorColor: Colors.black,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.text,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'Nomor Pokok Mahasiswa',

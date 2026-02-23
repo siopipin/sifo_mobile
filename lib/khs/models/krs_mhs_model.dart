@@ -27,6 +27,19 @@ class KrsMhsModel {
   }
 }
 
+int? _parseInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is String) {
+    final i = int.tryParse(value);
+    if (i != null) return i;
+    final d = double.tryParse(value);
+    return d?.round();
+  }
+  if (value is double) return value.round();
+  return null;
+}
+
 class Data {
   int? kRSID;
   String? kodeID;
@@ -163,37 +176,37 @@ class Data {
   });
 
   Data.fromJson(Map<String, dynamic> json) {
-    kRSID = json['KRSID'];
-    kodeID = json['KodeID'];
-    kHSID = json['KHSID'];
-    mhswID = json['MhswID'];
-    tahunID = json['TahunID'];
-    jadwalID = json['JadwalID'];
-    jadwalResponsiID = json['JadwalResponsiID'];
-    mKID = json['MKID'];
-    mKKode = json['MKKode'];
-    nama = json['Nama'];
-    sKS = json['SKS'];
-    dosenID = json['DosenID'];
-    hargaStandar = json['HargaStandar'];
-    harga = json['Harga'];
-    bayar = json['Bayar'];
-    tugas1 = json['Tugas1'];
-    tugas2 = json['Tugas2'];
-    tugas3 = json['Tugas3'];
-    tugas4 = json['Tugas4'];
-    tugas5 = json['Tugas5'];
-    presensi = json['Presensi'];
-    iPresensi = json['_Presensi'];
-    uTS = json['UTS'];
-    uAS = json['UAS'];
-    responsi = json['Responsi'];
+    kRSID = _parseInt(json['KRSID']);
+    kodeID = json['KodeID']?.toString();
+    kHSID = _parseInt(json['KHSID']);
+    mhswID = json['MhswID']?.toString();
+    tahunID = json['TahunID']?.toString();
+    jadwalID = _parseInt(json['JadwalID']);
+    jadwalResponsiID = _parseInt(json['JadwalResponsiID']);
+    mKID = _parseInt(json['MKID']);
+    mKKode = json['MKKode']?.toString();
+    nama = json['Nama']?.toString();
+    sKS = _parseInt(json['SKS']);
+    dosenID = json['DosenID']?.toString();
+    hargaStandar = json['HargaStandar']?.toString();
+    harga = _parseInt(json['Harga']);
+    bayar = _parseInt(json['Bayar']);
+    tugas1 = _parseInt(json['Tugas1']);
+    tugas2 = _parseInt(json['Tugas2']);
+    tugas3 = _parseInt(json['Tugas3']);
+    tugas4 = _parseInt(json['Tugas4']);
+    tugas5 = _parseInt(json['Tugas5']);
+    presensi = _parseInt(json['Presensi']);
+    iPresensi = _parseInt(json['_Presensi']);
+    uTS = _parseInt(json['UTS']);
+    uAS = _parseInt(json['UAS']);
+    responsi = _parseInt(json['Responsi']);
     nilaiAkhir = json['NilaiAkhir'];
-    gradeNilai = json['GradeNilai'];
-    bobotNilai = json['BobotNilai'];
-    statusKRSID = json['StatusKRSID'];
-    tinggi = json['Tinggi'];
-    finaldata = json['Finaldata'];
+    gradeNilai = json['GradeNilai']?.toString();
+    bobotNilai = _parseInt(json['BobotNilai']);
+    statusKRSID = json['StatusKRSID']?.toString();
+    tinggi = json['Tinggi']?.toString();
+    finaldata = json['Final'] ?? json['Finaldata']?.toString();
     setara = json['Setara'];
     setaraKode = json['SetaraKode'];
     setaraGrade = json['SetaraGrade'];
@@ -205,9 +218,9 @@ class Data {
     catatan = json['Catatan'];
     catatanError = json['CatatanError'];
     sedangRemedial = json['SedangRemedial'];
-    ruangID = json['RuangID'];
-    urutanUTS = json['UrutanUTS'];
-    urutanUAS = json['UrutanUAS'];
+    ruangID = json['RuangID']?.toString();
+    urutanUTS = _parseInt(json['UrutanUTS']);
+    urutanUAS = _parseInt(json['UrutanUAS']);
     sah = json['Sah'];
     loginBuat = json['LoginBuat'];
     tanggalBuat = json['TanggalBuat'];
@@ -215,16 +228,16 @@ class Data {
     tanggalEdit = json['TanggalEdit'];
     nA = json['NA'];
     term = json['Term'];
-    sink = json['Sink'];
-    mKNama = json['MKNama'];
-    hariID = json['HariID'];
-    namaKelas = json['NamaKelas'];
-    jM = json['JM'];
-    jS = json['JS'];
-    sesi = json['Sesi'];
+    sink = json['Sync'] ?? json['Sink']?.toString();
+    mKNama = json['MKNama']?.toString();
+    hariID = _parseInt(json['HariID']);
+    namaKelas = json['NamaKelas']?.toString();
+    jM = json['JM']?.toString();
+    jS = json['JS']?.toString();
+    sesi = _parseInt(json['Sesi']);
     adaResponsi = json['AdaResponsi'];
     dSN = json['DSN'];
-    jenisJadwalID = json['JenisJadwalID'];
+    jenisJadwalID = json['JenisJadwalID']?.toString();
     sNamaJenisJadwal = json['_NamaJenisJadwal'];
     tambahan = json['Tambahan'];
     isExpanded = json['isExpanded'];

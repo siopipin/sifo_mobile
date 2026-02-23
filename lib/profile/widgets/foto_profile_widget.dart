@@ -93,8 +93,8 @@ class _FotoProfileWidgetState extends State<FotoProfileWidget> {
                                           msg: 'Foto profile berhasil diganti');
                                       await context
                                           .read<ProfileMhsProvider>()
-                                          .initial();
-                                      Navigator.pop(context);
+                                          .refresh();
+                                      if (context.mounted) Navigator.pop(context);
                                     }
                                   });
                                 }
@@ -135,7 +135,7 @@ class _FotoProfileWidgetState extends State<FotoProfileWidget> {
                         'foto baru: ${watchProfile.dataProfileMhs.data!.foto!}');
                     await store
                         .saveFoto(watchProfile.dataProfileMhs.data!.foto!);
-                    await context.read<ProfileMhsProvider>().initial();
+                    await context.read<ProfileMhsProvider>().refresh();
 
                     await context.read<HomeProvider>().getDataAwal();
                     print('selesai');

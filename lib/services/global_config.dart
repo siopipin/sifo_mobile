@@ -30,21 +30,23 @@ class Config {
     color: Color(0xFFFFFFFF),
   );
 
-//Development
-  // final api = "http://10.0.2.2:3000/mobile";
-  // final fotoUrl = "http://10.0.2.2:3000/images";
-  // final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
-  // final imgurl = 'http://10.0.2.2:3000/images';
+  //Development
+  final api = "http://localhost:3000/mobile";
+  final fotoUrl = "http://localhost:3000/images";
+  final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
+  final imgurl = 'http://localhost:3000/images';
 
 //Production
-  final api = 'http://mystikes.gunungsari.id:3000/mobile';
-  final fotoUrl = 'http://mystikes.gunungsari.id:3000/images';
-  final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
-  final imgurl = 'http://mystikes.gunungsari.id:3000/images';
+  // final api = 'http://mystikes.gunungsari.id:3000/mobile';
+  // final fotoUrl = 'http://mystikes.gunungsari.id:3000/images';
+  // final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
+  // final imgurl = 'http://mystikes.gunungsari.id:3000/images';
 
 //logo
   final String logoPath = 'assets/images/logo.png';
   final String bgPath = 'assets/images/bg-stikes.jpg';
+  final String imgBG = 'assets/images/bg.png';
+  final String imgSplashScreen = 'assets/images/bg-stikes.png';
 
   final header = {
     'Content-Type': 'application/json',
@@ -52,7 +54,7 @@ class Config {
 
   //String
   final textTitle = "STIKES Gunung Sari";
-  final textDescription = "Sekolah Tinggi Ilmu Kesehatan Gunung Sari \n V.1.0";
+  final textDescription = "Sekolah Tinggi Ilmu Kesehatan Gunung Sari";
 
   final shimmerColor = const Color(0xffe0e0e0);
 
