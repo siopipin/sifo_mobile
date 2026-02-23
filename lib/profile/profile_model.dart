@@ -35,6 +35,7 @@ class Data {
   dynamic email;
   dynamic namaIbu;
   dynamic handphoneOrtu;
+  String? tanggalLahir;
 
   Data(
       {this.mhswID,
@@ -54,7 +55,8 @@ class Data {
       this.handphone,
       this.email,
       this.namaIbu,
-      this.handphoneOrtu});
+      this.handphoneOrtu,
+      this.tanggalLahir});
 
   Data.fromJson(Map<String, dynamic> json) {
     mhswID = json['MhswID'];
@@ -75,6 +77,7 @@ class Data {
     email = json['Email'];
     namaIbu = json['NamaIbu'];
     handphoneOrtu = json['HandphoneOrtu'];
+    tanggalLahir = json['TanggalLahir']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -97,6 +100,7 @@ class Data {
     data['Email'] = this.email;
     data['NamaIbu'] = this.namaIbu;
     data['HandphoneOrtu'] = this.handphoneOrtu;
+    data['TanggalLahir'] = this.tanggalLahir;
     return data;
   }
 }

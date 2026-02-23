@@ -4,6 +4,7 @@ import 'package:sisfo_mobile/home/home_provider.dart';
 import 'package:sisfo_mobile/home/widgets/fitur_home_widget.dart';
 import 'package:sisfo_mobile/home/widgets/info_banner_widget.dart';
 import 'package:sisfo_mobile/home/widgets/welcome_header.dart';
+import 'package:sisfo_mobile/ktm/ktm_screen.dart';
 import 'package:sisfo_mobile/profile/providers/profile_mhs_provider.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 
@@ -56,6 +57,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const WelcomeHeader(),
                       const SizedBox(height: 20),
                       const InfoBannerWidget(),
+                      const SizedBox(height: 14),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const KtmScreen(),
+                            ),
+                          ),
+                          icon: const Icon(Icons.badge_outlined, size: 20),
+                          label: const Text('Lihat Kartu Tanda Mahasiswa (KTM)'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Colors.white70),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
