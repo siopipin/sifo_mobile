@@ -31,16 +31,16 @@ class Config {
   );
 
   //Development
-  // final api = "http://localhost:3000/mobile";
-  // final fotoUrl = "http://localhost:3000/images";
-  // final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
-  // final imgurl = 'http://localhost:3000/images';
-
-  //Production
-  final api = 'http://mystikes.gunungsari.id:3000/mobile';
-  final fotoUrl = 'http://mystikes.gunungsari.id:3000/images';
+  final api = "http://localhost:3000/mobile";
+  final fotoUrl = "http://localhost:3000/images";
   final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
-  final imgurl = 'http://mystikes.gunungsari.id:3000/images';
+  final imgurl = 'http://localhost:3000/images';
+
+  //TODO: Update ke Production
+  // final api = 'http://mystikes.gunungsari.id:3000/mobile';
+  // final fotoUrl = 'http://mystikes.gunungsari.id:3000/images';
+  // final apiPdf = 'http://103.167.34.22/sisfo/jur/krs.cetak.php?khsid=';
+  // final imgurl = 'http://mystikes.gunungsari.id:3000/images';
 
   //logo
   final String logoPath = 'assets/images/logo.png';

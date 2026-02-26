@@ -11,6 +11,7 @@ class Storage {
     required String program,
     required String status,
     required String foto,
+    required String tgllahir,
   }) async {
     final SharedPreferences prefs = await _prefs;
 
@@ -56,6 +57,7 @@ class Storage {
     await prefs.setString('foto', foto);
     await prefs.setString('program', _program);
     await prefs.setString('status', _status);
+    await prefs.setString('tgllahir', tgllahir);
   }
 
   saveFoto(val) async {
@@ -80,6 +82,7 @@ class Storage {
       await prefs.remove('status');
       await prefs.remove('splash');
       await prefs.remove('foto');
+      await prefs.remove('tgllahir');
       success = true;
     } catch (e) {
       success = false;
@@ -132,6 +135,11 @@ class Storage {
   Future<dynamic> showSplash() async {
     final SharedPreferences prefs = await _prefs;
     return prefs.getBool('splash');
+  }
+
+  Future<dynamic> showTglLahir() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('tgllahir');
   }
 }
 

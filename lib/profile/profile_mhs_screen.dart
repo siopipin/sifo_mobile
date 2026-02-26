@@ -7,8 +7,9 @@ import 'package:sisfo_mobile/profile/widgets/foto_profile_widget.dart';
 import 'package:sisfo_mobile/profile/widgets/text_button_simpan.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/button_custom.dart';
-import 'package:sisfo_mobile/widgets/input_custom.dart';
 import 'package:sisfo_mobile/widgets/message_widget.dart';
+import 'package:sisfo_mobile/services/storage.dart';
+import 'package:sisfo_mobile/auth/login_screen.dart';
 
 class ProfileMhsScreen extends StatefulWidget {
   final bool needAppbar;
@@ -120,6 +121,10 @@ class _ProfileDetailContent extends StatelessWidget {
                   textKey: 'hpOrtu'),
               _ProfileDetailRow(ket: 'KTP', data: data.kTP, editable: false),
               _ProfileDetailRow(
+                  ket: 'Tanggal Lahir',
+                  data: data.tanggalLahir,
+                  editable: false),
+              _ProfileDetailRow(
                   ket: 'Agama', data: data.agama, editable: false),
               _ProfileDetailRow(
                   ket: 'Nama Ibu', data: data.namaIbu, editable: false),
@@ -193,47 +198,188 @@ class _DetailProfileSectionHeader extends StatelessWidget {
 
   void _showGantiPasswordDialog(BuildContext context) {
     final prov = context.read<ProfileMhsProvider>();
-    prov.ctrlPass.clear();
-    prov.ctrlRePass.clear();
+    final oldCtrl = TextEditingController();
+    final newCtrl = TextEditingController();
+    final reNewCtrl = TextEditingController();
+    bool obscureOld = true;
+    bool obscureNew = true;
+    bool obscureReNew = true;
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Ganti Kata Sandi'),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InputCustom(
-                  ctrl: prov.ctrlPass, hind: 'Password Baru', icon: Icons.lock),
-              const SizedBox(height: 12),
-              InputCustom(
-                  ctrl: prov.ctrlRePass,
-                  hind: 'Ulangi Password',
-                  icon: Icons.lock),
-              const SizedBox(height: 16),
-              ButtonCustom(
-                function: () async {
-                  if (prov.ctrlPass.text != prov.ctrlRePass.text) {
-                    Fluttertoast.showToast(msg: 'Kata sandi tidak sama');
-                    return;
-                  }
-                  if (prov.ctrlPass.text.isEmpty) {
-                    Fluttertoast.showToast(msg: 'Password tidak boleh kosong');
-                    return;
-                  }
-                  final ok =
-                      await prov.updateKataSandi(pass: prov.ctrlPass.text);
-                  if (ctx.mounted) Navigator.pop(ctx);
-                  if (ok) {
-                    Fluttertoast.showToast(msg: 'Kata sandi berhasil diganti');
-                  }
-                },
-                text: 'Simpan',
-                color: config.colorPrimary,
-                isPrimary: true,
-              ),
-            ],
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setStateDialog) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text('Ganti Kata Sandi'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Untuk keamanan akun, masukkan kata sandi lama dan buat kata sandi baru.',
+                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: oldCtrl,
+                  obscureText: obscureOld,
+                  decoration: InputDecoration(
+                    labelText: 'Kata sandi lama',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureOld ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setStateDialog(() {
+                          obscureOld = !obscureOld;
+                        });
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                        width: 1,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: config.colorPrimary,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: newCtrl,
+                  obscureText: obscureNew,
+                  decoration: InputDecoration(
+                    labelText: 'Kata sandi baru',
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureNew ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setStateDialog(() {
+                          obscureNew = !obscureNew;
+                        });
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                        width: 1,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: config.colorPrimary,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: reNewCtrl,
+                  obscureText: obscureReNew,
+                  decoration: InputDecoration(
+                    labelText: 'Ulangi kata sandi baru',
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureReNew ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setStateDialog(() {
+                          obscureReNew = !obscureReNew;
+                        });
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                        width: 1,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: config.colorPrimary,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ButtonCustom(
+                  function: () async {
+                    final oldPass = oldCtrl.text.trim();
+                    final newPass = newCtrl.text.trim();
+                    final reNewPass = reNewCtrl.text.trim();
+
+                    if (oldPass.isEmpty ||
+                        newPass.isEmpty ||
+                        reNewPass.isEmpty) {
+                      Fluttertoast.showToast(
+                          msg: 'Semua kolom kata sandi wajib diisi');
+                      return;
+                    }
+                    if (newPass.length < 6) {
+                      Fluttertoast.showToast(
+                          msg: 'Kata sandi baru minimal 6 karakter');
+                      return;
+                    }
+                    if (newPass != reNewPass) {
+                      Fluttertoast.showToast(
+                          msg: 'Kata sandi baru dan ulangi tidak sama');
+                      return;
+                    }
+
+                    final ok = await prov.changePassword(
+                      oldPassword: oldPass,
+                      newPassword: newPass,
+                    );
+
+                    if (!ctx.mounted) return;
+                    if (ok) {
+                      Navigator.pop(ctx);
+                      Fluttertoast.showToast(
+                          msg:
+                              'Kata sandi berhasil diganti, silakan login ulang');
+                      await store.removeLoginData();
+                      if (!context.mounted) return;
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
+                        (route) => false,
+                      );
+                    }
+                  },
+                  text: 'Simpan',
+                  color: config.colorPrimary,
+                  isPrimary: true,
+                ),
+              ],
+            ),
           ),
         ),
       ),

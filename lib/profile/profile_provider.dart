@@ -15,7 +15,8 @@ class ProfileProvider extends ChangeNotifier {
       data = false,
       edit = false,
       obsecure = true,
-      gantiPassword = false;
+      gantiPassword = false,
+      passwordUpdated = false;
 
   String msg = '', status = '', statusAwal = '', program = '';
 
@@ -35,6 +36,7 @@ class ProfileProvider extends ChangeNotifier {
   bool get isGantiPassword => gantiPassword;
   bool get isEdit => edit;
   bool get isLoading => loading;
+  bool get isPasswordUpdated => passwordUpdated;
 
   String get statusMahasiswa {
     if (data) {
@@ -150,6 +152,11 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set setPasswordUpdated(val) {
+    passwordUpdated = val;
+    notifyListeners();
+  }
+
   ///fungsi get profile
   doGetProfile() async {
     setLoading = true;
@@ -173,7 +180,7 @@ class ProfileProvider extends ChangeNotifier {
     var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: 'Barer $token'
+      HttpHeaders.authorizationHeader: 'Bearer $token'
     };
     try {
       final response = await client.get(
@@ -223,7 +230,7 @@ class ProfileProvider extends ChangeNotifier {
     var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: 'Barer $token'
+      HttpHeaders.authorizationHeader: 'Bearer $token'
     };
     try {
       final response = await client.put(
@@ -269,7 +276,7 @@ class ProfileProvider extends ChangeNotifier {
     var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: 'Barer $token'
+      HttpHeaders.authorizationHeader: 'Bearer $token'
     };
     try {
       final response = await client.post(
@@ -295,15 +302,19 @@ class ProfileProvider extends ChangeNotifier {
         setNewPass = '';
         setOldPass = '';
         setReNewPass = '';
+        setPasswordUpdated = true;
       } else if (response.statusCode == 401) {
         setMessage = 'Kata sandi salah! Coba lagi';
         setGantiPassword = true;
+        setPasswordUpdated = false;
       } else {
         setMessage = 'Coba Lagi';
         setGantiPassword = true;
+        setPasswordUpdated = false;
       }
     } else {
       print('Response tidak ditemukan');
+      setPasswordUpdated = false;
     }
   }
 
@@ -312,7 +323,7 @@ class ProfileProvider extends ChangeNotifier {
     var token = await store.showToken();
     final headerJwt = {
       'Content-Type': 'application/json',
-      HttpHeaders.authorizationHeader: 'Barer $token'
+      HttpHeaders.authorizationHeader: 'Bearer $token'
     };
     try {
       final response = await client.put(

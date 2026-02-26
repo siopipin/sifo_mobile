@@ -26,7 +26,7 @@ class KtmScreen extends StatelessWidget {
   static const double _photoRadiusFraction = 0.23;
 
   /// Mulai area teks dari atas (0–1).
-  static const double _infoTopFraction = 0.74;
+  static const double _infoTopFraction = 0.76;
 
   /// Ukuran QR code (px) dan jarak di atas foto.
   static const double _qrSize = 86;
@@ -55,8 +55,8 @@ class KtmScreen extends StatelessWidget {
                       ? '${config.imgurl}/${profile.dataProfileMhs.data!.foto}'
                       : null;
               final npm = home.isNIM.trim();
-              final tanggalLahir =
-                  profile.dataProfileMhs.data?.tanggalLahir ?? '';
+              final tanggalLahir = home.isTglLahir;
+
               final qrData = _buildQrData(npm, tanggalLahir);
 
               return LayoutBuilder(
@@ -155,11 +155,14 @@ class KtmScreen extends StatelessWidget {
     );
   }
 
-  /// Generate data QR: NPM + Tanggal lahir (tahun-bulan-tanggal → YYYYMMDD).
+  /// Generate data QR: NPM + Tanggal lahir (format akhir: NPM + YYMMDD).
   static String _buildQrData(String npm, String tanggalLahir) {
     final tglNorm = _normalizeTanggalLahir(tanggalLahir);
     if (tglNorm.isEmpty) return npm;
-    return '$npm|$tglNorm';
+    // tglNorm = YYYYMMDD → ambil YYMMDD
+    final yyMMdd = tglNorm.length == 8 ? tglNorm.substring(2) : tglNorm;
+    print('$npm$yyMMdd');
+    return '$npm$yyMMdd';
   }
 
   /// Normalisasi ke YYYYMMDD. Terima: YYYY-MM-DD, DD-MM-YYYY, DD/MM/YYYY, YYYYMMDD.
@@ -250,7 +253,6 @@ class _InfoOverlay extends StatelessWidget {
         const SizedBox(height: 6),
         _row('Program', program, textStyle, labelStyle),
         const SizedBox(height: 6),
-        _row('Status', status, textStyle, labelStyle),
       ],
     );
   }

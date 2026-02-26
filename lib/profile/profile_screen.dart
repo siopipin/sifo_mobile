@@ -6,6 +6,8 @@ import 'package:sisfo_mobile/profile/profile_provider.dart';
 import 'package:sisfo_mobile/profile/widgets/foto_profile_widget.dart';
 import 'package:sisfo_mobile/services/global_config.dart';
 import 'package:sisfo_mobile/widgets/loading.dart';
+import 'package:sisfo_mobile/services/storage.dart';
+import 'package:sisfo_mobile/auth/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -435,6 +437,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       password: prov.oldPass.text,
                       newPassword: prov.newPass.text);
                   Fluttertoast.showToast(msg: prov.msg);
+                  if (prov.isPasswordUpdated) {
+                    await store.removeLoginData();
+                    if (!mounted) return;
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (_) => const LoginScreen(),
+                      ),
+                      (route) => false,
+                    );
+                  }
                 }
               } else {
                 prov.setGantiPassword = true;

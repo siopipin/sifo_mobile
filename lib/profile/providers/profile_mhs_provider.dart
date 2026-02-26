@@ -214,4 +214,48 @@ class ProfileMhsProvider extends ChangeNotifier {
 
     return _status;
   }
+
+  Future<bool> _cekPasswordLama({required String password}) async {
+    var _status = false;
+    final token = await store.showToken();
+
+    final data = {
+      'password': password,
+    };
+
+    final response = await _helper.post(
+      url: '/auth/cek-password',
+      needToken: true,
+      token: token,
+      data: data,
+    );
+
+    switch (response[0]) {
+      case null:
+        Fluttertoast.showToast(msg: 'Error During Communication');
+        _status = false;
+        break;
+      case 200:
+        _status = true;
+        break;
+      case 401:
+        _status = false;
+        Fluttertoast.showToast(msg: 'Kata sandi lama salah, coba lagi');
+        break;
+      default:
+        _status = false;
+        Fluttertoast.showToast(msg: 'Gagal memeriksa kata sandi');
+    }
+
+    return _status;
+  }
+
+  Future<bool> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    final okOld = await _cekPasswordLama(password: oldPassword);
+    if (!okOld) return false;
+    return await updateKataSandi(pass: newPassword);
+  }
 }

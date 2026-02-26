@@ -65,6 +65,7 @@ class LoginProvider extends ChangeNotifier {
           status: dataLogin.status!,
           token: dataLogin.token!,
           foto: dataLogin.foto!,
+          tgllahir: dataLogin.tgllahir ?? '',
         );
 
         Fluttertoast.showToast(msg: 'Selamat datang ${dataLogin.nama!}');

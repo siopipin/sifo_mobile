@@ -38,114 +38,161 @@ class _FotoProfileWidgetState extends State<FotoProfileWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //foto
-              Container(
-                  height: 100,
-                  child: watchHome.dataFoto.isEmpty ||
-                          watchProfile.stateProfileMhs != StateProfileMhs.loaded
-                      ? Image.asset(
-                          "assets/images/logo.png",
-                          fit: BoxFit.cover,
-                        )
-                      : CachedNetworkImage(
-                          cacheKey:
-                              '${config.imgurl}/${watchProfile.dataProfileMhs.data!.foto!}${DateTime.now().hour.toString()}',
-                          imageUrl:
-                              '${config.imgurl}/${watchProfile.dataProfileMhs.data!.foto!}',
-                          imageBuilder: (context, imageProvider) {
-                            return Container(
-                              width: 82.0,
-                              height: 100.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
-                              ),
-                            );
-                          },
-                          placeholder: (context, url) => loadingFoto,
-                          errorWidget: (context, url, error) => Image.asset(
-                            "assets/images/logo.png",
-                            fit: BoxFit.cover,
-                          ),
-                        )),
-              TextButton(
-                  onPressed: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Ganti Foto'),
-                          content: Text('Pilih Gambar dari galery atau kamera'),
-                          actions: [
-                            TextButton(
-                              onPressed: () async {
-                                var tmp = await watcInitial.picker
-                                    .pickImage(source: ImageSource.gallery);
-                                if (tmp != null) {
-                                  watcInitial.setFile = tmp;
-                                  await store.removeFoto();
-
-                                  //simpan foto dan reload homeprovider
-                                  watcInitial.updateFoto().then((value) async {
-                                    if (value == true) {
-                                      Fluttertoast.showToast(
-                                          msg: 'Foto profile berhasil diganti');
-                                      await context
-                                          .read<ProfileMhsProvider>()
-                                          .refresh();
-                                      if (context.mounted) Navigator.pop(context);
-                                    }
-                                  });
-                                }
-                              },
-                              child: Text('Galery'),
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    watchHome.dataFoto.isEmpty ||
+                            watchProfile.stateProfileMhs !=
+                                StateProfileMhs.loaded
+                        ? ClipOval(
+                            child: Image.asset(
+                              "assets/images/logo.png",
+                              width: 82,
+                              height: 82,
+                              fit: BoxFit.cover,
                             ),
-                            TextButton(
-                              onPressed: () async {
-                                var tmp = await watcInitial.picker
-                                    .pickImage(source: ImageSource.camera);
-                                if (tmp != null) {
-                                  watcInitial.setFile = tmp;
+                          )
+                        : CachedNetworkImage(
+                            cacheKey:
+                                '${config.imgurl}/${watchProfile.dataProfileMhs.data!.foto!}${DateTime.now().hour.toString()}',
+                            imageUrl:
+                                '${config.imgurl}/${watchProfile.dataProfileMhs.data!.foto!}',
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                width: 82.0,
+                                height: 82.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              );
+                            },
+                            placeholder: (context, url) => loadingFoto,
+                            errorWidget: (context, url, error) => Image.asset(
+                              "assets/images/logo.png",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                    Positioned(
+                      bottom: 4,
+                      right: 4,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Ganti Foto'),
+                                content:
+                                    Text('Pilih Gambar dari galery atau kamera'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      var tmp = await watcInitial.picker
+                                          .pickImage(
+                                              source: ImageSource.gallery);
+                                      if (tmp != null) {
+                                        watcInitial.setFile = tmp;
+                                        await store.removeFoto();
 
-                                  //simpan foto dan reload homeprovider
-                                  await store.removeFoto();
+                                        // simpan foto dan reload provider
+                                        watcInitial
+                                            .updateFoto()
+                                            .then((value) async {
+                                          if (value == true) {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    'Foto profile berhasil diganti');
+                                            await context
+                                                .read<ProfileMhsProvider>()
+                                                .refresh();
+                                            await context
+                                                .read<HomeProvider>()
+                                                .getDataAwal();
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
+                                          }
+                                        });
+                                      }
+                                    },
+                                    child: Text('Galery'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      var tmp = await watcInitial.picker
+                                          .pickImage(
+                                              source: ImageSource.camera);
+                                      if (tmp != null) {
+                                        watcInitial.setFile = tmp;
+                                        await store.removeFoto();
 
-                                  await watcInitial
-                                      .updateFoto()
-                                      .then((value) async {
-                                    if (value == true) {
-                                      Fluttertoast.showToast(
-                                          msg: 'Foto profile berhasil diganti');
-                                      print('akan simpan foto');
-                                      Navigator.pop(context);
-                                    }
-                                  });
-                                }
-                              },
-                              child: Text('Camera'),
-                            )
-                          ],
-                        );
-                      },
-                    );
+                                        await watcInitial
+                                            .updateFoto()
+                                            .then((value) async {
+                                          if (value == true) {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    'Foto profile berhasil diganti');
+                                            await context
+                                                .read<ProfileMhsProvider>()
+                                                .refresh();
+                                            await context
+                                                .read<HomeProvider>()
+                                                .getDataAwal();
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
+                                          }
+                                        });
+                                      }
+                                    },
+                                    child: Text('Camera'),
+                                  )
+                                ],
+                              );
+                            },
+                          );
 
-                    print('simpan foto');
-                    print(
-                        'foto baru: ${watchProfile.dataProfileMhs.data!.foto!}');
-                    await store
-                        .saveFoto(watchProfile.dataProfileMhs.data!.foto!);
-                    await context.read<ProfileMhsProvider>().refresh();
-
-                    await context.read<HomeProvider>().getDataAwal();
-                    print('selesai');
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.change_circle),
-                      Text('Ganti'),
-                    ],
-                  ))
+                          print('simpan foto');
+                          print(
+                              'foto baru: ${watchProfile.dataProfileMhs.data!.foto!}');
+                          await store.saveFoto(
+                              watchProfile.dataProfileMhs.data!.foto!);
+                          await context.read<ProfileMhsProvider>().refresh();
+                          await context.read<HomeProvider>().getDataAwal();
+                          print('selesai');
+                        },
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            size: 16,
+                            color: config.colorPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           SizedBox(

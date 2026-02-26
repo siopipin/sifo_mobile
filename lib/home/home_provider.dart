@@ -67,6 +67,14 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String _tglLahir = '';
+  String get isTglLahir => _tglLahir;
+  set setTglLahir(String val) {
+    if (_tglLahir == val) return;
+    _tglLahir = val;
+    notifyListeners();
+  }
+
   Future<void> getDataAwal() async {
     final nama = await _storage.showNama();
     setNama = nama ?? '';
@@ -85,6 +93,9 @@ class HomeProvider extends ChangeNotifier {
 
     final foto = await _storage.showFoto();
     setFoto = foto ?? '';
+
+    final tgl = await _storage.showTglLahir();
+    setTglLahir = tgl ?? '';
   }
 }
 
