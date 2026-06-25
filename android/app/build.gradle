@@ -29,9 +29,10 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.stikesgs.app"
+    namespace "com.mystikesgs.app"
     compileSdk = 35
-    ndkVersion = "27.0.12077973"
+    buildToolsVersion "36.0.0"
+    ndkVersion = "29.0.14206865"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -47,7 +48,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.stikesgs.app"
+        applicationId "com.mystikesgs.app"
         minSdk = 24
         targetSdk = 35
         versionCode = flutterVersionCode.toInteger()
